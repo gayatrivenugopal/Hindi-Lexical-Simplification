@@ -19,7 +19,12 @@ output_file = "synsets.txt"
 sense_count = 0
 
 def read_file(word):
-    """Read the content of the file containing the senses of a word"""
+    """Read the content of the file containing the senses of a word
+    
+    Keyword arguments:
+    word -- the word whose senses are to be retrieved
+    
+    """
     with codecs.open("T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/" + 
                      output_file, "r", encoding="utf-8") as file:
         for line in file.readlines() :
@@ -39,14 +44,21 @@ def read_file(word):
                 except Exception as e:
                     print(str(e))
                 break
+    print("word: " + word)
     print(sense_count)
-    #TODO: write to database
-            
+    #TODO: Store frequency in category, and overall, quicker alternative?
+    #dataframe for each category: word, frequency
+    #calculate number of characters and store in the Words collection
+    #calculate number of syllables and store in the Words collection
+    #calculate number of consonant conjuncts and store in the Words collection
+    #store number of hypernyms/hyponyms etc. -> check notes from file in college
+    
+        
 def get_num_of_senses(word):
     """Retrieves the number of senses for a given word from the Hindi WordNet
 
     Keyword arguments:
-    word -- the word whose synsets are to be retrieved
+    word -- the word whose senses are to be retrieved
     """
     
     #write the word to the input file
@@ -63,6 +75,14 @@ def get_num_of_senses(word):
     threading.Timer(15, read_file,[word]).start()
     
 def read_from_source(source):
+    """ Extracts words from the files and retrieves their properties from
+    the Hindi WordNet, and calculates certain properties. The properties are
+    stored in the database.
+    
+    Keyword arguments:
+    source -- the directory consisting of the text files
+    
+    """
     #recursively read all the files
     for (dirpath, dirnames, filenames) in os.walk(source):
         for filename in filenames:
@@ -78,7 +98,7 @@ def read_from_source(source):
                         #get the number of senses of each word in the sentence 
                         #if it is in Hindi
                         if is_hindi(token):
-                            get_num_of_senses(token)
+                            get_num_of_senses(token.strip())
     return 1
                 
 #Source: https://stackoverflow.com/questions/44474085/how-to-separate-a-only-hindi-script-from-a-file-containing-a-mixture-of-hindi-e
@@ -88,9 +108,9 @@ def is_hindi(character):
         return 1
     return 0
     
-print(read_from_source("Final Corpora/Novels"))
+#print(read_from_source("Final Corpora/Novels"))
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Tweets")
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Wiki")
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Web")
 
-#print(get_num_of_synsets("कल"))
+print(get_num_of_senses("याद"))
