@@ -9,43 +9,64 @@ import codecs
 import subprocess
 import threading
 import csv
-from pymongo import MongoClient
+from Model import insert_word_props
+from Model import get_word_props
 from nltk import word_tokenize
-
 
 
 os.chdir("T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2")
 output_file = "synsets.txt"
-sense_count = 0
 
-def read_file(word):
-    """Read the content of the file containing the senses of a word
+
+def read_properties(word, source = "na", category = "na", author = "unk", 
+                    year = "unk"):
+    """Reads the content of the file containing the properties of the word 
+    and stores in the collection
     
-    Keyword arguments:
-    word -- the word whose senses are to be retrieved
-    
+    Args:
+        word (str): the word whose properties are to be retrieved
+        source (str): the source of the sentence (twitter, web, story, wiki)
+        category (str): the category of the sentence (e.g. art, sports, cinema)
+        author (str): the author of the story
+        year (str): the year in which the text was published
+        
+    Returns:
+        (int): 1 if successful and -1 if unsuccessful
     """
+    properties = {"word" : word}
+    sense_count = 0
+    
     with codecs.open("T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/" + 
                      output_file, "r", encoding="utf-8") as file:
         for line in file.readlines() :
             if line.lower().startswith("sense count is"):
-                global sense_count
                 sense_count = line[line.lower().find("sense count is") + 
                                len("sense count is "):]
-                #connect to the MongoDB instance
-                client = MongoClient('localhost:27017')
-                database = client.TextSimplification
-
-                try:
-                    database.Words.insert_one({
-                                    "word": word,
-                                    "sense_count": sense_count,
-                            })    
-                except Exception as e:
-                    print(str(e))
-                break
-    print("word: " + word)
-    print(sense_count)
+                #TODO: read from collection. if value is null then add otherwise
+                #read value add 1 to it
+                existing_props = get_word_props(word)
+                
+                if existing_props is None:
+                    #insert 1 as the frequency since the word was encountered
+                    #for the first time
+                    properties["word_count"] = 1
+                    properties["category_count"] = {category:1}
+                    properties["sense_count"] = [sense_count]
+                    #TODO: how to store words so that we get their frequencies
+                    #by year, author etc.
+                    properties["source"] = [source]
+                    properties["category"] = [category]
+                    properties["author"] = [author]
+                    properties["year"] = [year]
+                    #insert the properties
+                    if insert_word_props(word, properties) == 1:
+                        print(properties)
+                        return 1
+                    return -1
+                else:
+                    properties["word_count"] = existing_props["word_count"] + 1
+                    
+    return -1
     #TODO: Store frequency in category, and overall, quicker alternative?
     #dataframe for each category: word, frequency
     #calculate number of characters and store in the Words collection
@@ -54,11 +75,19 @@ def read_file(word):
     #store number of hypernyms/hyponyms etc. -> check notes from file in college
     
         
-def get_num_of_senses(word):
+def fetch_from_hwn(word, source = "na", category = "na", author = "unk", 
+                   year = "unk"):
     """Retrieves the number of senses for a given word from the Hindi WordNet
 
-    Keyword arguments:
-    word -- the word whose senses are to be retrieved
+    Args:
+        word (str): the word whose number senses are to be retrieved
+        source (str): the source of the sentence (twitter, web, story, wiki)
+        category (str): the category of the sentence (e.g. art, sports, cinema)
+        author (str): the author of the story
+        year (str): the year in which the text was published
+    
+    Returns:
+        (int): 1 if successful and -1 if unsuccessful
     """
     
     #write the word to the input file
@@ -72,7 +101,16 @@ def get_num_of_senses(word):
     outfile.close()
     #check if word was found in HWN
     #print(os.stat(output_file).st_size)
-    threading.Timer(15, read_file,[word]).start()
+    return threading.Timer(15, read_properties,[word, source, category, 
+                                                author, year]).start()
+    
+def count_occurrence(word):
+    """Counts the occurrence of the word in each category, as well as in the 
+    entire corpus
+     Args:
+        word (str): the word whose occurrence is to be counted
+       
+    """
     
 def read_from_source(source):
     """ Extracts words from the files and retrieves their properties from
@@ -91,6 +129,14 @@ def read_from_source(source):
                 csv_reader = csv.reader(file, delimiter=',')
                 #read each row in the csv file
                 for row in csv_reader:
+                    #extract the source
+                    source = row[0]
+                    #extract the category
+                    category = row[1]
+                    #extract the author
+                    author = row[2]
+                    #extract the year
+                    year = row[3]
                     #extract the sentence
                     sentence = row[4]
                     #tokenize the sentence
@@ -98,7 +144,8 @@ def read_from_source(source):
                         #get the number of senses of each word in the sentence 
                         #if it is in Hindi
                         if is_hindi(token):
-                            get_num_of_senses(token.strip())
+                            print(fetch_from_hwn(token.strip(),  source, 
+                                                 category, author, year))
     return 1
                 
 #Source: https://stackoverflow.com/questions/44474085/how-to-separate-a-only-hindi-script-from-a-file-containing-a-mixture-of-hindi-e
@@ -113,4 +160,4 @@ def is_hindi(character):
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Wiki")
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Web")
 
-print(get_num_of_senses("याद"))
+print(fetch_from_hwn("याद"))
