@@ -9,6 +9,8 @@ import codecs
 import subprocess
 import threading
 import csv
+from subprocess import PIPE
+from py4j.java_gateway import JavaGateway
 from Model import insert_word_props
 from Model import get_word_props
 from nltk import word_tokenize
@@ -16,7 +18,7 @@ from nltk import word_tokenize
 
 os.chdir("T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2")
 output_file = "synsets.txt"
-
+#TODO: get root first
 
 def read_properties(word, source = "na", category = "na", author = "unk", 
                     year = "unk"):
@@ -50,14 +52,12 @@ def read_properties(word, source = "na", category = "na", author = "unk",
                     #insert 1 as the frequency since the word was encountered
                     #for the first time
                     properties["word_count"] = 1
-                    properties["category_count"] = {category:1}
-                    properties["sense_count"] = [sense_count]
-                    #TODO: how to store words so that we get their frequencies
-                    #by year, author etc.
-                    properties["source"] = [source]
-                    properties["category"] = [category]
+                    properties["sense_count"] = sense_count
                     properties["author"] = [author]
                     properties["year"] = [year]
+
+                    properties["source_categ_freq"] = {"source": source,
+                              "category":category, "frequency":1}
                     #insert the properties
                     if insert_word_props(word, properties) == 1:
                         print(properties)
@@ -68,7 +68,6 @@ def read_properties(word, source = "na", category = "na", author = "unk",
                     
     return -1
     #TODO: Store frequency in category, and overall, quicker alternative?
-    #dataframe for each category: word, frequency
     #calculate number of characters and store in the Words collection
     #calculate number of syllables and store in the Words collection
     #calculate number of consonant conjuncts and store in the Words collection
@@ -96,13 +95,23 @@ def fetch_from_hwn(word, source = "na", category = "na", author = "unk",
     outfile.close()
     
     #clear the contents of the output file
-    outfile = codecs.open(output_file, "w", "utf-8")
-    subprocess.Popen('java -Dfile.encoding=UTF-8 -jar JHWNL.jar', stdout=outfile)
-    outfile.close()
+    #outfile = codecs.open(output_file, "w", "utf-8")
+    #p = subprocess.Popen('java -Dfile.encoding=UTF-8 -jar JHWNL.jar', stdout=PIPE)
+   
+    gateway = JavaGateway.launch_gateway(classpath="../Synsets.jar")
+    java_object = gateway.entry_point    # invoke constructor
+    value = java_object.getSynsets()
+    #print(gateway.jvm.System.currentTimeMillis())
+    #print(value)
+#other_object.doThis(1,'abc')
+#gateway.jvm.java.lang.System.out.println('Hello World!') # call a static method
+    #for line in p.stdout:
+    #    print(line)
+    #outfile.close()
     #check if word was found in HWN
     #print(os.stat(output_file).st_size)
-    return threading.Timer(15, read_properties,[word, source, category, 
-                                                author, year]).start()
+    #return threading.Timer(15, read_properties,[word, source, category, 
+                                                #author, year]).start()
     
 def count_occurrence(word):
     """Counts the occurrence of the word in each category, as well as in the 
