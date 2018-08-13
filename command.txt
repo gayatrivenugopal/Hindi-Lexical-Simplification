@@ -1,0 +1,11 @@
+H:\Ph.D\Resources\API\JHWNL_1_2\JHWNL_1_2>java -Dfile.encoding=UTF-8 -cp JHWNL.jar;.  Examples > output.txt
+JHWNL_1_2/src>javac -cp C:/Users/Gayatri/Anaconda3/share/py4j/py4j0.10.7.jar;../JHWNL.jar ../Synsets.java
+jar cf Synsets.jar JHWNL
+java -classpath JHWNL.jar in.ac.iitb.cfilt.jhwnl.examples.Synsets
+
+
+T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\src>javac ../Synsets.java
+cd ..
+cd Code
+Copied Synsets.class to the extracted jar file in the directory of Examples
+jar -cvf JHWNL.jar ./in

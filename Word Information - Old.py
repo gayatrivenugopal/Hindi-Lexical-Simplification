@@ -7,6 +7,7 @@ Created on Fri Aug 10 15:38:59 2018
 import os
 import codecs
 import subprocess
+import threading
 import csv
 from subprocess import PIPE, STDOUT
 from py4j.java_gateway import JavaGateway
@@ -35,29 +36,36 @@ def read_properties(word, source = "na", category = "na", author = "unk",
         (int): 1 if successful and -1 if unsuccessful
     """
     properties = {"word" : word}
+    sense_count = 0
     
-    #TODO: read from collection. if value is null then add otherwise
-    #read value add 1 to it
-    existing_props = get_word_props(word)
-        
-    if existing_props is None:
-        #insert 1 as the frequency since the word was encountered
-        #for the first time
-        properties["word_count"] = 1
-        properties["sense_count"] = get_sense_count(word)
-        properties["author"] = [author]
-        properties["year"] = [year]
-
-        properties["source_categ_freq"] = {"source": source,
-                  "category":category, "frequency":1}
-        #insert the properties
-        if insert_word_props(word, properties) == 1:
-            print(properties)
-            return 1
-        return -1
-    else:
-        properties["word_count"] = existing_props["word_count"] + 1
+    with codecs.open("T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/" + 
+                     output_file, "r", encoding="utf-8") as file:
+        for line in file.readlines() :
+            if line.lower().startswith("sense count is"):
+                sense_count = line[line.lower().find("sense count is") + 
+                               len("sense count is "):]
+                #TODO: read from collection. if value is null then add otherwise
+                #read value add 1 to it
+                existing_props = get_word_props(word)
                 
+                if existing_props is None:
+                    #insert 1 as the frequency since the word was encountered
+                    #for the first time
+                    properties["word_count"] = 1
+                    properties["sense_count"] = sense_count
+                    properties["author"] = [author]
+                    properties["year"] = [year]
+
+                    properties["source_categ_freq"] = {"source": source,
+                              "category":category, "frequency":1}
+                    #insert the properties
+                    if insert_word_props(word, properties) == 1:
+                        print(properties)
+                        return 1
+                    return -1
+                else:
+                    properties["word_count"] = existing_props["word_count"] + 1
+                    
     return -1
     #TODO: Store frequency in category, and overall, quicker alternative?
     #calculate number of characters and store in the Words collection
@@ -86,35 +94,38 @@ def fetch_from_hwn(word, source = "na", category = "na", author = "unk",
     outfile.write(word)
     outfile.close()
     
-    return read_properties(word, source, category, author, year);
+    #clear the contents of the output file
+    #outfile = codecs.open(output_file, "w", "utf-8")
+    #p = subprocess.Popen('java -Dfile.encoding=UTF-8 -jar JHWNL.jar', stdout=PIPE)
+    #subprocess.check_call(['javac', "Synsets.java"])
+    #java_class,ext = os.path.splitext("Synsets.java")
+    #cmd = ['java', "Synsets;JHWNL.jar"]
+    #proc = subprocess.Popen(cmd, stdout=PIPE, stderr=STDOUT)
+    #stdout,stderr = proc.communicate()
+    #print (stdout)
+    
+    cmd = 'java -classpath JHWNL.jar in.ac.iitb.cfilt.jhwnl.examples.Synsets'
+    proc = subprocess.Popen(cmd, stderr = STDOUT, stdout = subprocess.PIPE, cwd = "T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code/")
+    stdout = proc.communicate()
+    print(stdout)
+    
+    #gateway = JavaGateway.launch_gateway(classpath="../Synset.jar")
+    #java_object = gateway.entry_point    # invoke constructor
+    #value = gateway.jvm.JHWNL.Synsets
+    #value = gateway.jvm.Synsets.demonstration
+    #print(value)
+    #print(gateway.jvm.System.currentTimeMillis())
+    #print(value)
+#other_object.doThis(1,'abc')
+#gateway.jvm.java.lang.System.out.println('Hello World!') # call a static method
+    #for line in p.stdout:
+    #    print(line)
+    #outfile.close()
+    #check if word was found in HWN
+    #print(os.stat(output_file).st_size)
     #return threading.Timer(15, read_properties,[word, source, category, 
                                                 #author, year]).start()
-  
-def get_sense_count(word):
-    """Reads the string returned from the Hindi WordNet API and returns the
-    sense count for the given word
-     Args:
-        word (str): the word whose sense count is to be returned
-        
-    Returns
-        (int): the sense count of the word
-    """
-    sense_count = 0
-    cmd = 'java -classpath JHWNL.jar in.ac.iitb.cfilt.jhwnl.examples.Synsets'
-    #execute the java command - the jar file consists of the Synsets class
-    proc = subprocess.Popen(cmd, stderr = STDOUT, stdout = subprocess.PIPE, 
-                            cwd = "T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code/")
-    result = proc.communicate()
-    #result[0] consists of stdout
-    #convert byte to string
-    result = result[0].decode('ASCII')
-    #extract the sense count - between the last and the second last occurrences
-    #of \r\n
-    last_occurrence = result[0].rfind("\r\n")
-    second_last_occurrence = result.rfind("\r\n", 0, result.rfind("\r\n"))
-    sense_count = result[second_last_occurrence+2:last_occurrence-1]
-    return sense_count
-
+    
 def count_occurrence(word):
     """Counts the occurrence of the word in each category, as well as in the 
     entire corpus
@@ -155,8 +166,8 @@ def read_from_source(source):
                         #get the number of senses of each word in the sentence 
                         #if it is in Hindi
                         if is_hindi(token):
-                            return fetch_from_hwn(token.strip(),  source, 
-                                                 category, author, year)
+                            print(fetch_from_hwn(token.strip(),  source, 
+                                                 category, author, year))
     return 1
                 
 #Source: https://stackoverflow.com/questions/44474085/how-to-separate-a-only-hindi-script-from-a-file-containing-a-mixture-of-hindi-e
