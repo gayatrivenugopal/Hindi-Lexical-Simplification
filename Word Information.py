@@ -8,8 +8,7 @@ import os
 import codecs
 import subprocess
 import csv
-from subprocess import PIPE, STDOUT
-from py4j.java_gateway import JavaGateway
+from subprocess import STDOUT
 from Model import insert_word_props
 from Model import get_word_props
 from nltk import word_tokenize
@@ -128,7 +127,7 @@ def read_from_source(source):
     the Hindi WordNet, and calculates certain properties. The properties are
     stored in the database.
     
-    Keyword arguments:
+    Args:
     source -- the directory consisting of the text files
     
     """
@@ -171,4 +170,21 @@ def is_hindi(character):
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Wiki")
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Web")
 
-print(fetch_from_hwn("याद"))
+#print(fetch_from_hwn("पुस्तकें"))
+
+
+
+
+
+
+
+f = codecs.open("T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code/test.txt", "r", encoding="utf-8")
+for line in f:
+    word = line
+word ="u'"+word
+cmd="java -classpath StemItCustom.jar in.ac.iitb.cfilt.cpost.StemItCustom " + "tokens.txt" + " -c HindiStemmerConfig.txt"
+print("cmd: " + cmd)
+proc = subprocess.Popen(cmd, stderr = STDOUT, stdout = subprocess.PIPE, 
+                            cwd = "T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code/")
+result = proc.communicate()
+print(result)
