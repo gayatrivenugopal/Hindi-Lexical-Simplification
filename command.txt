@@ -13,3 +13,5 @@ jar -cvf JHWNL.jar ./in
 Code>java -classpath StemIt.jar in.ac.iitb.cfilt.cpost.StemIt tokens.txt -c HindiStemmerConfig.txt
 StemItCustom>jar -cvf StemItCustom.jar in/
 Code>java -classpath StemIt.jar in.ac.iitb.cfilt.cpost.ConsoleStemmer  किताब
+
+Added a Synsets.java class in jhwnl

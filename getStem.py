@@ -23,11 +23,10 @@ from sivareddy.in import WordnetToolsSimple;
 
 wordnet= WordnetToolsSimple();
 wordnet.initialize();
-f = codecs.open("T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code/test.txt", "r", encoding="utf-8")
+word = ''
+f = codecs.open("T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code/sourceword.txt", "r", encoding="utf-8")
 for line in f:
-    word = line
-#word="बच्चा"
-#print(word)
+	word = line
 roots = wordnet.getRoot(word);
 print ("Roots: "+roots.encode('utf-8'))
 '''

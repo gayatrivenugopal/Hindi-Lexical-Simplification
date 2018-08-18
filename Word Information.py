@@ -40,13 +40,16 @@ def read_properties(word, source = "na", category = "na", author = "unk",
     existing_props = get_word_props(word)
         
     if existing_props is None:
+        #retrieve the root/s of the word
+        wordfile = codecs.open("sourceword.txt", "w", "utf-8")
+        wordfile.write(word)
+        properties["roots"] = getRoots()
         #insert 1 as the frequency since the word was encountered
         #for the first time
         properties["word_count"] = 1
         properties["sense_count"] = get_sense_count(word)
         properties["author"] = [author]
         properties["year"] = [year]
-
         properties["source_categ_freq"] = {"source": source,
                   "category":category, "frequency":1}
         #insert the properties
@@ -170,21 +173,50 @@ def is_hindi(character):
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Wiki")
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Web")
 
-#print(fetch_from_hwn("पुस्तकें"))
+print(fetch_from_hwn("पुस्तकें"))
 
 
 
 
 
 
-
+'''
 f = codecs.open("T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code/test.txt", "r", encoding="utf-8")
 for line in f:
     word = line
 word ="u'"+word
-cmd="java -classpath StemItCustom.jar in.ac.iitb.cfilt.cpost.StemItCustom " + "tokens.txt" + " -c HindiStemmerConfig.txt"
+cmd="java -classpath Stemmer.jar in.ac.iitb.cfilt.cpost.ConsoleStemmer " + word
 print("cmd: " + cmd)
 proc = subprocess.Popen(cmd, stderr = STDOUT, stdout = subprocess.PIPE, 
                             cwd = "T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code/")
 result = proc.communicate()
-print(result)
+print(result[0].decode('UTF8'))
+'''
+
+def getRoots():
+    """ Calls the necessary Python functions and Java classes to retrieve the 
+    roots of the word present in the file "sourceword.txt"
+    
+    Returns
+        (list): the roots of the word
+        
+    Source: 
+        In the output 
+        1: stands for noun, 
+        2: stands for adjective, 
+        3: stands for verb, 
+        4:stands for adverb
+    
+    """
+    
+    cmd="java -jar jython-standalone-2.5.3.jar getStem.py"
+    proc = subprocess.Popen(cmd, stderr = STDOUT, stdout = subprocess.PIPE, 
+                            cwd = "T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code/")
+    result = proc.communicate()
+    result = result[0].decode('utf-8')
+    result = str(result)[str(result).find("Roots: ") + len("Roots: "):]
+    roots = result.split(";")#form a list
+    roots = roots[:-1] #remove the '\r\n' element
+    roots = [root.split(":")[1] for root in roots]#remove the part before the ':'
+    print(roots) #this line is to be deleted
+    return roots
