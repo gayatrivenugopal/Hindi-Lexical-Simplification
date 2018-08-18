@@ -34,7 +34,8 @@ def read_properties(word, source = "na", category = "na", author = "unk",
         (int): 1 if successful and -1 if unsuccessful
     """
     properties = {"word" : word}
-    
+    #TODO: getRoots() reading from file should be repalced by argument passing because of time lag
+    #TODO: Unable to find Ssynsets class - fix this
     #TODO: read from collection. if value is null then add otherwise
     #read value add 1 to it
     existing_props = get_word_props(word)
@@ -173,7 +174,7 @@ def is_hindi(character):
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Wiki")
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Web")
 
-print(fetch_from_hwn("पुस्तकें"))
+#print(fetch_from_hwn("पुस्तकें"))
 
 
 
@@ -214,9 +215,18 @@ def getRoots():
                             cwd = "T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code/")
     result = proc.communicate()
     result = result[0].decode('utf-8')
+    print(result)
     result = str(result)[str(result).find("Roots: ") + len("Roots: "):]
-    roots = result.split(";")#form a list
-    roots = roots[:-1] #remove the '\r\n' element
-    roots = [root.split(":")[1] for root in roots]#remove the part before the ':'
-    print(roots) #this line is to be deleted
+    
+    if result.find(";") != -1:
+        roots = result.split(";")#form a list
+        roots = roots[:-1] #remove the '\r\n' element
+        roots = [root.split(":")[1] for root in roots]#remove the part before the ':'
+        print(roots) #this line is to be deleted
+    else:
+        roots = result
     return roots
+
+wordfile = codecs.open("sourceword.txt", "w", "utf-8")
+wordfile.write("बच्चे")
+getRoots()
