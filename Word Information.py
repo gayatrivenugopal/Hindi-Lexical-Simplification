@@ -5,6 +5,7 @@ Created on Fri Aug 10 15:38:59 2018
 @author: Gayatri
 """
 import os
+import sys
 import codecs
 import subprocess
 import csv
@@ -16,7 +17,44 @@ from nltk import word_tokenize
 
 os.chdir("T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code")
 output_file = "synsets.txt"
-#TODO: get root first
+#TODO: unable to decode the bytes back to the string
+
+def getRoots(word):
+    """ Calls the necessary Python functions and Java classes to retrieve the 
+    roots of the word present in the file "sourceword.txt"
+    
+    Returns
+        (list): the roots of the word
+        
+    Source: 
+        In the output 
+        1: stands for noun, 
+        2: stands for adjective, 
+        3: stands for verb, 
+        4:stands for adverb
+    
+    """
+    
+    #cmd="java -jar jython-standalone-2.5.3.jar getStem.py -a " + word
+    print("Before: word: " + word)
+    cmd = ['java', '-jar','jython-standalone-2.5.3.jar','getStem.py',str(word.encode('utf8'))]
+    #print("CMD: " + cmd)
+    proc = subprocess.Popen(cmd, stderr = STDOUT, stdout = subprocess.PIPE, 
+                            cwd = "T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code/", shell=True)
+    result = proc.communicate()
+    result = result[0].decode('utf-8')
+    print(result)
+    result = str(result)[str(result).find("Roots: ") + len("Roots: "):]
+    
+    if result.find(";") != -1:
+        roots = result.split(";")#form a list
+        roots = roots[:-1] #remove the '\r\n' element
+        print(roots)
+        roots = [root.split(":")[1] for root in roots]#remove the part before the ':'
+        print(roots) #this line is to be deleted
+    else:
+        roots = result
+    return roots
 
 def read_properties(word, source = "na", category = "na", author = "unk", 
                     year = "unk"):
@@ -34,7 +72,7 @@ def read_properties(word, source = "na", category = "na", author = "unk",
         (int): 1 if successful and -1 if unsuccessful
     """
     properties = {"word" : word}
-    #TODO: getRoots() reading from file should be repalced by argument passing because of time lag
+    #TODO: getRoots() reading from file should be replaced by argument passing because of time lag
     #TODO: Unable to find Ssynsets class - fix this
     #TODO: read from collection. if value is null then add otherwise
     #read value add 1 to it
@@ -42,9 +80,9 @@ def read_properties(word, source = "na", category = "na", author = "unk",
         
     if existing_props is None:
         #retrieve the root/s of the word
-        wordfile = codecs.open("sourceword.txt", "w", "utf-8")
-        wordfile.write(word)
-        properties["roots"] = getRoots()
+        #wordfile = codecs.open("sourceword.txt", "w", "utf-8")
+        #wordfile.write(word)
+        properties["roots"] = getRoots(word)
         #insert 1 as the frequency since the word was encountered
         #for the first time
         properties["word_count"] = 1
@@ -174,7 +212,7 @@ def is_hindi(character):
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Wiki")
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Web")
 
-#print(fetch_from_hwn("पुस्तकें"))
+print(fetch_from_hwn("पुस्तकें"))
 
 
 
@@ -194,39 +232,7 @@ result = proc.communicate()
 print(result[0].decode('UTF8'))
 '''
 
-def getRoots():
-    """ Calls the necessary Python functions and Java classes to retrieve the 
-    roots of the word present in the file "sourceword.txt"
-    
-    Returns
-        (list): the roots of the word
-        
-    Source: 
-        In the output 
-        1: stands for noun, 
-        2: stands for adjective, 
-        3: stands for verb, 
-        4:stands for adverb
-    
-    """
-    
-    cmd="java -jar jython-standalone-2.5.3.jar getStem.py"
-    proc = subprocess.Popen(cmd, stderr = STDOUT, stdout = subprocess.PIPE, 
-                            cwd = "T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code/")
-    result = proc.communicate()
-    result = result[0].decode('utf-8')
-    print(result)
-    result = str(result)[str(result).find("Roots: ") + len("Roots: "):]
-    
-    if result.find(";") != -1:
-        roots = result.split(";")#form a list
-        roots = roots[:-1] #remove the '\r\n' element
-        roots = [root.split(":")[1] for root in roots]#remove the part before the ':'
-        print(roots) #this line is to be deleted
-    else:
-        roots = result
-    return roots
 
-wordfile = codecs.open("sourceword.txt", "w", "utf-8")
-wordfile.write("बच्चे")
-getRoots()
+#wordfile = codecs.open("sourceword.txt", "w", "utf-8")
+#wordfile.write("बच्चे")
+#getRoots()
