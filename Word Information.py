@@ -34,7 +34,16 @@ def getRoots(word):
         4:stands for adverb
     
     """
+    from py4j.java_gateway import JavaGateway
+    from py4j.java_gateway import java_import
+    gateway = JavaGateway.launch_gateway(classpath="../hindiwn.jar")
+    #sys.path.append("./hindiwn.jar");
     
+    java_import(gateway.jvm,"hindiwn.WordnetToolsSimple")
+    wordnet = gateway.jvm.hindiwn.WordnetToolsSimple.initialize()
+    print(type(wordnet))
+    
+
     #cmd="java -jar jython-standalone-2.5.3.jar getStem.py -a " + word
     print("Before: word: " + word)
     cmd = ['java', '-jar','jython-standalone-2.5.3.jar','getStem.py',str(word.encode('utf8'))]
@@ -42,6 +51,7 @@ def getRoots(word):
     proc = subprocess.Popen(cmd, stderr = STDOUT, stdout = subprocess.PIPE, 
                             cwd = "T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code/", shell=True)
     result = proc.communicate()
+    #print(result[0])
     result = result[0].decode('utf-8')
     print(result)
     result = str(result)[str(result).find("Roots: ") + len("Roots: "):]
@@ -77,7 +87,8 @@ def read_properties(word, source = "na", category = "na", author = "unk",
     #TODO: read from collection. if value is null then add otherwise
     #read value add 1 to it
     existing_props = get_word_props(word)
-        
+    #TO REMOVE
+    existing_props = None
     if existing_props is None:
         #retrieve the root/s of the word
         #wordfile = codecs.open("sourceword.txt", "w", "utf-8")
@@ -212,6 +223,8 @@ def is_hindi(character):
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Wiki")
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Web")
 
+
+print( "WORD: ", bytes((b'\xe0\xa4\xaa\xe0\xa5\x81\xe0\xa4\xb8\xe0\xa5\x8d\xe0\xa4\xa4\xe0\xa4\x95\xe0\xa5\x87\xe0\xa4\x82')).decode('utf-8'))
 print(fetch_from_hwn("पुस्तकें"))
 
 
