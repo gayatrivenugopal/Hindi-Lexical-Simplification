@@ -5,7 +5,6 @@ Created on Fri Aug 10 15:38:59 2018
 @author: Gayatri
 """
 import os
-import sys
 import codecs
 import subprocess
 import csv
@@ -36,35 +35,21 @@ def getRoots(word):
     """
     from py4j.java_gateway import JavaGateway
     from py4j.java_gateway import java_import
-    gateway = JavaGateway.launch_gateway(classpath="../hindiwn.jar")
-    #sys.path.append("./hindiwn.jar");
-    
-    java_import(gateway.jvm,"hindiwn.WordnetToolsSimple")
-    wordnet = gateway.jvm.hindiwn.WordnetToolsSimple.initialize()
-    print(type(wordnet))
-    
+    gateway = JavaGateway.launch_gateway(classpath="T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code/hindiwn.jar")
+     
+    java_import(gateway.jvm,'WordnetToolsSimple')
+    gateway.jvm.WordnetToolsSimple()
+    roots = (gateway.jvm.WordnetToolsSimple.getRoot(word))
 
-    #cmd="java -jar jython-standalone-2.5.3.jar getStem.py -a " + word
-    print("Before: word: " + word)
-    cmd = ['java', '-jar','jython-standalone-2.5.3.jar','getStem.py',str(word.encode('utf8'))]
-    #print("CMD: " + cmd)
-    proc = subprocess.Popen(cmd, stderr = STDOUT, stdout = subprocess.PIPE, 
-                            cwd = "T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code/", shell=True)
-    result = proc.communicate()
-    #print(result[0])
-    result = result[0].decode('utf-8')
-    print(result)
-    result = str(result)[str(result).find("Roots: ") + len("Roots: "):]
-    
-    if result.find(";") != -1:
-        roots = result.split(";")#form a list
+    if roots.find(";") != -1:
+        roots = roots.split(";")#form a list
         roots = roots[:-1] #remove the '\r\n' element
         print(roots)
         roots = [root.split(":")[1] for root in roots]#remove the part before the ':'
         print(roots) #this line is to be deleted
-    else:
-        roots = result
+        
     return roots
+
 
 def read_properties(word, source = "na", category = "na", author = "unk", 
                     year = "unk"):
@@ -82,7 +67,6 @@ def read_properties(word, source = "na", category = "na", author = "unk",
         (int): 1 if successful and -1 if unsuccessful
     """
     properties = {"word" : word}
-    #TODO: getRoots() reading from file should be replaced by argument passing because of time lag
     #TODO: Unable to find Ssynsets class - fix this
     #TODO: read from collection. if value is null then add otherwise
     #read value add 1 to it
@@ -223,29 +207,4 @@ def is_hindi(character):
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Wiki")
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Web")
 
-
-print( "WORD: ", bytes((b'\xe0\xa4\xaa\xe0\xa5\x81\xe0\xa4\xb8\xe0\xa5\x8d\xe0\xa4\xa4\xe0\xa4\x95\xe0\xa5\x87\xe0\xa4\x82')).decode('utf-8'))
-print(fetch_from_hwn("पुस्तकें"))
-
-
-
-
-
-
-'''
-f = codecs.open("T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code/test.txt", "r", encoding="utf-8")
-for line in f:
-    word = line
-word ="u'"+word
-cmd="java -classpath Stemmer.jar in.ac.iitb.cfilt.cpost.ConsoleStemmer " + word
-print("cmd: " + cmd)
-proc = subprocess.Popen(cmd, stderr = STDOUT, stdout = subprocess.PIPE, 
-                            cwd = "T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code/")
-result = proc.communicate()
-print(result[0].decode('UTF8'))
-'''
-
-
-#wordfile = codecs.open("sourceword.txt", "w", "utf-8")
-#wordfile.write("बच्चे")
-#getRoots()
+print(fetch_from_hwn("सालों"))
