@@ -13,43 +13,14 @@ from Model import insert_word_props
 from Model import get_word_props
 from nltk import word_tokenize
 
-
+from py4j.java_gateway import JavaGateway
+from py4j.java_gateway import java_import
+gateway = JavaGateway.launch_gateway(classpath="hindiwn.jar")
+     
+    
 os.chdir("T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code")
 output_file = "synsets.txt"
 #TODO: unable to decode the bytes back to the string
-
-def getRoots(word):
-    """ Calls the necessary Python functions and Java classes to retrieve the 
-    roots of the word present in the file "sourceword.txt"
-    
-    Returns
-        (list): the roots of the word
-        
-    Source: 
-        In the output 
-        1: stands for noun, 
-        2: stands for adjective, 
-        3: stands for verb, 
-        4:stands for adverb
-    
-    """
-    from py4j.java_gateway import JavaGateway
-    from py4j.java_gateway import java_import
-    gateway = JavaGateway.launch_gateway(classpath="T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code/hindiwn.jar")
-     
-    java_import(gateway.jvm,'WordnetToolsSimple')
-    gateway.jvm.WordnetToolsSimple()
-    roots = (gateway.jvm.WordnetToolsSimple.getRoot(word))
-
-    if roots.find(";") != -1:
-        roots = roots.split(";")#form a list
-        roots = roots[:-1] #remove the '\r\n' element
-        print(roots)
-        roots = [root.split(":")[1] for root in roots]#remove the part before the ':'
-        print(roots) #this line is to be deleted
-        
-    return roots
-
 
 def read_properties(word, source = "na", category = "na", author = "unk", 
                     year = "unk"):
@@ -67,12 +38,10 @@ def read_properties(word, source = "na", category = "na", author = "unk",
         (int): 1 if successful and -1 if unsuccessful
     """
     properties = {"word" : word}
-    #TODO: Unable to find Ssynsets class - fix this
     #TODO: read from collection. if value is null then add otherwise
     #read value add 1 to it
     existing_props = get_word_props(word)
-    #TO REMOVE
-    existing_props = None
+    
     if existing_props is None:
         #retrieve the root/s of the word
         #wordfile = codecs.open("sourceword.txt", "w", "utf-8")
@@ -100,7 +69,46 @@ def read_properties(word, source = "na", category = "na", author = "unk",
     #calculate number of syllables and store in the Words collection
     #calculate number of consonant conjuncts and store in the Words collection
     #store number of hypernyms/hyponyms etc. -> check notes from file in college
+
+def getRoots(word):
+    """ Calls the necessary Python functions and Java classes to retrieve the 
+    roots of the word present in the file "sourceword.txt"
     
+    Returns
+        (list): the roots of the word
+        
+    Source: Adapted from sivareddy.in/downloads
+        In the output 
+        1: stands for noun, 
+        2: stands for adjective, 
+        3: stands for verb, 
+        4:stands for adverb
+    
+    """
+   
+    java_import(gateway.jvm,'WordnetToolsSimple')
+    gateway.jvm.WordnetToolsSimple()
+    roots = gateway.jvm.WordnetToolsSimple.getRoot(word)
+
+    #form a list if there are multiple roots
+    if roots.find(";") != -1:
+        roots = roots.split(";")#form a list
+        roots = roots[:-1] #remove the '\r\n' element
+        #roots = [root.split(":")[1] for root in roots]#remove the part before the ':'        
+    return roots
+    
+def get_sense_count(word):
+    """Reads the string returned from the Hindi WordNet API and returns the
+    sense count for the given word
+     Args:
+        word (str): the word whose sense count is to be returned
+        
+    Returns
+        (int): the sense count of the word
+    """
+    java_import(gateway.jvm,'in.ac.iitb.cfilt.jhwnl.examples.Synsets')
+    sense_count = gateway.jvm.Synsets.getSenseCount(word)
+    return sense_count
         
 def fetch_from_hwn(word, source = "na", category = "na", author = "unk", 
                    year = "unk"):
@@ -125,7 +133,7 @@ def fetch_from_hwn(word, source = "na", category = "na", author = "unk",
     return read_properties(word, source, category, author, year);
     #return threading.Timer(15, read_properties,[word, source, category, 
                                                 #author, year]).start()
-  
+''' 
 def get_sense_count(word):
     """Reads the string returned from the Hindi WordNet API and returns the
     sense count for the given word
@@ -150,7 +158,8 @@ def get_sense_count(word):
     second_last_occurrence = result.rfind("\r\n", 0, result.rfind("\r\n"))
     sense_count = result[second_last_occurrence+2:last_occurrence-1]
     return sense_count
-
+'''    
+ 
 def count_occurrence(word):
     """Counts the occurrence of the word in each category, as well as in the 
     entire corpus
