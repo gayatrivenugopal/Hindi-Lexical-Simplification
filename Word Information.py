@@ -6,9 +6,8 @@ Created on Fri Aug 10 15:38:59 2018
 """
 import os
 import codecs
-import subprocess
 import csv
-from subprocess import STDOUT
+from Model import insert_sentence
 from Model import insert_word_props
 from Model import get_word_props
 from nltk import word_tokenize
@@ -19,16 +18,16 @@ gateway = JavaGateway.launch_gateway(classpath="hindiwn.jar")
      
     
 os.chdir("T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code")
-output_file = "synsets.txt"
-#TODO: unable to decode the bytes back to the string
 
-def read_properties(word, source = "na", category = "na", author = "unk", 
-                    year = "unk"):
+
+def read_store_properties(word, sentence, source = "na", category = "na", 
+                          author = "unk", year = "unk"):
     """Reads the content of the file containing the properties of the word 
     and stores in the collection
     
     Args:
         word (str): the word whose properties are to be retrieved
+        sentence (str): the sentence containing the word
         source (str): the source of the sentence (twitter, web, story, wiki)
         category (str): the category of the sentence (e.g. art, sports, cinema)
         author (str): the author of the story
@@ -38,8 +37,14 @@ def read_properties(word, source = "na", category = "na", author = "unk",
         (int): 1 if successful and -1 if unsuccessful
     """
     properties = {"word" : word}
+    #TODO: create a collection of sentences, give them an id and add this id to
+    #the Words collection so that we can get the context of a given word easily
+    #TODO: POS tag of a word
+    #TODO: manually create a list of function words and mark this in the collection
     #TODO: read from collection. if value is null then add otherwise
     #read value add 1 to it
+    #TODO: NER of a word
+   
     existing_props = get_word_props(word)
     
     if existing_props is None:
@@ -51,14 +56,17 @@ def read_properties(word, source = "na", category = "na", author = "unk",
         #for the first time
         properties["word_count"] = 1
         properties["sense_count"] = get_sense_count(word)
-        properties["author"] = [author]
-        properties["year"] = [year]
-        properties["source_categ_freq"] = {"source": source,
+        sentence_id = insert_sentence(sentence)
+        if sentence_id != -1:
+            properties["sentenceid"] = {sentence}
+            properties["author"] = [author]
+            properties["year"] = [year]
+            properties["source_categ_freq"] = {"source": source,
                   "category":category, "frequency":1}
-        #insert the properties
-        if insert_word_props(word, properties) == 1:
-            print(properties)
-            return 1
+            #insert the properties
+            if insert_word_props(word, properties) == 1:
+                print(properties)
+                return 1
         return -1
     else:
         properties["word_count"] = existing_props["word_count"] + 1
@@ -110,12 +118,13 @@ def get_sense_count(word):
     sense_count = gateway.jvm.Synsets.getSenseCount(word)
     return sense_count
         
-def fetch_from_hwn(word, source = "na", category = "na", author = "unk", 
-                   year = "unk"):
+def fetch_from_hwn(word, sentence, source = "na", category = "na", 
+                   author = "unk", year = "unk"):
     """Retrieves the number of senses for a given word from the Hindi WordNet
 
     Args:
         word (str): the word whose number senses are to be retrieved
+        sentence (str): the sentence containing the word
         source (str): the source of the sentence (twitter, web, story, wiki)
         category (str): the category of the sentence (e.g. art, sports, cinema)
         author (str): the author of the story
@@ -130,7 +139,7 @@ def fetch_from_hwn(word, source = "na", category = "na", author = "unk",
     outfile.write(word)
     outfile.close()
     
-    return read_properties(word, source, category, author, year);
+    return read_store_properties(word, sentence, source, category, author, year);
     #return threading.Timer(15, read_properties,[word, source, category, 
                                                 #author, year]).start()
 ''' 
@@ -200,8 +209,9 @@ def read_from_source(source):
                         #get the number of senses of each word in the sentence 
                         #if it is in Hindi
                         if is_hindi(token):
-                            return fetch_from_hwn(token.strip(),  source, 
-                                                 category, author, year)
+                            return fetch_from_hwn(token.strip(),  sentence, 
+                                                  source, category, author, 
+                                                  year)
     return 1
                 
 #Source: https://stackoverflow.com/questions/44474085/how-to-separate-a-only-hindi-script-from-a-file-containing-a-mixture-of-hindi-e
@@ -211,9 +221,9 @@ def is_hindi(character):
         return 1
     return 0
     
-#print(read_from_source("Final Corpora/Novels"))
+print(read_from_source("Final Corpora/Novels"))
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Tweets")
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Wiki")
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Web")
 
-print(fetch_from_hwn("सालों"))
+#print(fetch_from_hwn("सालों"))
