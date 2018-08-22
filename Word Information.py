@@ -36,37 +36,44 @@ def read_store_properties(word, sentence, source = "na", category = "na",
     Returns:
         (int): 1 if successful and -1 if unsuccessful
     """
+    print(word)
     properties = {"word" : word}
-    #TODO: create a collection of sentences, give them an id and add this id to
-    #the Words collection so that we can get the context of a given word easily
+
+    #TODO: common return format for all functions
     #TODO: POS tag of a word
+    #TODO: If word exists, then append properties/add property values
     #TODO: manually create a list of function words and mark this in the collection
     #TODO: read from collection. if value is null then add otherwise
     #read value add 1 to it
     #TODO: NER of a word
    
     existing_props = get_word_props(word)
-    
+    print("Existing props ", existing_props)
     if existing_props is None:
         #retrieve the root/s of the word
         #wordfile = codecs.open("sourceword.txt", "w", "utf-8")
         #wordfile.write(word)
+        print(word)
         properties["roots"] = getRoots(word)
         #insert 1 as the frequency since the word was encountered
         #for the first time
         properties["word_count"] = 1
         properties["sense_count"] = get_sense_count(word)
-        sentence_id = insert_sentence(sentence)
+        sentence_id = insert_sentence(sentence.strip('"'))
+        print("Sentence ID: ", sentence_id)
         if sentence_id != -1:
-            properties["sentenceid"] = {sentence}
+            #the sentence is being stored to retrieve the context of a word
+            properties["sentenceid"] = [sentence_id]
             properties["author"] = [author]
             properties["year"] = [year]
             properties["source_categ_freq"] = {"source": source,
                   "category":category, "frequency":1}
             #insert the properties
-            if insert_word_props(word, properties) == 1:
+            status = insert_word_props(word, properties)
+            if status['status'] == 1:
                 print(properties)
-                return 1
+                return {'status': 1, 'data': None}
+            return {'status': -1, 'data': status['data']}
         return -1
     else:
         properties["word_count"] = existing_props["word_count"] + 1
@@ -209,9 +216,11 @@ def read_from_source(source):
                         #get the number of senses of each word in the sentence 
                         #if it is in Hindi
                         if is_hindi(token):
-                            return fetch_from_hwn(token.strip(),  sentence, 
+                            status = fetch_from_hwn(token.strip(),  sentence, 
                                                   source, category, author, 
-                                                  year)
+                                                  year)['status']
+                            if status['status'] == -1:
+                                return  status
     return 1
                 
 #Source: https://stackoverflow.com/questions/44474085/how-to-separate-a-only-hindi-script-from-a-file-containing-a-mixture-of-hindi-e
@@ -221,7 +230,9 @@ def is_hindi(character):
         return 1
     return 0
     
-print(read_from_source("Final Corpora/Novels"))
+status = read_from_source("../Final Corpora/Novels")
+if status['status'] == -1:
+    print(status['data'])
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Tweets")
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Wiki")
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Web")
