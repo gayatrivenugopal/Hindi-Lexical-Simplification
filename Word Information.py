@@ -47,7 +47,10 @@ def read_store_properties(word, sentence, source = "na", category = "na",
     #read value add 1 to it
     #TODO: NER of a word
    
-    existing_props = get_word_props(word)
+    status = get_word_props(word)
+    if status['status'] == -1:
+        return status
+    existing_props = status['data']
     print("Existing props ", existing_props)
     if existing_props is None:
         #retrieve the root/s of the word
@@ -59,11 +62,10 @@ def read_store_properties(word, sentence, source = "na", category = "na",
         #for the first time
         properties["word_count"] = 1
         properties["sense_count"] = get_sense_count(word)
-        sentence_id = insert_sentence(sentence.strip('"'))
-        print("Sentence ID: ", sentence_id)
-        if sentence_id != -1:
+        status = insert_sentence(sentence.strip('"'))
+        if status['status'] != -1:
             #the sentence is being stored to retrieve the context of a word
-            properties["sentenceid"] = [sentence_id]
+            properties["sentenceid"] = status['data']
             properties["author"] = [author]
             properties["year"] = [year]
             properties["source_categ_freq"] = {"source": source,
@@ -74,11 +76,11 @@ def read_store_properties(word, sentence, source = "na", category = "na",
                 print(properties)
                 return {'status': 1, 'data': None}
             return {'status': -1, 'data': status['data']}
-        return -1
+        return {'status': -1, 'data': status['data']}
     else:
         properties["word_count"] = existing_props["word_count"] + 1
                 
-    return -1
+    return {'status': -1, 'data': status['data']}
     #TODO: Store frequency in category, and overall, quicker alternative?
     #calculate number of characters and store in the Words collection
     #calculate number of syllables and store in the Words collection

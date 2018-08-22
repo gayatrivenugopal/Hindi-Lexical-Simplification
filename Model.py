@@ -21,17 +21,18 @@ def insert_word_props(word, properties):
         conjuncts, and frequency
     
     Returns:
-        (tuple): the status which is 1, if successful and -1, if unsuccessful, 
-        and the data to be sent back, in this case, the error if any.
+        (dict): the status which is 1, if successful and -1, if unsuccessful, 
+        and the data, to be sent back, in this case, the description of the 
+        status, or the error, if any.
     """
     
     try:
         database.Words.insert_one(properties)
-        return {'status': 1, 'data': None}
+        return {'status': 1, 'data': 'Success'}
     except Exception as e:
-        return {'status': -1, 'data': str(e)}
+        return {'status': -1, 'data': e}
 
-####################################################################
+
 def insert_sentence(sentence):
     """ Inserts the sentence if not already inserted, and returns the sentence 
     id
@@ -40,7 +41,9 @@ def insert_sentence(sentence):
         sentence (str): the sentence that is to be inserted
         
     Returns:
-        (int): the id of the sentence if successful and -1 if unsuccessful
+        (dict): the status which is 1, if successful and -1, if unsuccessful, 
+        and the data to be sent back, in this case, the id of the sentence, or 
+        the description of the error.
     """
     
     try:
@@ -48,19 +51,32 @@ def insert_sentence(sentence):
             id = 1
         else:
             #check if sentence exists in the collection
-            if document_exists('Sentences', 'sentence', sentence):
+            status = document_exists('Sentences', 'sentence', sentence)
+            if status['status'] == 1 and status['data'] == 1:
                 print("Document exists")
-                id = get_value('Sentences', 'sentence', sentence, '_id')
-                return id
-            print("Document does not exist")
-            id = get_last_id('Sentences') + 1
-            #insert the sentence since it does not exist in the collection
+                status = get_value('Sentences', 'sentence', sentence, '_id')
+                if status['status'] == 1 and status['data'] != 0:
+                    id = status['data'] 
+                    return {'status': 1, 'data': id}
+                if status['status'] == 1: #data is 0
+                    return {'status': -1, 'data': 'Empty Cursor'}
+                return status
+            #if the document does not exist
+            if status['status'] == 1:
+                print("Document does not exist")
+                status = get_last_id('Sentences')
+                if status['status'] != -1:
+                    id = status['data'] + 1
+            else: #error
+                return status
+        #insert the sentence since it does not exist in the collection
         database.Sentences.insert_one({"_id" : id, "sentence" : sentence})
         print("Inserted document")
-        return id
+        return {'status': 1, 'data': id}
     except Exception as e:
         print(str(e))
-        return -1
+        return {'status': -1, 'data': e}
+
 
 def get_last_id(collection):
     """ Retrieves the last id of the collection
@@ -70,16 +86,19 @@ def get_last_id(collection):
         retrieved
     
     Returns:
-        (int): the id if successful and -1 if unsuccesful
+        (dict): the status which is 1, if successful and -1, if unsuccessful, 
+        and the data to be sent back, in this case, the id of the last document,
+        or the description of the error if any.
     """
     
     try:
         id = database[collection].find().sort('_id', -1).limit(1)[0]['_id']
-        return id
+        return {'status': 1, 'data': id}
     except Exception as e:
         print(str(e))
-        return -1
-    
+        return {'status': -1, 'data': e}
+
+   
 def document_exists(collection, field, value):
     """ Checks whether the document consisting of a particular value in the 
     specific field exists
@@ -90,20 +109,19 @@ def document_exists(collection, field, value):
         value (str): the value that is to be checked
     
     Returns:
-        (int): 1 if the document exists, 0 if the document does not exist, and
-        -1 if there is any error
+        (dict): the status which is 1, if successful and -1, if unsuccessful, 
+        and the data to be sent back, in this case, 1, if the document exists, 
+        0, if the document does not exist, or the description of the error, if 
+        any.
     """
     try:
-        print("Collection: ", collection," Field: ", field, " Value: ", value)
         cursor = database[collection].find_one({field: value})
-        print("Cursor: ", cursor)
         if cursor is None:
-            return 0
-        return 1
+            return {'status': 1, 'data': 0}
+        return {'status': 1, 'data': -1}
     except Exception as e:
-        print(str(e))
-        return -1
-    
+        return {'status': -1, 'data': e}
+  
 def get_value(collection, query_field, query_value, field):
     """ Retrieves the value of the specified field from the specified 
     collection
@@ -115,17 +133,19 @@ def get_value(collection, query_field, query_value, field):
         field (str): the field whose value is to be retrieved from the cursor
     
     Returns:
-        (str/int): the value of the field from the collection and -1 if there is
-        any error
+        (dict): the status which is 1, if successful and -1, if unsuccessful, 
+        and the data to be sent back, in this case, the value of the field from
+        the collection, 0, if there is no value, or the description of the 
+        error, if any.
     """
     try:
         cursor = database[collection].find_one({query_field: query_value})
         if cursor is None:
-            return -1
-        return cursor[field]
+            return {'status': 1, 'data': 0}
+        return {'status': 1, 'data': cursor[field]}
     except Exception as e:
         print(str(e))
-        return -1
+        return {'status': -1, 'data': e}
 
 def get_word_props(word):
     """ Retrieves the word's properties from the collection
@@ -134,13 +154,14 @@ def get_word_props(word):
         word (str): the word whose properties are to be stored
     
     Returns:
-        (dict): A dictionary consisting of the properties and their values
-        (int): -1 if unsuccessful
+        (dict): the status which is 1, if successful and -1, if unsuccessful, 
+        and the data to be sent back, in this case, the dictionary consisting 
+        of the fields and their values, or the description of the error, if any.
     """
  
     try:
         properties = database.Words.find_one({"word": word})
-        return properties
+        return {'status': 1,  'data': properties}
     except Exception as e:
         print(str(e))
-        return -1
+        return {'status': -1, 'data': e}
