@@ -7,6 +7,8 @@ Created on Fri Aug 10 15:38:59 2018
 import os
 import codecs
 import csv
+import subprocess
+
 from Model import insert_sentence
 from Model import insert_word_props
 from Model import get_word_props
@@ -14,13 +16,12 @@ from nltk import word_tokenize
 
 from py4j.java_gateway import JavaGateway
 from py4j.java_gateway import java_import
+
 gateway = JavaGateway.launch_gateway(classpath="hindiwn.jar")
-     
-    
 os.chdir("T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code")
 
 
-def read_store_properties(word, sentence, source = "na", category = "na", 
+def read_store_properties(word, file, sentence, source = "na", category = "na", 
                           author = "unk", year = "unk"):
     """Reads the content of the file containing the properties of the word 
     and stores in the collection
@@ -39,7 +40,6 @@ def read_store_properties(word, sentence, source = "na", category = "na",
     print(word)
     properties = {"word" : word}
 
-    #TODO: common return format for all functions
     #TODO: POS tag of a word
     #TODO: If word exists, then append properties/add property values
     #TODO: manually create a list of function words and mark this in the collection
@@ -57,6 +57,7 @@ def read_store_properties(word, sentence, source = "na", category = "na",
         #wordfile = codecs.open("sourceword.txt", "w", "utf-8")
         #wordfile.write(word)
         print(word)
+        properties["file"] = [file]
         properties["roots"] = getRoots(word)
         #insert 1 as the frequency since the word was encountered
         #for the first time
@@ -79,6 +80,20 @@ def read_store_properties(word, sentence, source = "na", category = "na",
         return {'status': -1, 'data': status['data']}
     else:
         properties["word_count"] = existing_props["word_count"] + 1
+        status = insert_sentence(sentence.strip('"'))
+        if status['status'] != -1:
+            #the sentence is being stored to retrieve the context of a word
+            properties["sentenceid"] = status['data']
+            #TODO: if already exists, do not add, otherwise, append
+            properties["file"] = [file]
+            #TODO: author and year should be added if not already added with the word
+            properties["author"] = [author]
+            properties["year"] = [year]
+            #TODO: if source is new, add.
+            #TODO: if source is present, category is new, add.
+            #TODO: otherwise, add 1 to frequency
+            properties["source_categ_freq"] = {"source": source,
+                  "category":category, "frequency":1}
                 
     return {'status': -1, 'data': status['data']}
     #TODO: Store frequency in category, and overall, quicker alternative?
@@ -126,8 +141,20 @@ def get_sense_count(word):
     java_import(gateway.jvm,'in.ac.iitb.cfilt.jhwnl.examples.Synsets')
     sense_count = gateway.jvm.Synsets.getSenseCount(word)
     return sense_count
+
+def tag_file():
+    #pip install -e git+https://github.com/tqdm/py-make.git@master#egg=py-make
+    cmd = "tokenize.sh test_file.txt > file1.txt"
+    make_process = subprocess.Popen(cmd, stdout=subprocess.PIPE,
+                                    stderr=subprocess.STDOUT, shell=True,
+                                    cwd="T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code/Hindi_POStagger")
+    result = make_process.communicate()
+    print(result[0])
+
+    if make_process.wait() != 0:
+        print("oops!");
         
-def fetch_from_hwn(word, sentence, source = "na", category = "na", 
+def fetch_from_hwn(word, sentence, file = "na", source = "na", category = "na", 
                    author = "unk", year = "unk"):
     """Retrieves the number of senses for a given word from the Hindi WordNet
 
@@ -148,7 +175,7 @@ def fetch_from_hwn(word, sentence, source = "na", category = "na",
     outfile.write(word)
     outfile.close()
     
-    return read_store_properties(word, sentence, source, category, author, year);
+    return read_store_properties(word, file, sentence, source, category, author, year);
     #return threading.Timer(15, read_properties,[word, source, category, 
                                                 #author, year]).start()
 ''' 
@@ -218,9 +245,9 @@ def read_from_source(source):
                         #get the number of senses of each word in the sentence 
                         #if it is in Hindi
                         if is_hindi(token):
-                            status = fetch_from_hwn(token.strip(),  sentence, 
+                            status = fetch_from_hwn(token.strip(), file, sentence, 
                                                   source, category, author, 
-                                                  year)['status']
+                                                  year)
                             if status['status'] == -1:
                                 return  status
     return 1
@@ -239,4 +266,5 @@ if status['status'] == -1:
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Wiki")
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Web")
 
+#tag_file()
 #print(fetch_from_hwn("सालों"))
