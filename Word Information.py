@@ -20,7 +20,7 @@ from py4j.java_gateway import java_import
 gateway = JavaGateway.launch_gateway(classpath="hindiwn.jar")
 os.chdir("T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code")
 
-
+#TODO:  sentence is getting inserted irrespective eof its existence
 def read_store_properties(word, file, sentence, source = "na", category = "na", 
                           author = "unk", year = "unk"):
     """Reads the content of the file containing the properties of the word 
@@ -28,6 +28,7 @@ def read_store_properties(word, file, sentence, source = "na", category = "na",
     
     Args:
         word (str): the word whose properties are to be retrieved
+        file (str): the file containing the word
         sentence (str): the sentence containing the word
         source (str): the source of the sentence (twitter, web, story, wiki)
         category (str): the category of the sentence (e.g. art, sports, cinema)
@@ -64,14 +65,16 @@ def read_store_properties(word, file, sentence, source = "na", category = "na",
         properties["word_count"] = 1
         properties["sense_count"] = get_sense_count(word)
         status = insert_sentence(sentence.strip('"'))
+        
         if status['status'] != -1:
             #the sentence is being stored to retrieve the context of a word
-            properties["sentenceid"] = status['data']
+            properties["sentenceid"] = [status['data']]
             properties["author"] = [author]
             properties["year"] = [year]
             properties["source_categ_freq"] = {"source": source,
                   "category":category, "frequency":1}
             #insert the properties
+            print(properties)
             status = insert_word_props(word, properties)
             if status['status'] == 1:
                 print(properties)
@@ -82,19 +85,29 @@ def read_store_properties(word, file, sentence, source = "na", category = "na",
         properties["word_count"] = existing_props["word_count"] + 1
         status = insert_sentence(sentence.strip('"'))
         if status['status'] != -1:
-            #the sentence is being stored to retrieve the context of a word
-            properties["sentenceid"] = status['data']
-            #TODO: if already exists, do not add, otherwise, append
-            properties["file"] = [file]
-            #TODO: author and year should be added if not already added with the word
-            properties["author"] = [author]
-            properties["year"] = [year]
-            #TODO: if source is new, add.
-            #TODO: if source is present, category is new, add.
-            #TODO: otherwise, add 1 to frequency
-            properties["source_categ_freq"] = {"source": source,
+            #if the sentence is not present, then add the id to properties
+            if status['data'] not in existing_props['sentenceid']:
+                properties['sentenceid'] = status['data']
+            #if the file is not present, then add it to properties
+            if file not in existing_props['file']:
+                properties['file'] = [file]
+            #if the author is not present in existing properties, then add
+            #it to properties
+            if file not in existing_props['author']:
+                properties['author'] = [author]
+            #if the year is not present in existing properties, then add
+            #it to properties
+            if file not in existing_props['year']:
+                properties['year'] = [year]
+            #if source and category combination is not present, then add
+            # to properties, otherwise, increase the frequency by 1
+            source_category = existing_props['source_categ_freq']
+            if source_category['source'] == source and source_category['category'] == category:
+                    properties['frequency'] = source_category['frequency'] + 1
+            else:
+                properties["source_categ_freq"] = {"source": source,
                   "category":category, "frequency":1}
-                
+            print(properties)
     return {'status': -1, 'data': status['data']}
     #TODO: Store frequency in category, and overall, quicker alternative?
     #calculate number of characters and store in the Words collection
@@ -154,12 +167,13 @@ def tag_file():
     if make_process.wait() != 0:
         print("oops!");
         
-def fetch_from_hwn(word, sentence, file = "na", source = "na", category = "na", 
+def fetch_from_hwn(word, file, sentence, source = "na", category = "na", 
                    author = "unk", year = "unk"):
     """Retrieves the number of senses for a given word from the Hindi WordNet
 
     Args:
         word (str): the word whose number senses are to be retrieved
+        file (str): the file containing the word
         sentence (str): the sentence containing the word
         source (str): the source of the sentence (twitter, web, story, wiki)
         category (str): the category of the sentence (e.g. art, sports, cinema)
@@ -235,9 +249,9 @@ def read_from_source(source):
                     #extract the category
                     category = row[1]
                     #extract the author
-                    author = row[2]
+                    year = row[2]
                     #extract the year
-                    year = row[3]
+                    author = row[3]
                     #extract the sentence
                     sentence = row[4]
                     #tokenize the sentence
@@ -245,9 +259,9 @@ def read_from_source(source):
                         #get the number of senses of each word in the sentence 
                         #if it is in Hindi
                         if is_hindi(token):
-                            status = fetch_from_hwn(token.strip(), file, sentence, 
-                                                  source, category, author, 
-                                                  year)
+                            status = fetch_from_hwn(token.strip(), file.name, 
+                                                    sentence, source, category, 
+                                                    author, year)
                             if status['status'] == -1:
                                 return  status
     return 1

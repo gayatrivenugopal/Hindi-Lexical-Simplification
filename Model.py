@@ -52,11 +52,12 @@ def insert_sentence(sentence):
         else:
             #check if sentence exists in the collection
             status = document_exists('Sentences', 'sentence', sentence)
-            if status['status'] == 1 and status['data'] == 1:
+    
+            if status['status'] == 1 and status['data'] != 0:
                 print("Document exists")
                 status = get_value('Sentences', 'sentence', sentence, '_id')
                 if status['status'] == 1 and status['data'] != 0:
-                    id = status['data'] 
+                    id = status['data']
                     return {'status': 1, 'data': id}
                 if status['status'] == 1: #data is 0
                     return {'status': -1, 'data': 'Empty Cursor'}
@@ -114,6 +115,7 @@ def document_exists(collection, field, value):
         0, if the document does not exist, or the description of the error, if 
         any.
     """
+    print("Collection: ", collection, " Field: ", field, " Value: ", value)
     try:
         cursor = database[collection].find_one({field: value})
         if cursor is None:
