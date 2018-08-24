@@ -32,6 +32,33 @@ def insert_word_props(word, properties):
     except Exception as e:
         return {'status': -1, 'data': e}
 
+def append_word_props(word, properties):
+    """ Appends the properties of the existing word
+    
+    Args:
+        word (str): the word whose properties are to be stored
+        properties (dict): the properies such as senses, length, consonant
+        conjuncts, and frequency
+    
+    Returns:
+        (dict): the status which is 1, if successful and -1, if unsuccessful, 
+        and the data, to be sent back, in this case, the description of the 
+        status, or the error, if any.
+    """
+    
+    try:
+        print(properties)
+        print(word)
+        database.Words.update_one({'word':word}, 
+                                               {"$set":{'word': 'ग्यारह', 'word_count': 2, 'source_categ_freq': {'source': 'story', 'category': 'na', 'frequency': 2}}
+                                                },
+                                                upsert = True)
+        print("Success")
+        
+        return {'status': 1, 'data': 'Success'}
+    except Exception as e:
+        return {'status': -1, 'data': e}
+
 
 def insert_sentence(sentence):
     """ Inserts the sentence if not already inserted, and returns the sentence 
@@ -68,6 +95,7 @@ def insert_sentence(sentence):
                 status = get_last_id('Sentences')
                 if status['status'] != -1:
                     id = status['data'] + 1
+                    print("SENTENCE ID: ", id)
             else: #error
                 return status
         #insert the sentence since it does not exist in the collection

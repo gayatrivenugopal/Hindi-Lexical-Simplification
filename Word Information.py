@@ -11,6 +11,7 @@ import subprocess
 
 from Model import insert_sentence
 from Model import insert_word_props
+from Model import append_word_props
 from Model import get_word_props
 from nltk import word_tokenize
 
@@ -20,7 +21,6 @@ from py4j.java_gateway import java_import
 gateway = JavaGateway.launch_gateway(classpath="hindiwn.jar")
 os.chdir("T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code")
 
-#TODO:  sentence is getting inserted irrespective eof its existence
 def read_store_properties(word, file, sentence, source = "na", category = "na", 
                           author = "unk", year = "unk"):
     """Reads the content of the file containing the properties of the word 
@@ -42,17 +42,14 @@ def read_store_properties(word, file, sentence, source = "na", category = "na",
     properties = {"word" : word}
 
     #TODO: POS tag of a word
-    #TODO: If word exists, then append properties/add property values
-    #TODO: manually create a list of function words and mark this in the collection
-    #TODO: read from collection. if value is null then add otherwise
-    #read value add 1 to it
+    #TODO: Word is getting inserted twice with the updated values - fix this
     #TODO: NER of a word
    
     status = get_word_props(word)
     if status['status'] == -1:
         return status
     existing_props = status['data']
-    print("Existing props ", existing_props)
+    #print("Existing props ", existing_props)
     if existing_props is None:
         #retrieve the root/s of the word
         #wordfile = codecs.open("sourceword.txt", "w", "utf-8")
@@ -86,28 +83,42 @@ def read_store_properties(word, file, sentence, source = "na", category = "na",
         status = insert_sentence(sentence.strip('"'))
         if status['status'] != -1:
             #if the sentence is not present, then add the id to properties
+            #print("SENTENCE ID:", status['data'])        
             if status['data'] not in existing_props['sentenceid']:
-                properties['sentenceid'] = status['data']
+                existing_props['sentenceid'].append(status['data'])
+                properties['sentenceid'] = existing_props['sentenceid']
             #if the file is not present, then add it to properties
             if file not in existing_props['file']:
-                properties['file'] = [file]
+                existing_props['file'].append(status['data'])
+                properties['file'] = existing_props['file']
             #if the author is not present in existing properties, then add
             #it to properties
-            if file not in existing_props['author']:
-                properties['author'] = [author]
+            if author not in existing_props['author']:
+                existing_props['author'].append(status['data'])
+                properties['author'] = existing_props['author']
             #if the year is not present in existing properties, then add
             #it to properties
-            if file not in existing_props['year']:
-                properties['year'] = [year]
+            if year not in existing_props['year']:
+                existing_props['year'].append(status['data'])
+                properties['year'] = existing_props['year']
             #if source and category combination is not present, then add
             # to properties, otherwise, increase the frequency by 1
             source_category = existing_props['source_categ_freq']
             if source_category['source'] == source and source_category['category'] == category:
-                    properties['frequency'] = source_category['frequency'] + 1
+                    properties['source_categ_freq'] = {"source": source_category['source'],
+                     "category": source_category['category'],
+                     "frequency": source_category['frequency'] + 1}
             else:
-                properties["source_categ_freq"] = {"source": source,
-                  "category":category, "frequency":1}
-            print(properties)
+                existing_props['source_categ_freq'].append({"source": source,
+                  "category":category, "frequency":1})
+                properties["source_categ_freq"] = existing_props['source_categ_freq']
+           
+            status = append_word_props(word, properties)
+            
+            if status['status'] == 1:
+                print(properties)
+                return {'status': 1, 'data': None}
+            return {'status': -1, 'data': status['data']}
     return {'status': -1, 'data': status['data']}
     #TODO: Store frequency in category, and overall, quicker alternative?
     #calculate number of characters and store in the Words collection
