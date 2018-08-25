@@ -8,6 +8,7 @@ import os
 import codecs
 import csv
 import subprocess
+import ntpath
 
 from Model import insert_sentence
 from Model import insert_word_props
@@ -42,19 +43,20 @@ def read_store_properties(word, file, sentence, source = "na", category = "na",
     properties = {"word" : word}
 
     #TODO: POS tag of a word
-    #TODO: Word is getting inserted twice with the updated values - fix this
     #TODO: NER of a word
-   
+    #TODO: calculate number of characters and store in the Words collection
+    #calculate number of syllables and store in the Words collection
+    #calculate number of consonant conjuncts and store in the Words collection
+    #store number of hypernyms/hyponyms etc. -> check notes from file in college
     status = get_word_props(word)
     if status['status'] == -1:
         return status
     existing_props = status['data']
-    #print("Existing props ", existing_props)
+    
     if existing_props is None:
         #retrieve the root/s of the word
         #wordfile = codecs.open("sourceword.txt", "w", "utf-8")
         #wordfile.write(word)
-        print(word)
         properties["file"] = [file]
         properties["roots"] = getRoots(word)
         #insert 1 as the frequency since the word was encountered
@@ -68,13 +70,12 @@ def read_store_properties(word, file, sentence, source = "na", category = "na",
             properties["sentenceid"] = [status['data']]
             properties["author"] = [author]
             properties["year"] = [year]
-            properties["source_categ_freq"] = {"source": source,
-                  "category":category, "frequency":1}
+            properties["source_categ_freq"] = []
+            properties["source_categ_freq"].append({"source": source,
+                  "category":category, "frequency":1})
             #insert the properties
-            print(properties)
             status = insert_word_props(word, properties)
             if status['status'] == 1:
-                print(properties)
                 return {'status': 1, 'data': None}
             return {'status': -1, 'data': status['data']}
         return {'status': -1, 'data': status['data']}
@@ -83,7 +84,6 @@ def read_store_properties(word, file, sentence, source = "na", category = "na",
         status = insert_sentence(sentence.strip('"'))
         if status['status'] != -1:
             #if the sentence is not present, then add the id to properties
-            #print("SENTENCE ID:", status['data'])        
             if status['data'] not in existing_props['sentenceid']:
                 existing_props['sentenceid'].append(status['data'])
                 properties['sentenceid'] = existing_props['sentenceid']
@@ -103,12 +103,29 @@ def read_store_properties(word, file, sentence, source = "na", category = "na",
                 properties['year'] = existing_props['year']
             #if source and category combination is not present, then add
             # to properties, otherwise, increase the frequency by 1
-            source_category = existing_props['source_categ_freq']
-            if source_category['source'] == source and source_category['category'] == category:
-                    properties['source_categ_freq'] = {"source": source_category['source'],
-                     "category": source_category['category'],
-                     "frequency": source_category['frequency'] + 1}
+            source_category_list = existing_props['source_categ_freq']
+            source_categ_exists = 0
+            #check if the source and the category exist
+            #if so, increase the frequency by 1
+            #otherwise, set the frequency to 1 and append the new source, 
+            #category and frequency to the existing list
+            #the first time a value is added to source_categ_freq, it is not
+            #added as a list, therefore this if condition.
+            if type(source_category_list) == dict:
+                if source_category_list['source'] == source and source_category_list['category'] == category:
+                        properties['source_categ_freq'] = {"source": source_category_list['source'],
+                         "category": source_category_list['category'],
+                         "frequency": source_category_list['frequency'] + 1}
+                        source_categ_exists = 1
             else:
+                for items in source_category_list:
+                    if items['source'] == source and items['category'] == category:
+                         properties['source_categ_freq'] = {"source": items['source'],
+                                   "category": items['category'],
+                                   "frequency": items['frequency'] + 1}
+                         source_categ_exists = 1
+                        
+            if source_categ_exists == 0:
                 existing_props['source_categ_freq'].append({"source": source,
                   "category":category, "frequency":1})
                 properties["source_categ_freq"] = existing_props['source_categ_freq']
@@ -116,15 +133,10 @@ def read_store_properties(word, file, sentence, source = "na", category = "na",
             status = append_word_props(word, properties)
             
             if status['status'] == 1:
-                print(properties)
                 return {'status': 1, 'data': None}
             return {'status': -1, 'data': status['data']}
     return {'status': -1, 'data': status['data']}
-    #TODO: Store frequency in category, and overall, quicker alternative?
-    #calculate number of characters and store in the Words collection
-    #calculate number of syllables and store in the Words collection
-    #calculate number of consonant conjuncts and store in the Words collection
-    #store number of hypernyms/hyponyms etc. -> check notes from file in college
+    
 
 def getRoots(word):
     """ Calls the necessary Python functions and Java classes to retrieve the 
@@ -173,7 +185,7 @@ def tag_file():
                                     stderr=subprocess.STDOUT, shell=True,
                                     cwd="T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code/Hindi_POStagger")
     result = make_process.communicate()
-    print(result[0])
+    
 
     if make_process.wait() != 0:
         print("oops!");
@@ -270,7 +282,8 @@ def read_from_source(source):
                         #get the number of senses of each word in the sentence 
                         #if it is in Hindi
                         if is_hindi(token):
-                            status = fetch_from_hwn(token.strip(), file.name, 
+                            status = fetch_from_hwn(token.strip(), 
+                                                    ntpath.basename(file.name), 
                                                     sentence, source, category, 
                                                     author, year)
                             if status['status'] == -1:

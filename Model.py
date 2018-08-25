@@ -50,9 +50,7 @@ def append_word_props(word, properties):
         print(properties)
         print(word)
         database.Words.update_one({'word':word}, 
-                                               {"$set":{'word': 'ग्यारह', 'word_count': 2, 'source_categ_freq': {'source': 'story', 'category': 'na', 'frequency': 2}}
-                                                },
-                                                upsert = True)
+                                               {"$set":properties})
         print("Success")
         
         return {'status': 1, 'data': 'Success'}
