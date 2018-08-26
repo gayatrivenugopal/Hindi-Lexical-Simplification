@@ -9,7 +9,9 @@ import codecs
 import csv
 import subprocess
 import ntpath
+import string
 
+import Words
 from Model import insert_sentence
 from Model import insert_word_props
 from Model import append_word_props
@@ -40,34 +42,43 @@ def read_store_properties(word, file, sentence, source = "na", category = "na",
         (int): 1 if successful and -1 if unsuccessful
     """
     print(word)
+
     properties = {"word" : word}
 
     #TODO: POS tag of a word
     #TODO: NER of a word
-    #TODO: calculate number of characters and store in the Words collection
-    #calculate number of syllables and store in the Words collection
-    #calculate number of consonant conjuncts and store in the Words collection
-    #store number of hypernyms/hyponyms etc. -> check notes from file in college
+    #TODO: calculate number of syllables and store in the Words collection
+    #TODO: store number of hypernyms/hyponyms etc. -> check notes from file in college
     status = get_word_props(word)
     if status['status'] == -1:
         return status
     existing_props = status['data']
     
     if existing_props is None:
-        #retrieve the root/s of the word
-        #wordfile = codecs.open("sourceword.txt", "w", "utf-8")
-        #wordfile.write(word)
-        properties["file"] = [file]
-        properties["roots"] = getRoots(word)
-        #insert 1 as the frequency since the word was encountered
-        #for the first time
-        properties["word_count"] = 1
-        properties["sense_count"] = get_sense_count(word)
         status = insert_sentence(sentence.strip('"'))
         
         if status['status'] != -1:
+            #store the length of the word
+            properties["length"] = len(word)
+            #store the number of consonants and vowels in a list
+            numberList = get_number_of_const_vowels_conjuncts(word)
+            #store the number of consonants
+            properties["consonants"] = numberList[0]
+            #store the number of vowels
+            properties["vowels"] = numberList[1]
+             #store the number of consonant conjuncts
+            properties["consonantconjuncts"] = numberList[2]
             #the sentence is being stored to retrieve the context of a word
             properties["sentenceid"] = [status['data']]
+            #retrieve the root/s of the word
+            #wordfile = codecs.open("sourceword.txt", "w", "utf-8")
+            #wordfile.write(word)
+            properties["file"] = [file]
+            properties["roots"] = getRoots(word)
+            #insert 1 as the frequency since the word was encountered
+            #for the first time
+            properties["word_count"] = 1
+            properties["sense_count"] = get_sense_count(word)
             properties["author"] = [author]
             properties["year"] = [year]
             properties["source_categ_freq"] = []
@@ -164,6 +175,20 @@ def getRoots(word):
         roots = roots[:-1] #remove the '\r\n' element
         #roots = [root.split(":")[1] for root in roots]#remove the part before the ':'        
     return roots
+    
+def get_number_of_const_vowels_conjuncts(word):
+    consonants = 0
+    vowels = 0
+    conjuncts = 0
+    charList = list(word)
+    for character in charList:
+        if character in Words.consonants_list:
+            consonants = consonants + 1
+        elif character in Words.vowels_list:
+            vowels = vowels + 1
+        if character == '्':
+            conjuncts = conjuncts + 1
+    return [consonants, vowels, conjuncts]
     
 def get_sense_count(word):
     """Reads the string returned from the Hindi WordNet API and returns the
@@ -277,17 +302,33 @@ def read_from_source(source):
                     author = row[3]
                     #extract the sentence
                     sentence = row[4]
-                    #tokenize the sentence
+                    #tokenize the sentence after removing the punctuations
+                    translate_table = dict((ord(char), None) for char in string.punctuation)   
+                    sentence.translate(translate_table)
                     for token in word_tokenize(sentence):
-                        #get the number of senses of each word in the sentence 
-                        #if it is in Hindi
-                        if is_hindi(token):
-                            status = fetch_from_hwn(token.strip(), 
+                        print("TOKEN: ",token)
+                        if '-' in token:
+                            print("hwew")
+                            words = token.split('-')
+                            print(words)
+                            for word in words:
+                                if is_hindi(word):
+                                     status = fetch_from_hwn(word.strip(), 
                                                     ntpath.basename(file.name), 
                                                     sentence, source, category, 
                                                     author, year)
-                            if status['status'] == -1:
-                                return  status
+                                     if status['status'] == -1:
+                                          return  status
+                        #get the number of senses of each word in the sentence 
+                        #if it is in Hindi
+                        else:
+                            if is_hindi(token):
+                                status = fetch_from_hwn(token.strip(), 
+                                                    ntpath.basename(file.name), 
+                                                    sentence, source, category, 
+                                                    author, year)
+                                if status['status'] == -1:
+                                    return  status
     return 1
                 
 #Source: https://stackoverflow.com/questions/44474085/how-to-separate-a-only-hindi-script-from-a-file-containing-a-mixture-of-hindi-e
