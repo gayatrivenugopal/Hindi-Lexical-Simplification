@@ -47,7 +47,7 @@ def read_store_properties(word, file, sentence, source = "na", category = "na",
 
     #TODO: POS tag of a word
     #TODO: NER of a word
-    #TODO: calculate number of syllables and store in the Words collection
+    #TODO: Test syllables with more words
     #TODO: store number of hypernyms/hyponyms etc. -> check notes from file in college
     status = get_word_props(word)
     if status['status'] == -1:
@@ -190,6 +190,60 @@ def get_number_of_const_vowels_conjuncts(word):
             conjuncts = conjuncts + 1
     return [consonants, vowels, conjuncts]
     
+def get_syllable_count(word):
+    syllables = 0
+    consonants = 1
+    character_count = 0
+    consonant_flag = 0
+    charList = list(word)
+    prev = -1
+    index = 1
+    syllables = 1
+    print(charList)
+    #find the second consonant
+    for i in range(1, len(charList)):
+        character = charList[i]
+        print(character)
+        if character in Words.consonants_list:
+            consonants = consonants + 1
+            if consonants == 2:
+                break
+        index = index + 1
+    beg = index
+    print(syllables)
+    for i in range(index, len(charList)):
+        character = charList[i]
+        print(character)
+        #character_count = character_count + 1
+        #if character_count == 1:
+        #    syllables = 1
+        #elif character in Words.consonants_list:
+        #    consonants = 1
+        #    consonant_flag = 1
+        
+        if character in Words.consonants_list and syllables > 0 and i != len(charList)-1 and i != prev + 1:
+            prev = i
+            syllables = syllables + 1
+            consonant_flag = consonant_flag + 1
+        elif character in Words.vowels_list and character != '़' and syllables > 0 and i == len(charList)-1 and i != prev + 1:
+            if consonant_flag > 0:
+                syllables = syllables - 1
+            syllables = syllables + 1
+            prev = i
+        if character == '्' :
+            syllables = syllables - 1
+        if character == '़' and i == len(charList)-1:
+            syllables = syllables - 1
+        if character == '्' and i == len(charList)-2:
+            syllables = syllables + 1
+        #elif character in Words.vowels_list and syllables > 0 and consonants > 0 and consonant_flag == 1:
+         #   if character != '्':
+         #       syllables = syllables + 1
+          #      consonant_flag = 0
+        index = index + 1
+        print(syllables)
+    return syllables
+
 def get_sense_count(word):
     """Reads the string returned from the Hindi WordNet API and returns the
     sense count for the given word
@@ -338,12 +392,13 @@ def is_hindi(character):
         return 1
     return 0
     
-status = read_from_source("../Final Corpora/Novels")
-if status['status'] == -1:
-    print(status['data'])
+#status = read_from_source("../Final Corpora/Novels")
+#if status['status'] == -1:
+#    print(status['data'])
+
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Tweets")
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Wiki")
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Web")
 
-#tag_file()
+print(get_syllable_count("काग़ज़ी"))
 #print(fetch_from_hwn("सालों"))
