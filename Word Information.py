@@ -210,6 +210,7 @@ def get_syllable_count(word):
                 break
         index = index + 1
     beg = index
+    print("BEG: ", beg)
     print(syllables)
     for i in range(index, len(charList)):
         character = charList[i]
@@ -220,22 +221,32 @@ def get_syllable_count(word):
         #elif character in Words.consonants_list:
         #    consonants = 1
         #    consonant_flag = 1
-        
-        if character in Words.consonants_list and syllables > 0 and i != len(charList)-1 and i != prev + 1:
-            prev = i
+        print("PREV: ", prev)
+        if character in Words.consonants_list and syllables > 0 and i != len(charList)-1:# and i != prev + 1:
+            if (i+1 < len(charList) and charList[i+1] != '़'):
+                print("Charlist i + 1: ", charList[i+1])
+                prev = i
+                syllables = syllables + 1
+                consonant_flag = consonant_flag + 1
+        elif ((character == 'य' and charList[i-1] in Words.vowels_list) or character == 'त्र' or (character == 'र' and charList[i-1] == '्') or character == 'ज्ञ')and i == len(charList) - 1:
             syllables = syllables + 1
-            consonant_flag = consonant_flag + 1
-        elif character in Words.vowels_list and character != '़' and syllables > 0 and i == len(charList)-1 and i != prev + 1:
+            continue
+        elif character in Words.vowels_list and character != '़' and  character != '्' and i == len(charList)-1 and i != prev + 1:
             if consonant_flag > 0:
                 syllables = syllables - 1
             syllables = syllables + 1
             prev = i
-        if character == '्' :
-            syllables = syllables - 1
-        if character == '़' and i == len(charList)-1:
-            syllables = syllables - 1
-        if character == '्' and i == len(charList)-2:
+        elif character in Words.vowels_list and character != '़' and  character != '्' and i < len(charList)-1 and i != prev + 1 and charList[i-1] == '़':
             syllables = syllables + 1
+            prev = i
+        if character == '्':
+            syllables = syllables - 1
+        if character == '़' and i != len(charList)-1 and i-1 != beg and i-1 == prev:
+            syllables = syllables - 1
+        if character in Words.vowels_list and character != '़' and  character != '्' and i == len(charList)-1 and charList[i-2] in Words.consonants_list and charList[i-1] not in Words.vowels_list:
+            syllables = syllables - 1
+        #if character == '्' and i == len(charList)-2:
+        #    syllables = syllables + 1
         #elif character in Words.vowels_list and syllables > 0 and consonants > 0 and consonant_flag == 1:
          #   if character != '्':
          #       syllables = syllables + 1
@@ -400,5 +411,5 @@ def is_hindi(character):
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Wiki")
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Web")
 
-print(get_syllable_count("काग़ज़ी"))
+print(get_syllable_count('चढ़ना'))
 #print(fetch_from_hwn("सालों"))
