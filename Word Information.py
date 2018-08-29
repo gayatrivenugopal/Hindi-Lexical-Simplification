@@ -42,13 +42,15 @@ def read_store_properties(word, file, sentence, source = "na", category = "na",
         (int): 1 if successful and -1 if unsuccessful
     """
     print(word)
-
+    word = word.strip()
     properties = {"word" : word}
 
+    #TODO: Create a separate table to store synsets, and store the ids in the 
+    #Words table - id, number, POS, no. of hypernyms, no. of hyponyms.
     #TODO: POS tag of a word
     #TODO: NER of a word
-    #TODO: Test syllables with more words
     #TODO: store number of hypernyms/hyponyms etc. -> check notes from file in college
+    #get synset pos, number of synonyms in a synset, number of hypernyms, nymber of hyponyms
     status = get_word_props(word)
     if status['status'] == -1:
         return status
@@ -60,6 +62,8 @@ def read_store_properties(word, file, sentence, source = "na", category = "na",
         if status['status'] != -1:
             #store the length of the word
             properties["length"] = len(word)
+             #store the number of syllables in the word
+            properties["syllables"] = get_syllable_count(word)
             #store the number of consonants and vowels in a list
             numberList = get_number_of_const_vowels_conjuncts(word)
             #store the number of consonants
@@ -193,35 +197,34 @@ def get_number_of_const_vowels_conjuncts(word):
 def get_syllable_count(word):
     syllables = 0
     consonants = 1
-    character_count = 0
     consonant_flag = 0
     charList = list(word)
     prev = -1
     index = 1
     syllables = 1
-    print(charList)
+    #print(charList)
     #find the second consonant
     for i in range(1, len(charList)):
         character = charList[i]
-        print(character)
+        #print(character)
         if character in Words.consonants_list:
             consonants = consonants + 1
             if consonants == 2:
                 break
         index = index + 1
     beg = index
-    print("BEG: ", beg)
-    print(syllables)
+    #print("BEG: ", beg)
+    #print(syllables)
     for i in range(index, len(charList)):
         character = charList[i]
-        print(character)
+        #print(character)
         #character_count = character_count + 1
         #if character_count == 1:
         #    syllables = 1
         #elif character in Words.consonants_list:
         #    consonants = 1
         #    consonant_flag = 1
-        print("PREV: ", prev)
+        #print("PREV: ", prev)
         if character in Words.consonants_list and syllables > 0 and i != len(charList)-1:# and i != prev + 1:
             if (i+1 < len(charList) and charList[i+1] != '़'):
                 print("Charlist i + 1: ", charList[i+1])
@@ -252,7 +255,7 @@ def get_syllable_count(word):
          #       syllables = syllables + 1
           #      consonant_flag = 0
         index = index + 1
-        print(syllables)
+        #print(syllables)
     return syllables
 
 def get_sense_count(word):
@@ -331,6 +334,9 @@ def get_sense_count(word):
     sense_count = result[second_last_occurrence+2:last_occurrence-1]
     return sense_count
 '''    
+
+java_import(gateway.jvm,'in.ac.iitb.cfilt.jhwnl.examples.Examples')
+gateway.jvm.Examples.demonstration()
  
 def count_occurrence(word):
     """Counts the occurrence of the word in each category, as well as in the 
@@ -373,7 +379,6 @@ def read_from_source(source):
                     for token in word_tokenize(sentence):
                         print("TOKEN: ",token)
                         if '-' in token:
-                            print("hwew")
                             words = token.split('-')
                             print(words)
                             for word in words:
@@ -411,5 +416,5 @@ def is_hindi(character):
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Wiki")
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Web")
 
-print(get_syllable_count('चढ़ना'))
+#print(get_syllable_count('बदली'))
 #print(fetch_from_hwn("सालों"))
