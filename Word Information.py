@@ -24,6 +24,8 @@ from py4j.java_gateway import java_import
 gateway = JavaGateway.launch_gateway(classpath="hindiwn.jar")
 os.chdir("T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code")
 
+#TODO: documentation
+#TODO: pass the root to all the functions for fetching the properties
 def read_store_properties(word, file, sentence, source = "na", category = "na", 
                           author = "unk", year = "unk"):
     """Reads the content of the file containing the properties of the word 
@@ -180,6 +182,22 @@ def getRoots(word):
         #roots = [root.split(":")[1] for root in roots]#remove the part before the ':'        
     return roots
     
+def get_other_props(word):
+    """ Calls the necessary Java classes and functions to retrieve other 
+    properties of the word such as number of hypernyms, number of hyponyms etc."
+    
+    Args:
+        word (str): the word whose properties are to be fetched.
+    Returns
+        ??
+        
+    
+    """
+   
+    java_import(gateway.jvm,'in.ac.iitb.cfilt.jhwnl.examples.Properties')
+    output = gateway.jvm.Properties.getProperties(word)
+    print(output)
+
 def get_number_of_const_vowels_conjuncts(word):
     consonants = 0
     vowels = 0
@@ -418,3 +436,4 @@ def is_hindi(character):
 
 #print(get_syllable_count('बदली'))
 #print(fetch_from_hwn("सालों"))
+print(get_other_props("साल"))
