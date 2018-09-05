@@ -52,6 +52,10 @@ public class Properties {
 				//	 Note: Use lookupAllMorphedIndexWords() to look up morphed form of the input word for all POS tags				
 				IndexWord[] demoIndexWord = new IndexWord[demoIWSet.size()];
 				demoIndexWord  = demoIWSet.getIndexWordArray();
+				String tempHypernyms = "";
+				String tempHyponyms = "";
+				ArrayList<String> temp = new ArrayList<String>();
+				
 				for ( int i = 0;i < demoIndexWord.length;i++ ) {
 					int size = demoIndexWord[i].getSenseCount();
 					synsetOffsets = demoIndexWord[i].getSynsetOffsets();
@@ -62,37 +66,30 @@ public class Properties {
 					Synset[] synsetArray = demoIndexWord[i].getSenses(); 
 					for ( int k = 0;k < size;k++ ) {
 						System.out.println("Synset [" + k +"] "+ synsetArray[k]);
-						/***********************************************************/
-						ArrayList<String> temp = new ArrayList();
+						/************************************************************************/
+						temp = new ArrayList();
 						String tempStr = synsetArray[k].toString().substring(synsetArray[k].toString().indexOf("[")+1, synsetArray[k].toString().indexOf("]"));
-						temp.add(Integer.toString(tempStr.split(",").length));//synonyms
-						System.out.println("temp: "+ temp.toString());
-						temp.add(synsetArray[k].getPOS().toString());//POS
-						System.out.println("temp: "+ temp.toString());
-						String tempHypernyms = "";
-						String tempHyponyms = "";
 						Pointer[] pointers = synsetArray[k].getPointers();
-						String previous = "";
-						for (int j = 0; j < pointers.length; j++) {
-							if(pointers[j].getType().equals(PointerType.ONTO_NODES)) {	// For ontology relation
+						temp.add(Integer.toString(tempStr.split(",").length));//synonym count
+						temp.add(tempStr);//synonyms
+						temp.add(synsetArray[k].getPOS().toString());//POS
+						tempHypernyms = "";
+						tempHyponyms = "";
+						
+						for (int j = 0; j < pointers.length && pointers[j].getTargetSynset() != null; j++) {
+							/*if(pointers[j].getType().equals(PointerType.ONTO_NODES)) {	// For ontology relation
 								System.out.println(pointers[j].getType() + " : "  + Dictionary.getInstance().getOntoSynset(pointers[j].getOntoPointer()).getOntoNodes());
 							} else {
 								System.out.println(pointers[j].getType() + " : "  + pointers[j].getTargetSynset());
-							}	
+							}*/	
 							
 							
 							//if(!pointers[j].getType().equals(PointerType.ONTO_NODES)) {	// For ontology relation
 							//System.out.print(pointers[j].getType() + " " + pointers[j].getTargetSynset().toString().substring(pointers[j].getTargetSynset().toString().indexOf("[") + 1, pointers[j].getTargetSynset().toString().indexOf("]")));
 								if(pointers[j].getType().toString().equals("HYPERNYM")) {
 									tempHypernyms += "," + pointers[j].getTargetSynset().toString().substring(pointers[j].getTargetSynset().toString().indexOf("[") + 1, pointers[j].getTargetSynset().toString().indexOf("]"));
-									System.out.print("tempHypernyms: " + tempHypernyms);
-									previous = "hypernym";
-								} else if(pointers[j].getType().toString().equals("HYPONYM") && previous!="hyponym") {
 									String[] tempHypernymsArray = tempHypernyms.split(",");
-									System.out.print("Array: ");
-									for(int p=0; p<tempHypernymsArray.length; p++) {
-										System.out.print(tempHypernymsArray[p] + " ");
-									}
+									
 									int distinct = 0;
 									int lastElementFlag = 0;
 									 for(int index=1;index<tempHypernymsArray.length-1;index++){
@@ -112,12 +109,10 @@ public class Properties {
 									if(lastElementFlag == 0) {
 										distinct++;
 									}
-									temp.add(Integer.toString(distinct));//no. of distinct hypernyms
-									System.out.println("temp: "+ temp.toString());
+									tempHypernyms = "";
+									temp.add("hypernyms: " + Integer.toString(distinct));//no. of distinct hypernyms
+								} else if(pointers[j].getType().toString().equals("HYPONYM")) {
 									tempHyponyms += "," + pointers[j].getTargetSynset().toString().substring(pointers[j].getTargetSynset().toString().indexOf("[") + 1, pointers[j].getTargetSynset().toString().indexOf("]"));
-									System.out.print("tempHyponyms: " + tempHyponyms);
-									previous = "hyponym";
-								} else if(pointers[j].getType().toString().equals("HYPONYM") && previous=="hyponym") {
 									String[] tempHyponymsArray = tempHyponyms.split(",");
 									int distinct = 0;
 									int lastElementFlag = 0;
@@ -138,44 +133,10 @@ public class Properties {
 									if(lastElementFlag == 0) {
 										distinct++;
 									}
-									temp.add(Integer.toString(distinct));//no. of distinct hyponyms
-									System.out.print("temp: "+ temp.toString());
-									tempHyponyms += "," + pointers[j].getTargetSynset().toString().substring(pointers[j].getTargetSynset().toString().indexOf("[") + 1, pointers[j].getTargetSynset().toString().indexOf("]"));
-									System.out.print("tempHyponyms: " + tempHyponyms);
-									previous = "hyponym";
-								} else if(pointers[j].getType().toString().equals("ONTO_NODES")) {
-									System.out.print("ONTO NODES");
-									String[] tempHyponymsArray = tempHyponyms.split(",");
-									int distinct = 0;
-									int lastElementFlag = 0;
-									 for(int index=1;index<tempHyponymsArray.length-1;index++){
-										boolean isDistinct = false;
-										for(int counter=index+1;counter<tempHyponymsArray.length;counter++){
-											if(tempHyponymsArray[index] == tempHyponymsArray[counter]){
-												isDistinct = true;
-												if(counter == tempHyponymsArray.length -1)
-													lastElementFlag = 1;
-												break;
-											}
-										}
-										if(!isDistinct){
-											distinct++;
-										}
-									}
-									if(lastElementFlag == 0) {
-										distinct++;
-									}
-									temp.add(Integer.toString(distinct));//no. of distinct hyponyms
-									System.out.print("temp: "+ temp.toString());
-								}
-								
-								//System.out.println(pointers[j].getType() + " : "  + pointers[j].getTargetSynset());
-							//}		
-								returnValue.add(temp);							
+									temp.add("hyponyms: " + Integer.toString(distinct));//no. of distinct hyponyms
+								}		
+													
 						}
-						
-						System.out.println("Synset POS: " + synsetArray[k].getPOS());
-						System.out.println("Synset Num Pointers:" + pointers.length);
 						
 						/***********************************************************/
 						/*
@@ -189,7 +150,9 @@ public class Properties {
 								System.out.println(pointers[j].getType() + " : "  + pointers[j].getTargetSynset());
 							}							
 						}*/
-						
+						/**********************/
+						returnValue.add(temp);	
+						/**********************/						
 						
 					}
 					return returnValue;

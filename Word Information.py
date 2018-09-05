@@ -72,8 +72,10 @@ def read_store_properties(word, file, sentence, source = "na", category = "na",
             properties["consonants"] = numberList[0]
             #store the number of vowels
             properties["vowels"] = numberList[1]
-             #store the number of consonant conjuncts
+            #store the number of consonant conjuncts
             properties["consonantconjuncts"] = numberList[2]
+            #store the synsets,number of hypernyms and hyponyms
+            properties["synsets"] = get_other_props(word)
             #the sentence is being stored to retrieve the context of a word
             properties["sentenceid"] = [status['data']]
             #retrieve the root/s of the word
@@ -196,7 +198,30 @@ def get_other_props(word):
    
     java_import(gateway.jvm,'in.ac.iitb.cfilt.jhwnl.examples.Properties')
     output = gateway.jvm.Properties.getProperties(word)
+    properties = {}
+    count = 1
+    print(word)
     print(output)
+    if output is None:
+        return ""
+    for itemArray in output:
+        #count the hypernyms
+        hypernyms = 0
+        hyponyms = 0
+        for item in itemArray:
+            if item.find('hypernyms') == 0:
+                hypernyms = hypernyms + int(item[item.find('hypernyms')+len('hypernyms: '):])
+            elif item.find('hyponyms') == 0:
+                hyponyms = item[item.find('hyponyms')+len('hyponyms: '):]
+        properties[str(count)] = {}
+        properties[str(count)]['synonymcount'] = itemArray[0]
+        properties[str(count)]['synonyms'] = itemArray[1]
+        properties[str(count)]['hypernyms'] = hypernyms
+        properties[str(count)]['hyponyms'] = hyponyms
+        count = count + 1
+        
+    print(output)
+    return properties
 
 def get_number_of_const_vowels_conjuncts(word):
     consonants = 0
@@ -427,8 +452,8 @@ def is_hindi(character):
     return 0
     
 #status = read_from_source("../Final Corpora/Novels")
-#if status['status'] == -1:
-#    print(status['data'])
+if status['status'] == -1:
+    print(status['data'])
 
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Tweets")
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Wiki")
@@ -436,4 +461,4 @@ def is_hindi(character):
 
 #print(get_syllable_count('बदली'))
 #print(fetch_from_hwn("सालों"))
-print(get_other_props("साल"))
+print(get_other_props("रोज़"))
