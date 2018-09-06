@@ -62,6 +62,8 @@ def read_store_properties(word, file, sentence, source = "na", category = "na",
         status = insert_sentence(sentence.strip('"'))
         
         if status['status'] != -1:
+            #store the root/s of the word
+            properties["roots"] = getRoots(word)
             #store the length of the word
             properties["length"] = len(word)
              #store the number of syllables in the word
@@ -82,7 +84,7 @@ def read_store_properties(word, file, sentence, source = "na", category = "na",
             #wordfile = codecs.open("sourceword.txt", "w", "utf-8")
             #wordfile.write(word)
             properties["file"] = [file]
-            properties["roots"] = getRoots(word)
+           
             #insert 1 as the frequency since the word was encountered
             #for the first time
             properties["word_count"] = 1
@@ -208,14 +210,18 @@ def get_other_props(word):
         #count the hypernyms
         hypernyms = 0
         hyponyms = 0
+        gloss = ""
         for item in itemArray:
-            if item.find('hypernyms') == 0:
+            if item.find('gloss') == 0:
+                gloss = item[item.find('gloss')+len('gloss: '):]
+            elif item.find('hypernyms') == 0:
                 hypernyms = hypernyms + int(item[item.find('hypernyms')+len('hypernyms: '):])
             elif item.find('hyponyms') == 0:
                 hyponyms = item[item.find('hyponyms')+len('hyponyms: '):]
         properties[str(count)] = {}
         properties[str(count)]['synonymcount'] = itemArray[0]
         properties[str(count)]['synonyms'] = itemArray[1]
+        properties[str(count)]['gloss'] = gloss
         properties[str(count)]['hypernyms'] = hypernyms
         properties[str(count)]['hyponyms'] = hyponyms
         count = count + 1
@@ -446,14 +452,16 @@ def read_from_source(source):
                 
 #Source: https://stackoverflow.com/questions/44474085/how-to-separate-a-only-hindi-script-from-a-file-containing-a-mixture-of-hindi-e
 def is_hindi(character):
+    if character is None or character.strip() == '':
+        return 0
     maxchar = max(character)
     if u'\u0900' <= maxchar <= u'\u097f':
         return 1
     return 0
     
 #status = read_from_source("../Final Corpora/Novels")
-if status['status'] == -1:
-    print(status['data'])
+#if status['status'] == -1:
+#    print(status['data'])
 
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Tweets")
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Wiki")
@@ -461,4 +469,4 @@ if status['status'] == -1:
 
 #print(get_syllable_count('बदली'))
 #print(fetch_from_hwn("सालों"))
-print(get_other_props("रोज़"))
+print(get_other_props("सालों"))

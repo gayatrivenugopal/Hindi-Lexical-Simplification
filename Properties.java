@@ -21,6 +21,12 @@ import java.io.UnsupportedEncodingException;
 /*****************/
 import java.io.*;
 import java.util.ArrayList;
+import in.ac.iitb.cfilt.cpost.stemmer.StemmedToken;
+import in.ac.iitb.cfilt.cpost.stemmer.Stemmer;
+import in.ac.iitb.cfilt.cpost.stemmer.StemmerRuleResult;
+import in.ac.iitb.cfilt.cpost.utils.UTFConsole;
+
+import java.util.Vector;
 /*****************/
 public class Properties {
 	
@@ -55,7 +61,9 @@ public class Properties {
 				String tempHypernyms = "";
 				String tempHyponyms = "";
 				ArrayList<String> temp = new ArrayList<String>();
-				
+				Vector<String> tokens = new Vector<String>();
+				tokens.add(word);
+				stem(tokens, "hindiConfig.txt");
 				for ( int i = 0;i < demoIndexWord.length;i++ ) {
 					int size = demoIndexWord[i].getSenseCount();
 					synsetOffsets = demoIndexWord[i].getSynsetOffsets();
@@ -73,6 +81,7 @@ public class Properties {
 						temp.add(Integer.toString(tempStr.split(",").length));//synonym count
 						temp.add(tempStr);//synonyms
 						temp.add(synsetArray[k].getPOS().toString());//POS
+						temp.add("gloss: "+synsetArray[k].getGloss());
 						tempHypernyms = "";
 						tempHyponyms = "";
 						
@@ -166,6 +175,27 @@ public class Properties {
 		/*************/
 	}
 	
+	public static void stem(Vector<String> tokenList,String configFile){
+		System.out.println("Config pvath :"+configFile);
+		
+		//ConfigReader.read(configFile);
+		Stemmer stemmer = new Stemmer();
+		//Vector<StemmedToken> stv;
+		//stv = stemmer.stem(tokens);
+		for (String token : tokenList){
+			StemmedToken stoken = stemmer.stem(token);			
+			System.out.println("\n"+token);
+			//for (StemmedToken stoken : stv){
+				Vector<StemmerRuleResult> strrv = stoken.getStemmedOutputs();
+				for (StemmerRuleResult strr:strrv){
+					//	System.out.println(strr.toString());
+					System.out.println("\t"+strr.getRoot() +"\t:" +strr.getParadigm() +
+							"\t:"+strr.getSuffixList().size() +"->" + strr.getSuffixList() + 
+							"[->" + strr.getSuffixList().getFirst().length());
+				}
+			//}
+		}
+	}
 	public static void main(String args[]) throws Exception {
 		//demonstration();
 	}
