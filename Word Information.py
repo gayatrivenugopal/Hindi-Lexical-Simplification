@@ -26,7 +26,7 @@ os.chdir("T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code")
 
 #TODO: documentation
 #TODO: pass the root to all the functions for fetching the properties
-def read_store_properties(word, file, sentence, source = "na", category = "na", 
+def read_store_properties(word, file="na", sentence="na", source = "na", category = "na", 
                           author = "unk", year = "unk"):
     """Reads the content of the file containing the properties of the word 
     and stores in the collection
@@ -97,7 +97,8 @@ def read_store_properties(word, file, sentence, source = "na", category = "na",
             #insert the properties
             status = insert_word_props(word, properties)
             if status['status'] == 1:
-                return {'status': 1, 'data': None}
+                if recursive_synonym_props(properties["synsets"]) == 0:
+                    return {'status': 1, 'data': None}
             return {'status': -1, 'data': status['data']}
         return {'status': -1, 'data': status['data']}
     else:
@@ -158,6 +159,21 @@ def read_store_properties(word, file, sentence, source = "na", category = "na",
             return {'status': -1, 'data': status['data']}
     return {'status': -1, 'data': status['data']}
     
+def recursive_synonym_props(synsets):
+    #print("synsets: ")
+    #print(synsets)
+    if synsets is not "":
+        for k, item in synsets.items():
+            if isinstance(item, dict):
+                for key, value in item.items():
+                    print("key: ", key, " item: ", value, " type: ", type(value))
+                    
+                    if key == "synonyms":
+                        synonyms = value.split(",")
+                        for synonym in synonyms:
+                            read_store_properties(synonym)
+    return 0
+        
 
 def getRoots(word):
     """ Calls the necessary Python functions and Java classes to retrieve the 
@@ -218,7 +234,7 @@ def get_other_props(word):
                 hypernyms = hypernyms + int(item[item.find('hypernyms')+len('hypernyms: '):])
             elif item.find('hyponyms') == 0:
                 hyponyms = item[item.find('hyponyms')+len('hyponyms: '):]
-        properties[str(count)] = {}
+        properties[str(count)] = dict({})
         properties[str(count)]['synonymcount'] = itemArray[0]
         properties[str(count)]['synonyms'] = itemArray[1]
         properties[str(count)]['gloss'] = gloss
@@ -332,7 +348,7 @@ def tag_file():
     if make_process.wait() != 0:
         print("oops!");
         
-def fetch_from_hwn(word, file, sentence, source = "na", category = "na", 
+def fetch_from_hwn(word, file = "na", sentence = "na", source = "na", category = "na", 
                    author = "unk", year = "unk"):
     """Retrieves the number of senses for a given word from the Hindi WordNet
 
@@ -353,8 +369,9 @@ def fetch_from_hwn(word, file, sentence, source = "na", category = "na",
     outfile = codecs.open("inputwords.txt", "w", "utf-8")
     outfile.write(word)
     outfile.close()
-    
-    return read_store_properties(word, file, sentence, source, category, author, year);
+    if type(word) is not 'int':
+        return read_store_properties(word, file, sentence, source, category, author, year);
+    return 
     #return threading.Timer(15, read_properties,[word, source, category, 
                                                 #author, year]).start()
 ''' 
@@ -468,5 +485,5 @@ def is_hindi(character):
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Web")
 
 #print(get_syllable_count('बदली'))
-#print(fetch_from_hwn("सालों"))
-print(get_other_props("सालों"))
+print(fetch_from_hwn("सालों"))
+#print(get_other_props("लेता"))
