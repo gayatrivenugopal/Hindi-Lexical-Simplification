@@ -21,16 +21,20 @@ from nltk import word_tokenize
 from py4j.java_gateway import JavaGateway
 from py4j.java_gateway import java_import
 
-gateway = JavaGateway.launch_gateway(classpath="hindiwn.jar")
-os.chdir("T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code")
+import nltk
+#nltk.download('punkt')
+gateway = JavaGateway.launch_gateway(classpath="/opt/PhD/Work/JHWNL_1_2/Code/hindiwn.jar")
+java_import(gateway.jvm,'WordnetToolsSimple')
+gateway.jvm.WordnetToolsSimple.initialize()
+#os.chdir("/opt/PhD/Work/JHWNL_1_2/Code")
 
 #TODO: documentation
 #TODO: pass the root to all the functions for fetching the properties
-def read_store_properties(word, file="na", sentence="na", source = "na", category = "na", 
+def read_store_properties(word, file="na", sentence="na", source = "na", category = "na",
                           author = "unk", year = "unk"):
-    """Reads the content of the file containing the properties of the word 
+    """Reads the content of the file containing the properties of the word
     and stores in the collection
-    
+
     Args:
         word (str): the word whose properties are to be retrieved
         file (str): the file containing the word
@@ -39,28 +43,27 @@ def read_store_properties(word, file="na", sentence="na", source = "na", categor
         category (str): the category of the sentence (e.g. art, sports, cinema)
         author (str): the author of the story
         year (str): the year in which the text was published
-        
+
     Returns:
         (int): 1 if successful and -1 if unsuccessful
     """
-    print(word)
+    #print(word)
     word = word.strip()
     properties = {"word" : word}
 
-    #TODO: Create a separate table to store synsets, and store the ids in the 
-    #Words table - id, number, POS, no. of hypernyms, no. of hyponyms.
     #TODO: POS tag of a word
     #TODO: NER of a word
     #TODO: store number of hypernyms/hyponyms etc. -> check notes from file in college
+
     #get synset pos, number of synonyms in a synset, number of hypernyms, nymber of hyponyms
     status = get_word_props(word)
     if status['status'] == -1:
         return status
     existing_props = status['data']
-    
+
     if existing_props is None:
         status = insert_sentence(sentence.strip('"'))
-        
+
         if status['status'] != -1:
             #store the root/s of the word
             properties["roots"] = getRoots(word)
@@ -84,21 +87,21 @@ def read_store_properties(word, file="na", sentence="na", source = "na", categor
             #wordfile = codecs.open("sourceword.txt", "w", "utf-8")
             #wordfile.write(word)
             properties["file"] = [file]
-           
+
             #insert 1 as the frequency since the word was encountered
             #for the first time
             properties["word_count"] = 1
             properties["sense_count"] = get_sense_count(word)
             properties["author"] = [author]
+            properties["source_category"] = [source + "_" + category]
             properties["year"] = [year]
-            properties["source_categ_freq"] = []
-            properties["source_categ_freq"].append({"source": source,
-                  "category":category, "frequency":1})
+            ####properties["source_categ_freq"] = [{"source": source,
+            ####      "category":category, "frequency":1}]
             #insert the properties
             status = insert_word_props(word, properties)
             if status['status'] == 1:
-                if recursive_synonym_props(properties["synsets"]) == 0:
-                    return {'status': 1, 'data': None}
+                #if recursive_synonym_props(properties["synsets"]) == 0:
+                return {'status': 1, 'data': None}
             return {'status': -1, 'data': status['data']}
         return {'status': -1, 'data': status['data']}
     else:
@@ -111,54 +114,70 @@ def read_store_properties(word, file="na", sentence="na", source = "na", categor
                 properties['sentenceid'] = existing_props['sentenceid']
             #if the file is not present, then add it to properties
             if file not in existing_props['file']:
-                existing_props['file'].append(status['data'])
+                existing_props['file'].append(file)
                 properties['file'] = existing_props['file']
             #if the author is not present in existing properties, then add
             #it to properties
             if author not in existing_props['author']:
-                existing_props['author'].append(status['data'])
+                existing_props['author'].append(author)
                 properties['author'] = existing_props['author']
             #if the year is not present in existing properties, then add
             #it to properties
             if year not in existing_props['year']:
-                existing_props['year'].append(status['data'])
+                existing_props['year'].append(year)
                 properties['year'] = existing_props['year']
+
+            if source+"_"+category not in existing_props['source_category']:
+                existing_props['source_category'].append(source + "_" + category)
+                properties['source_category'] = existing_props['source_category']
             #if source and category combination is not present, then add
             # to properties, otherwise, increase the frequency by 1
-            source_category_list = existing_props['source_categ_freq']
-            source_categ_exists = 0
+
+			####source_category_list = existing_props['source_categ_freq']
+            ####source_categ_exists = 0
             #check if the source and the category exist
             #if so, increase the frequency by 1
-            #otherwise, set the frequency to 1 and append the new source, 
+            #otherwise, set the frequency to 1 and append the new source,
             #category and frequency to the existing list
             #the first time a value is added to source_categ_freq, it is not
             #added as a list, therefore this if condition.
-            if type(source_category_list) == dict:
+            '''
+			if type(source_category_list) == dict:
                 if source_category_list['source'] == source and source_category_list['category'] == category:
                         properties['source_categ_freq'] = {"source": source_category_list['source'],
                          "category": source_category_list['category'],
                          "frequency": source_category_list['frequency'] + 1}
                         source_categ_exists = 1
             else:
+                #print(type(source_category_list))
+                #print(source_category_list)
                 for items in source_category_list:
+                    #print(type(items))
+                    #print("items:", items)
+
                     if items['source'] == source and items['category'] == category:
                          properties['source_categ_freq'] = {"source": items['source'],
                                    "category": items['category'],
                                    "frequency": items['frequency'] + 1}
                          source_categ_exists = 1
-                        
+
             if source_categ_exists == 0:
+                #print(existing_props['source_categ_freq'])
+                if type(existing_props['source_categ_freq']) == dict:
+                    temp = []
+                    temp.append(existing_props['source_categ_freq'])
+                    existing_props['source_categ_freq'] = temp
                 existing_props['source_categ_freq'].append({"source": source,
                   "category":category, "frequency":1})
                 properties["source_categ_freq"] = existing_props['source_categ_freq']
-           
+            '''
             status = append_word_props(word, properties)
-            
+
             if status['status'] == 1:
                 return {'status': 1, 'data': None}
             return {'status': -1, 'data': status['data']}
     return {'status': -1, 'data': status['data']}
-    
+
 def recursive_synonym_props(synsets):
     #print("synsets: ")
     #print(synsets)
@@ -166,60 +185,60 @@ def recursive_synonym_props(synsets):
         for k, item in synsets.items():
             if isinstance(item, dict):
                 for key, value in item.items():
-                    print("key: ", key, " item: ", value, " type: ", type(value))
-                    
+                    #print("key: ", key, " item: ", value, " type: ", type(value))
+
                     if key == "synonyms":
                         synonyms = value.split(",")
                         for synonym in synonyms:
                             read_store_properties(synonym)
     return 0
-        
+
 
 def getRoots(word):
-    """ Calls the necessary Python functions and Java classes to retrieve the 
-    roots of the word present in the file "sourceword.txt"
-    
+    """ Calls the necessary Python functions and Java classes to retrieve the
+    roots of the word
+
     Returns
         (list): the roots of the word
-        
+
     Source: Adapted from sivareddy.in/downloads
-        In the output 
-        1: stands for noun, 
-        2: stands for adjective, 
-        3: stands for verb, 
+        In the output
+        1: stands for noun,
+        2: stands for adjective,
+        3: stands for verb,
         4:stands for adverb
-    
+
     """
-   
+
     java_import(gateway.jvm,'WordnetToolsSimple')
-    gateway.jvm.WordnetToolsSimple()
+    gateway.jvm.WordnetToolsSimple.initialize()
     roots = gateway.jvm.WordnetToolsSimple.getRoot(word)
 
     #form a list if there are multiple roots
     if roots.find(";") != -1:
         roots = roots.split(";")#form a list
         roots = roots[:-1] #remove the '\r\n' element
-        #roots = [root.split(":")[1] for root in roots]#remove the part before the ':'        
+        #roots = [root.split(":")[1] for root in roots]#remove the part before the ':'
     return roots
-    
+
 def get_other_props(word):
-    """ Calls the necessary Java classes and functions to retrieve other 
+    """ Calls the necessary Java classes and functions to retrieve other
     properties of the word such as number of hypernyms, number of hyponyms etc."
-    
+
     Args:
         word (str): the word whose properties are to be fetched.
     Returns
         ??
-        
-    
+
+
     """
-   
+
     java_import(gateway.jvm,'in.ac.iitb.cfilt.jhwnl.examples.Properties')
     output = gateway.jvm.Properties.getProperties(word)
     properties = {}
     count = 1
-    print(word)
-    print(output)
+    #print(word)
+    #print(output)
     if output is None:
         return ""
     for itemArray in output:
@@ -241,8 +260,8 @@ def get_other_props(word):
         properties[str(count)]['hypernyms'] = hypernyms
         properties[str(count)]['hyponyms'] = hyponyms
         count = count + 1
-        
-    print(output)
+
+   # print(output)
     return properties
 
 def get_number_of_const_vowels_conjuncts(word):
@@ -258,7 +277,7 @@ def get_number_of_const_vowels_conjuncts(word):
         if character == '्':
             conjuncts = conjuncts + 1
     return [consonants, vowels, conjuncts]
-    
+
 def get_syllable_count(word):
     syllables = 0
     consonants = 1
@@ -292,7 +311,7 @@ def get_syllable_count(word):
         #print("PREV: ", prev)
         if character in Words.consonants_list and syllables > 0 and i != len(charList)-1:# and i != prev + 1:
             if (i+1 < len(charList) and charList[i+1] != '़'):
-                print("Charlist i + 1: ", charList[i+1])
+                #print("Charlist i + 1: ", charList[i+1])
                 prev = i
                 syllables = syllables + 1
                 consonant_flag = consonant_flag + 1
@@ -328,7 +347,7 @@ def get_sense_count(word):
     sense count for the given word
      Args:
         word (str): the word whose sense count is to be returned
-        
+
     Returns
         (int): the sense count of the word
     """
@@ -341,14 +360,14 @@ def tag_file():
     cmd = "tokenize.sh test_file.txt > file1.txt"
     make_process = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                                     stderr=subprocess.STDOUT, shell=True,
-                                    cwd="T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code/Hindi_POStagger")
+                                    cwd="/opt/PhD/Work/JHWNL_1_2/Code/Hindi_POStagger")
     result = make_process.communicate()
-    
+
 
     if make_process.wait() != 0:
         print("oops!");
-        
-def fetch_from_hwn(word, file = "na", sentence = "na", source = "na", category = "na", 
+
+def fetch_from_hwn(word, file = "na", sentence = "na", source = "na", category = "na",
                    author = "unk", year = "unk"):
     """Retrieves the number of senses for a given word from the Hindi WordNet
 
@@ -360,34 +379,33 @@ def fetch_from_hwn(word, file = "na", sentence = "na", source = "na", category =
         category (str): the category of the sentence (e.g. art, sports, cinema)
         author (str): the author of the story
         year (str): the year in which the text was published
-    
+
     Returns:
         (int): 1 if successful and -1 if unsuccessful
     """
-    
     #write the word to the input file
     outfile = codecs.open("inputwords.txt", "w", "utf-8")
     outfile.write(word)
     outfile.close()
     if type(word) is not 'int':
         return read_store_properties(word, file, sentence, source, category, author, year);
-    return 
-    #return threading.Timer(15, read_properties,[word, source, category, 
+    return
+    #return threading.Timer(15, read_properties,[word, source, category,
                                                 #author, year]).start()
-''' 
+'''
 def get_sense_count(word):
     """Reads the string returned from the Hindi WordNet API and returns the
     sense count for the given word
      Args:
         word (str): the word whose sense count is to be returned
-        
+
     Returns
         (int): the sense count of the word
     """
     sense_count = 0
     cmd = 'java -classpath JHWNL.jar in.ac.iitb.cfilt.jhwnl.examples.Synsets'
     #execute the java command - the jar file consists of the Synsets class
-    proc = subprocess.Popen(cmd, stderr = STDOUT, stdout = subprocess.PIPE, 
+    proc = subprocess.Popen(cmd, stderr = STDOUT, stdout = subprocess.PIPE,
                             cwd = "T:/Research/Ph.D/Ph.D/Work/HWN API/JHWNL_1_2/Code/")
     result = proc.communicate()
     #result[0] consists of stdout
@@ -399,32 +417,32 @@ def get_sense_count(word):
     second_last_occurrence = result.rfind("\r\n", 0, result.rfind("\r\n"))
     sense_count = result[second_last_occurrence+2:last_occurrence-1]
     return sense_count
-'''    
+'''
 
-java_import(gateway.jvm,'in.ac.iitb.cfilt.jhwnl.examples.Examples')
-gateway.jvm.Examples.demonstration()
- 
+#java_import(gateway.jvm,'in.ac.iitb.cfilt.jhwnl.examples.Examples')
+#gateway.jvm.Examples.demonstration()
+
 def count_occurrence(word):
-    """Counts the occurrence of the word in each category, as well as in the 
+    """Counts the occurrence of the word in each category, as well as in the
     entire corpus
      Args:
         word (str): the word whose occurrence is to be counted
-       
+
     """
-    
-def read_from_source(source):
+
+def read_from_source(src):
     """ Extracts words from the files and retrieves their properties from
     the Hindi WordNet, and calculates certain properties. The properties are
     stored in the database.
-    
+
     Args:
-    source -- the directory consisting of the text files
-    
+    src -- the directory consisting of the text files
+
     """
     #recursively read all the files
-    for (dirpath, dirnames, filenames) in os.walk(source):
+    for (dirpath, dirnames, filenames) in os.walk(src):
         for filename in filenames:
-            with codecs.open(source + "/" + filename, "r", encoding="utf-8") as file:
+            with codecs.open(src + "/" + filename, "r", encoding="utf-8") as file:
                 #read the csv file
                 csv_reader = csv.reader(file, delimiter=',')
                 #read each row in the csv file
@@ -440,33 +458,33 @@ def read_from_source(source):
                     #extract the sentence
                     sentence = row[4]
                     #tokenize the sentence after removing the punctuations
-                    translate_table = dict((ord(char), None) for char in string.punctuation)   
+                    translate_table = dict((ord(char), None) for char in string.punctuation)
                     sentence.translate(translate_table)
                     for token in word_tokenize(sentence):
-                        print("TOKEN: ",token)
+                        #print("TOKEN: ",token)
                         if '-' in token:
                             words = token.split('-')
-                            print(words)
+                            #print(words)
                             for word in words:
                                 if is_hindi(word):
-                                     status = fetch_from_hwn(word.strip(), 
-                                                    ntpath.basename(file.name), 
-                                                    sentence, source, category, 
+                                     status = fetch_from_hwn(word.strip(),
+                                                    ntpath.basename(file.name),
+                                                    sentence, source, category,
                                                     author, year)
                                      if status['status'] == -1:
                                           return  status
-                        #get the number of senses of each word in the sentence 
+                        #get the number of senses of each word in the sentence
                         #if it is in Hindi
                         else:
                             if is_hindi(token):
-                                status = fetch_from_hwn(token.strip(), 
-                                                    ntpath.basename(file.name), 
-                                                    sentence, source, category, 
+                                status = fetch_from_hwn(token.strip(),
+                                                    ntpath.basename(file.name),
+                                                    sentence, source, category,
                                                     author, year)
                                 if status['status'] == -1:
                                     return  status
     return 1
-                
+
 #Source: https://stackoverflow.com/questions/44474085/how-to-separate-a-only-hindi-script-from-a-file-containing-a-mixture-of-hindi-e
 def is_hindi(character):
     if character is None or character.strip() == '':
@@ -475,15 +493,19 @@ def is_hindi(character):
     if u'\u0900' <= maxchar <= u'\u097f':
         return 1
     return 0
-    
+
 #status = read_from_source("../Final Corpora/Novels")
 #if status['status'] == -1:
 #    print(status['data'])
+#import sys
 
-#read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Tweets")
+#sys.setrecursionlimit(15000000)
+status = read_from_source("/opt/PhD/Work/JHWNL_1_2/Final Corpora/Web")
+if status['status'] == -1:
+    print(status['data'])
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Wiki")
 #read_from_source("T:\Research\Ph.D\Ph.D\Work\HWN API\JHWNL_1_2\Final Corpora\Web")
 
 #print(get_syllable_count('बदली'))
-print(fetch_from_hwn("सालों"))
+#print(fetch_from_hwn("सालों"))
 #print(get_other_props("लेता"))

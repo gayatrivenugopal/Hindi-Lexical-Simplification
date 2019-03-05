@@ -30,7 +30,7 @@ def insert_word_props(word, properties):
         database.Words.insert_one(properties)
         return {'status': 1, 'data': 'Success'}
     except Exception as e:
-        return {'status': -1, 'data': e}
+        return {'status': -1, 'data': 'insert_word_props ' + str(e)}
 
 def append_word_props(word, properties):
     """ Appends the properties of the existing word
@@ -47,15 +47,15 @@ def append_word_props(word, properties):
     """
     
     try:
-        print(properties)
-        print(word)
+        #print(properties)
+        #print(word)
         database.Words.update_one({'word':word}, 
                                                {"$set":properties})
-        print("Success")
+        #print("Success")
         
         return {'status': 1, 'data': 'Success'}
     except Exception as e:
-        return {'status': -1, 'data': e}
+        return {'status': -1, 'data': 'append_word_props ' + str(e)}
 
 
 def insert_sentence(sentence):
@@ -79,7 +79,7 @@ def insert_sentence(sentence):
             status = document_exists('Sentences', 'sentence', sentence)
     
             if status['status'] == 1 and status['data'] != 0:
-                print("Document exists")
+                #print("Document exists")
                 status = get_value('Sentences', 'sentence', sentence, '_id')
                 if status['status'] == 1 and status['data'] != 0:
                     id = status['data']
@@ -89,20 +89,22 @@ def insert_sentence(sentence):
                 return status
             #if the document does not exist
             if status['status'] == 1:
-                print("Document does not exist")
+                #print("Document does not exist")
                 status = get_last_id('Sentences')
+
                 if status['status'] != -1:
                     id = status['data'] + 1
-                    print("SENTENCE ID: ", id)
+                    ##print("SENTENCE ID: ", id)
             else: #error
                 return status
-        #insert the sentence since it does not exist in the collection
+
+		#insert the sentence since it does not exist in the collection
         database.Sentences.insert_one({"_id" : id, "sentence" : sentence})
-        print("Inserted document")
+        #print("Inserted document")
         return {'status': 1, 'data': id}
     except Exception as e:
-        print(str(e))
-        return {'status': -1, 'data': e}
+        #print(str(e))
+        return {'status': -1, 'data': 'insert_sentence ' + str(e)}
 
 
 def get_last_id(collection):
@@ -119,11 +121,13 @@ def get_last_id(collection):
     """
     
     try:
+        #if database[collection].find().count() in [0,-1]:
+        #    return  {'status':1, 'data':0}
         id = database[collection].find().sort('_id', -1).limit(1)[0]['_id']
         return {'status': 1, 'data': id}
     except Exception as e:
-        print(str(e))
-        return {'status': -1, 'data': e}
+        #print(str(e))
+        return {'status': -1, 'data': 'get_last_id ' + str(e)}
 
    
 def document_exists(collection, field, value):
@@ -141,14 +145,14 @@ def document_exists(collection, field, value):
         0, if the document does not exist, or the description of the error, if 
         any.
     """
-    print("Collection: ", collection, " Field: ", field, " Value: ", value)
+    #print("Collection: ", collection, " Field: ", field, " Value: ", value)
     try:
         cursor = database[collection].find_one({field: value})
         if cursor is None:
             return {'status': 1, 'data': 0}
         return {'status': 1, 'data': -1}
     except Exception as e:
-        return {'status': -1, 'data': e}
+        return {'status': -1, 'data': 'document_exists ' + str(e)}
   
 def get_value(collection, query_field, query_value, field):
     """ Retrieves the value of the specified field from the specified 
@@ -172,8 +176,8 @@ def get_value(collection, query_field, query_value, field):
             return {'status': 1, 'data': 0}
         return {'status': 1, 'data': cursor[field]}
     except Exception as e:
-        print(str(e))
-        return {'status': -1, 'data': e}
+        #print(str(e))
+        return {'status': -1, 'data': 'get_value ' + str(e)}
 
 def get_word_props(word):
     """ Retrieves the word's properties from the collection
@@ -191,5 +195,49 @@ def get_word_props(word):
         properties = database.Words.find_one({"word": word})
         return {'status': 1,  'data': properties}
     except Exception as e:
-        print(str(e))
-        return {'status': -1, 'data': e}
+        #print(str(e))
+        return {'status': -1, 'data': 'get_word_props ' + str(e)}
+
+def get_word_sentences():
+    """ Retreives the id's of sentences of all the words
+
+    Returns:
+        (dict): words and their sentence id's 
+    """
+
+    return database.Words.find({},{'word':1, 'sentenceid':1, '_id':1})
+
+def get_duplicate_sentences():
+    """ Retreives the id's of duplicate stentences
+
+    Returns:
+        (list): the id's of duplicate sentences
+    """
+    rows = list(database.Sentences.aggregate([
+        {'$group': {
+            '_id': {'sentence':'$sentence'},
+            'uniqueIds': {'$addToSet': "$_id"},
+            'count':{'$sum':1}
+            }
+        },
+        {'$match': { 
+            'count': {'$gt': 1}
+            }
+        },
+         {'$sort': {
+            'uniqueIds': 1
+            }
+        }
+    ], allowDiskUse=True
+    ))
+    #return [row['_id'] for row in rows]
+    return rows
+
+def get_all_sentences():
+    """ Retreives the id's of duplicate stentences
+
+    Returns:
+        (tuple): the id's of duplicate sentences
+    """
+    rows = database.Sentences.aggregate([{'$group': {'_id': '$sentence'} }])
+    return list(rows)
