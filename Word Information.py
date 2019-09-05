@@ -11,6 +11,7 @@ import subprocess
 import ntpath
 import string
 
+import stanfordnlp
 import Words
 from Model import insert_sentence
 from Model import insert_word_props
@@ -66,7 +67,7 @@ def read_store_properties(word, file="na", sentence="na", source = "na", categor
 
         if status['status'] != -1:
             #store the root/s of the word
-            properties["roots"] = getRoots(word)
+            properties["roots"] = get_root(word)
             #store the length of the word
             properties["length"] = len(word)
              #store the number of syllables in the word
@@ -192,6 +193,18 @@ def recursive_synonym_props(synsets):
                         for synonym in synonyms:
                             read_store_properties(synonym)
     return 0
+
+
+def get_root(word):
+    """ Return the root form of the specified word.
+    Required argument:
+	word (str): the word whose root form is to be retrieved
+    """
+    nlp = stanfordnlp.Pipeline(lang='hi')
+    doc = nlp(word)
+    for sentence in doc.sentences:
+        for word in sentence.words:
+            return word.lemma
 
 
 def getRoots(word):
