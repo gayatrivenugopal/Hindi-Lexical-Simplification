@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+3407,तरज़ीह,6,1,3,3.0,4,2,8,8.0,0,0.0,0,3,0
+3408,अधिमान,6,1,3,3.0,3,3,8,8.0,0,0.0,0,3,1
+3409,तरजीह,5,1,3,3.0,4,1,8,8.0,0,0.0,0,3,1
+3410,अधिमान्यता,10,1,3,3.0,5,5,8,8.0,0,0.0,1,4,1

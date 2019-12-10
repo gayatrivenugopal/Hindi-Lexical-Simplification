@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+9378,काँग्रेसवाले,12,3,12,4.0,6,6,47,15.666666666666666,0,0.0,1,5,0
+9379,काँग्रेस,8,3,12,4.0,4,4,47,15.666666666666666,0,0.0,1,2,0
+9380,कांग्रेस,8,3,12,4.0,4,4,47,15.666666666666666,0,0.0,1,2,0

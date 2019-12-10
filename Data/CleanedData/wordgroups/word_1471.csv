@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+14695,पत्रकारिता,10,1,5,5.0,6,4,7,7.0,0,0.0,1,5,0
+14696,अखबारनवीसी,10,1,5,5.0,6,4,7,7.0,0,0.0,0,7,0
+14697,अख़बारनवीसी,11,1,5,5.0,6,5,7,7.0,0,0.0,0,6,0
+14698,खबरनवीसी,8,1,5,5.0,6,2,7,7.0,0,0.0,0,6,0
+14699,ख़बरनवीसी,9,1,5,5.0,6,3,7,7.0,0,0.0,0,6,0

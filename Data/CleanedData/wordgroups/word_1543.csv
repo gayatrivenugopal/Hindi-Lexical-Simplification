@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+15288,कटरा,4,1,5,5.0,3,1,6,6.0,0,0.0,0,2,0
+15289,कटाह,4,2,7,3.5,3,1,12,6.0,0,0.0,0,2,0
+15290,पड़वा,5,2,11,5.5,3,2,9,4.5,3,1.5,0,2,0
+15291,पाँड़ा,6,1,5,5.0,2,4,6,6.0,0,0.0,0,2,0

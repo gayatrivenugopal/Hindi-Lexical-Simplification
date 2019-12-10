@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+5644,वाक्पटुता,9,1,6,6.0,5,4,16,16.0,0,0.0,1,4,0
+5645,वक्तृता,7,2,9,4.5,4,3,41,20.5,0,0.0,1,3,0
+5646,वाग्मिता,8,2,9,4.5,4,4,41,20.5,0,0.0,1,3,0
+5647,शब्दचातुर्य,11,1,6,6.0,7,4,16,16.0,0,0.0,2,5,0

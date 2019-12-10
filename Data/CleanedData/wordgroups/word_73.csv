@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+1028,ब्रिटिश,7,1,3,3.0,4,3,10,10.0,0,0.0,1,3,0
+1029,ब्रितानी,8,1,3,3.0,4,4,10,10.0,0,0.0,1,4,0
+1030,ब्रिटेनवासी,11,1,3,3.0,6,5,10,10.0,0,0.0,1,6,0

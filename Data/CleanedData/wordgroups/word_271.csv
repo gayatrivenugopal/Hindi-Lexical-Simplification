@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+3823,सप्तक,5,1,4,4.0,4,1,9,9.0,10,10.0,1,2,0
+3824,सरगम,4,1,4,4.0,4,0,9,9.0,10,10.0,0,3,0
+3825,स्वरग्राम,9,1,4,4.0,6,3,9,9.0,10,10.0,2,4,0
+3826,ग्राम,5,4,17,4.25,3,2,58,14.5,26,6.5,1,2,1

@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+14920,अफ़गानिस्तान,12,1,3,3.0,6,6,2,2.0,0,0.0,1,4,0
+14921,अफ़ग़ानिस्तान,13,1,3,3.0,6,7,2,2.0,0,0.0,1,4,0
+14922,अफगानिस्तान,11,1,3,3.0,6,5,2,2.0,0,0.0,1,5,0

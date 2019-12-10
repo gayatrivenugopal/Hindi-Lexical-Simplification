@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+15745,कुतूहल,6,1,8,8.0,4,2,86,86.0,0,0.0,0,3,0
+15746,जिज्ञासा,8,1,8,8.0,4,4,86,86.0,0,0.0,1,3,0
+15747,उत्सुकता,8,1,8,8.0,4,4,86,86.0,0,0.0,1,3,0
+15748,कौतूहल,6,1,8,8.0,4,2,86,86.0,0,0.0,0,3,0
+15749,अनुयोग,6,1,8,8.0,3,3,86,86.0,0,0.0,0,3,0

@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+11193,विमानन,6,2,8,4.0,4,2,10,5.0,0,0.0,0,3,0
+11194,हवाबाज़ी,7,2,10,5.0,3,3,2,1.0,0,0.0,0,3,0
+11195,हवाबाजी,7,2,10,5.0,4,3,2,1.0,0,0.0,0,4,0
+11196,एवीएशन,6,1,4,4.0,3,3,8,8.0,0,0.0,0,3,0
+11197,एविएशन,6,1,4,4.0,3,3,8,8.0,0,0.0,0,3,0

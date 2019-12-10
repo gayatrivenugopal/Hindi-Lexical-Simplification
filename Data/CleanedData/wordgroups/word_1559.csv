@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+15392,भेड़िया,7,1,7,7.0,3,4,13,13.0,0,0.0,0,3,0
+15393,वत्सादन,7,1,7,7.0,5,2,13,13.0,0,0.0,1,3,1
+15394,जनाशन,5,1,7,7.0,4,1,13,13.0,0,0.0,0,3,1
+15395,श्वक,4,1,7,7.0,3,1,13,13.0,0,0.0,1,2,1

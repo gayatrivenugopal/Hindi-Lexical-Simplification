@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+12890,बदौलत,5,2,11,5.5,4,1,0,0.0,0,0.0,0,3,0
+12891,प्रयोजनतः,9,1,9,9.0,6,3,0,0.0,0,0.0,1,5,0
+12892,सप्रयोजन,8,1,9,9.0,6,2,0,0.0,0,0.0,1,4,1
+12893,चलते,4,2,17,8.5,3,1,0,0.0,0,0.0,0,2,0

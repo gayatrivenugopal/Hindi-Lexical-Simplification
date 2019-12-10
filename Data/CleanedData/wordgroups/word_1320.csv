@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+13641,जीवंतता,7,1,3,3.0,4,3,15,15.0,0,0.0,0,3,0
+13642,जीवन्तता,8,1,3,3.0,5,3,15,15.0,0,0.0,1,3,0
+13643,सजीवता,6,1,3,3.0,4,2,15,15.0,0,0.0,0,3,0

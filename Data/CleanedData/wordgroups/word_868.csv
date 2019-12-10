@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+10090,मलहम,4,1,7,7.0,4,0,20,20.0,0,0.0,0,3,0
+10091,मरहम,4,1,7,7.0,4,0,20,20.0,0,0.0,0,3,0
+10092,मल्हम,5,1,7,7.0,4,1,20,20.0,0,0.0,1,2,0
+10093,मर्हम,5,1,7,7.0,4,1,20,20.0,0,0.0,1,2,0
+10094,लोशन,4,1,7,7.0,3,1,20,20.0,0,0.0,0,2,0

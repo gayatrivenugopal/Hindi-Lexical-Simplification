@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+7858,परिचायक,7,1,5,5.0,5,2,13,13.0,8,8.0,0,4,0
+7859,सूचक,4,1,5,5.0,3,1,13,13.0,8,8.0,0,2,0
+7860,बोधक,4,2,6,3.0,3,1,14,7.0,8,4.0,0,2,0
+7861,ज्ञापक,6,1,5,5.0,4,2,13,13.0,8,8.0,1,3,0
+7862,अभिसूचक,7,1,5,5.0,4,3,13,13.0,8,8.0,0,4,0

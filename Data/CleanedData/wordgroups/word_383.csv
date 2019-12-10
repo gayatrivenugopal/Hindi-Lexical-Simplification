@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+4808,ताँगे,5,1,4,4.0,2,3,8,8.0,0,0.0,0,2,0
+4809,ताँगा,5,1,4,4.0,2,3,8,8.0,0,0.0,0,2,0
+4810,टाँगा,5,2,10,5.0,2,3,17,8.5,0,0.0,0,2,0
+4811,तांगा,5,1,4,4.0,2,3,8,8.0,0,0.0,0,2,0
+4812,टांगा,5,2,10,5.0,2,3,17,8.5,0,0.0,0,2,0

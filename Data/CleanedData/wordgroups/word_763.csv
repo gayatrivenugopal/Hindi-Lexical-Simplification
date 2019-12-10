@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+8982,काव्यात्मक,10,1,4,4.0,6,4,0,0.0,0,0.0,2,3,0
+8983,शायराना,7,1,4,4.0,4,3,0,0.0,0,0.0,0,4,0
+8984,कवित्वपूर्ण,11,1,4,4.0,7,4,0,0.0,0,0.0,2,4,0
+8985,रसात्मक,7,1,4,4.0,5,2,0,0.0,0,0.0,1,3,0

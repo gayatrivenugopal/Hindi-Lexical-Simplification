@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+3866,पितृ,4,1,9,9.0,2,2,15,15.0,1,1.0,0,2,0
+3867,पितर,4,1,9,9.0,3,1,15,15.0,1,1.0,0,2,0
+3868,पुरखा,5,2,17,8.5,3,2,30,15.0,6,3.0,0,2,0
+3869,पूर्वपुरुष,10,1,9,9.0,6,4,15,15.0,1,1.0,1,4,0
+3870,पुरिखा,6,1,9,9.0,3,3,15,15.0,1,1.0,0,3,0

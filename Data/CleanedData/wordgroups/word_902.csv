@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+10327,2,1,1,4,4.0,0,0,4,4.0,0,0.0,0,1,0
+10328,दो,2,1,4,4.0,1,1,4,4.0,0,0.0,0,1,0
+10329,२,1,1,4,4.0,0,0,4,4.0,0,0.0,0,1,0
+10330,II,2,1,4,4.0,0,0,4,4.0,0,0.0,0,1,0

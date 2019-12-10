@@ -1,0 +1,3 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+9203,सीरियाई,7,1,4,4.0,3,4,10,10.0,0,0.0,0,3,0
+9204,सीरियन,6,1,4,4.0,4,2,10,10.0,0,0.0,0,3,0

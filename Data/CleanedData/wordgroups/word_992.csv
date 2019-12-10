@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+11094,उम्मीदवार,9,2,7,3.5,5,4,19,9.5,0,0.0,1,4,0
+11095,प्रत्याशी,9,1,4,4.0,5,4,15,15.0,0,0.0,2,4,1
+11096,अभ्यर्थी,8,2,11,5.5,4,4,30,15.0,0,0.0,2,3,0
+11097,उम्मेदवार,9,2,7,3.5,5,4,19,9.5,0,0.0,1,4,0

@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+8871,उल्लेख,6,1,7,7.0,3,3,8,8.0,1,1.0,1,2,0
+8872,जिक्र,5,1,7,7.0,3,2,8,8.0,1,1.0,1,2,0
+8873,ज़िक्र,6,1,7,7.0,3,3,8,8.0,1,1.0,1,2,0
+8874,निर्देश,7,3,27,9.0,4,3,24,8.0,27,9.0,1,2,0

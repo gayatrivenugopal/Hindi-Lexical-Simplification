@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+5633,कम्पनी,6,1,5,5.0,4,2,36,36.0,18,18.0,1,2,0
+5634,कंपनी,5,1,5,5.0,3,2,36,36.0,18,18.0,0,2,0
+5635,पूग,3,6,84,14.0,2,1,161,26.833333333333332,25,4.166666666666667,0,1,0
+5636,समवाय,5,1,5,5.0,4,1,36,36.0,18,18.0,0,4,0
+5637,फर्म,4,1,5,5.0,3,1,36,36.0,18,18.0,1,1,0

@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+9577,श्रीलंका,8,1,7,7.0,4,4,2,2.0,0,0.0,1,4,0
+9578,सिंहल,5,3,19,6.333333333333333,3,2,14,4.666666666666667,0,0.0,0,2,0
+9579,सिंहला,6,1,7,7.0,3,3,2,2.0,0,0.0,0,2,0
+9580,सीलोन,5,1,7,7.0,3,2,2,2.0,0,0.0,0,2,0
+9581,सिलोन,5,1,7,7.0,3,2,2,2.0,0,0.0,0,2,0

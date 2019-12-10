@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+14428,असंदिग्ध,8,1,5,5.0,4,4,0,0.0,0,0.0,1,3,0
+14429,संदेहहीन,8,2,9,4.5,5,3,0,0.0,0,0.0,0,4,0
+14430,असन्दिग्ध,9,1,5,5.0,5,4,0,0.0,0,0.0,2,3,0
+14431,सन्देहहीन,9,1,5,5.0,6,3,0,0.0,0,0.0,1,4,0

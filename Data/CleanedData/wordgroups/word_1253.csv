@@ -1,0 +1,7 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+13189,कदापि,5,1,6,6.0,3,2,0,0.0,0,0.0,0,3,1
+13190,हरगिज़,6,1,6,6.0,4,2,0,0.0,0,0.0,0,3,0
+13191,हरगिज,5,1,6,6.0,4,1,0,0.0,0,0.0,0,3,0
+13192,कतई,3,1,6,6.0,2,1,0,0.0,0,0.0,0,1,0
+13193,कत्तई,5,1,6,6.0,3,2,0,0.0,0,0.0,1,2,0
+13194,कभी,3,2,8,4.0,2,1,0,0.0,0,0.0,0,1,0

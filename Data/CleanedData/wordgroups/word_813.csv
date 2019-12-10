@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+9403,मुर्रा,6,2,7,3.5,3,3,22,11.0,3,1.5,1,2,0
+9404,मुरमुरा,7,1,5,5.0,4,3,18,18.0,3,3.0,0,4,0
+9405,मुड़ी,5,1,5,5.0,2,3,18,18.0,3,3.0,0,2,0
+9406,कुरमुरा,7,1,5,5.0,4,3,18,18.0,3,3.0,0,4,0
+9407,मुड़ही,6,1,5,5.0,3,3,18,18.0,3,3.0,0,2,0

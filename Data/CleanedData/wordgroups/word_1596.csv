@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+15729,सूक्ति,6,1,7,7.0,3,3,9,9.0,11,11.0,1,2,0
+15730,सुवचन,5,1,7,7.0,4,1,9,9.0,11,11.0,0,3,0
+15731,सुकथन,5,1,7,7.0,4,1,9,9.0,11,11.0,0,3,0
+15732,सूक्त,5,2,8,4.0,3,2,12,6.0,13,6.5,1,1,0
+15733,सुभाषित,7,1,7,7.0,4,3,9,9.0,11,11.0,0,3,0

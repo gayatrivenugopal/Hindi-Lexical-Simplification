@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+12718,शिवमूर्ति,9,1,6,6.0,5,4,3,3.0,1,1.0,1,4,1
+12719,शिवप्रतिमा,10,1,6,6.0,6,4,3,3.0,1,1.0,1,5,1
+12720,शिवविग्रह,9,1,6,6.0,6,3,3,3.0,1,1.0,1,4,1

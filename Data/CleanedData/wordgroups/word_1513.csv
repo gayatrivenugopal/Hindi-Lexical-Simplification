@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+15050,आविष्कार,8,1,5,5.0,4,4,8,8.0,0,0.0,1,3,0
+15051,ईजाद,4,1,5,5.0,2,2,8,8.0,0,0.0,0,2,0
+15052,आविष्करण,8,1,5,5.0,5,3,8,8.0,0,0.0,1,4,0
+15053,आविष्क्रिया,11,1,5,5.0,5,6,8,8.0,0,0.0,2,4,0
+15054,इजाद,4,1,5,5.0,2,2,8,8.0,0,0.0,0,2,0

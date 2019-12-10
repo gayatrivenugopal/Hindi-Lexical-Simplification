@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+13845,दमन,3,4,11,2.75,3,0,34,8.5,2,0.5,0,2,0
+13846,शमन,3,1,2,2.0,3,0,8,8.0,0,0.0,0,2,0
+13847,निग्रह,6,1,4,4.0,4,2,13,13.0,2,2.0,1,2,0

@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+8875,दिलचस्पी,8,1,6,6.0,5,3,6,6.0,4,4.0,1,4,0
+8876,पसंद,4,3,13,4.333333333333333,3,1,12,4.0,4,1.3333333333333333,0,2,0
+8877,पसन्द,5,3,13,4.333333333333333,4,1,12,4.0,4,1.3333333333333333,1,2,0
+8878,अभिरुचि,7,1,6,6.0,3,4,6,6.0,4,4.0,0,4,1

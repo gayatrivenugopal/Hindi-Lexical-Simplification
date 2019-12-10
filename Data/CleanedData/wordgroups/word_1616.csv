@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+15851,भूविज्ञान,9,1,8,8.0,5,4,5,5.0,0,0.0,1,3,0
+15852,भूशास्त्र,9,1,8,8.0,5,4,5,5.0,0,0.0,2,3,0
+15853,भूगर्भशास्त्र,13,1,8,8.0,8,5,5,5.0,0,0.0,3,5,0

@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+9957,ईश्वरवादी,9,1,3,3.0,5,4,15,15.0,0,0.0,1,5,0
+9958,आस्तिक,6,1,3,3.0,3,3,15,15.0,0,0.0,1,2,0
+9959,देवल,4,7,36,5.142857142857143,3,1,94,13.428571428571429,34,4.857142857142857,0,2,0

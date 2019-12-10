@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+9774,अद्धा,5,5,7,1.4,2,3,37,7.4,0,0.0,1,2,1
+9775,आधा,3,1,3,3.0,1,2,4,4.0,0,0.0,0,2,0
+9776,अधिया,5,3,7,2.3333333333333335,2,3,38,12.666666666666666,0,0.0,0,3,0

@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+4076,मीनार,5,1,4,4.0,3,2,4,4.0,13,13.0,0,2,0
+4077,धरहरा,5,1,4,4.0,4,1,4,4.0,13,13.0,0,3,0
+4078,धौरहर,5,1,4,4.0,4,1,4,4.0,13,13.0,0,3,0
+4079,धौराहर,6,1,4,4.0,4,2,4,4.0,13,13.0,0,3,0

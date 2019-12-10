@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+8551,सतह,3,2,8,4.0,3,0,8,4.0,26,13.0,0,2,0
+8552,तल,2,7,51,7.285714285714286,2,0,48,6.857142857142857,26,3.7142857142857144,0,1,0
+8553,स्तर,4,5,22,4.4,3,1,23,4.6,65,13.0,1,2,0
+8554,संस्तर,6,2,8,4.0,4,2,8,4.0,26,13.0,1,2,0

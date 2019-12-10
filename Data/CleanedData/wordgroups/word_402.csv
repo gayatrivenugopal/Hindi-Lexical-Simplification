@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+5041,गुड्डा,6,2,4,2.0,3,3,10,5.0,0,0.0,1,2,0
+5042,पुतला,5,2,3,1.5,3,2,12,6.0,9,4.5,0,2,0
+5043,कनकौवा,6,1,2,2.0,4,2,4,4.0,0,0.0,0,4,0

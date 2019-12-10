@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+5035,व्यंजन,6,3,18,6.0,4,2,45,15.0,273,91.0,1,3,0
+5036,ब्यंजन,6,2,15,7.5,4,2,36,18.0,80,40.0,1,3,0
+5037,पकवान,5,1,10,10.0,4,1,18,18.0,68,68.0,0,3,0
+5038,पक्वान,6,1,10,10.0,4,2,18,18.0,68,68.0,1,2,0
+5039,तीवन,4,2,13,6.5,3,1,22,11.0,70,35.0,0,2,0

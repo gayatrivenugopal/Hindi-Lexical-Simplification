@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+12088,प्रसाधन,7,2,9,4.5,5,2,15,7.5,5,2.5,1,4,0
+12089,मेकअप,5,1,4,4.0,3,2,7,7.0,5,5.0,0,2,0
+12090,सजाना,5,1,5,5.0,3,2,8,8.0,0,0.0,0,3,0
+12091,सँवारना,7,1,5,5.0,4,3,8,8.0,0,0.0,0,3,0

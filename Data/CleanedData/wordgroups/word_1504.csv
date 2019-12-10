@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+14980,जीवनी,5,2,18,9.0,3,2,18,9.0,0,0.0,0,2,0
+14981,जीवनकथा,7,2,18,9.0,5,2,18,9.0,0,0.0,0,4,0
+14982,जीवनवृत्तांत,12,2,18,9.0,7,5,18,9.0,0,0.0,1,5,0

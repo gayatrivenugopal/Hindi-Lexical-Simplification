@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+5799,उपर्युक्त,9,1,6,6.0,5,4,0,0.0,0,0.0,2,3,0
+5800,उल्लिखित,8,2,10,5.0,4,4,0,0.0,0,0.0,1,3,0
+5801,उपरिलिखित,9,1,6,6.0,5,4,0,0.0,0,0.0,0,5,0
+5802,पूर्वोक्त,9,2,9,4.5,5,4,0,0.0,0,0.0,2,2,0
+5803,उपरोक्त,7,1,6,6.0,4,3,0,0.0,0,0.0,1,3,0

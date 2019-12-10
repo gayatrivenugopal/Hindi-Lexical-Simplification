@@ -1,0 +1,3 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+2040,मूल्यांकन,9,1,2,2.0,5,4,8,8.0,1,1.0,1,3,0
+2041,मूल्यनिर्धारण,13,2,5,2.5,8,5,11,5.5,1,0.5,2,5,0

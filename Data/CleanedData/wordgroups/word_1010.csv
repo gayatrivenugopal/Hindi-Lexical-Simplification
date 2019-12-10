@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+11199,हास्यपूर्ण,10,1,3,3.0,6,4,0,0.0,0,0.0,2,3,0
+11200,हास्यप्रद,9,1,3,3.0,6,3,0,0.0,0,0.0,2,3,0
+11201,हास्यजनक,8,1,3,3.0,6,2,0,0.0,0,0.0,1,4,0

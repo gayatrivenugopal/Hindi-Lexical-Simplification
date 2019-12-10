@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+15714,त्यौहार,7,1,6,6.0,4,3,24,24.0,163,163.0,1,3,0
+15715,त्योहार,7,1,6,6.0,4,3,24,24.0,163,163.0,1,3,0
+15716,फ़ेस्टिवल,9,1,6,6.0,5,4,24,24.0,163,163.0,1,3,0
+15717,फेस्टिवल,8,1,6,6.0,5,3,24,24.0,163,163.0,1,3,0

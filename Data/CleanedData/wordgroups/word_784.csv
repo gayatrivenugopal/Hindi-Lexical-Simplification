@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+9247,उत्पाद,6,1,4,4.0,3,3,6,6.0,18,18.0,1,2,0
+9248,प्रोडक्ट,8,1,4,4.0,5,3,6,6.0,18,18.0,2,3,1
+9249,उपज,3,5,16,3.2,2,1,32,6.4,52,10.4,0,2,0

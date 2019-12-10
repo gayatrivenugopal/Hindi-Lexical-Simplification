@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+11826,एशियाई,6,1,5,5.0,2,4,10,10.0,0,0.0,0,3,0
+11827,एशियावासी,9,1,5,5.0,4,5,10,10.0,0,0.0,0,5,0
+11828,एशियन,5,1,5,5.0,3,2,10,10.0,0,0.0,0,3,0

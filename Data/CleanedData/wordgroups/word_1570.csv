@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+15459,युवा,4,2,11,5.5,2,2,22,11.0,6,3.0,0,2,0
+15460,युवक,4,1,7,7.0,3,1,7,7.0,6,6.0,0,2,0
+15461,तरुण,4,2,11,5.5,3,1,22,11.0,6,3.0,0,2,0
+15462,तलुन,4,2,49,24.5,3,1,11,5.5,96,48.0,0,2,0

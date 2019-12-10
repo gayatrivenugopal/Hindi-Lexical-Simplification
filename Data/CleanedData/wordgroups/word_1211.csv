@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+12922,फोटोग्राफी,10,1,5,5.0,5,5,8,8.0,0,0.0,1,4,0
+12923,छायाचित्रण,10,1,5,5.0,6,4,8,8.0,0,0.0,1,4,0
+12924,फ़ोटोग्राफी,11,1,5,5.0,5,6,8,8.0,0,0.0,1,4,0

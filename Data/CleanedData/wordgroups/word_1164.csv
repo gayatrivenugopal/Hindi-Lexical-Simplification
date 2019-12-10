@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+12604,स्थायी,6,1,3,3.0,3,3,2,2.0,0,0.0,1,3,0
+12605,स्थाई,5,1,3,3.0,2,3,2,2.0,0,0.0,1,2,0
+12606,टेक,3,3,41,13.666666666666666,2,1,15,5.0,0,0.0,0,1,0

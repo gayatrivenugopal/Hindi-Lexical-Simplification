@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+12738,वरण,3,2,16,8.0,3,0,11,5.5,11,5.5,0,2,0
+12739,चयन,3,3,19,6.333333333333333,3,0,14,4.666666666666667,11,3.6666666666666665,0,2,0
+12740,चुनाई,5,5,24,4.8,2,3,27,5.4,16,3.2,0,2,0

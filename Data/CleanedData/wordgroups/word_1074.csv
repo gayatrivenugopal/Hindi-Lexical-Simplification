@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+11851,राजस्थानी,9,2,10,5.0,5,4,10,5.0,0,0.0,1,4,0
+11852,राजस्थानवासी,12,1,8,8.0,7,5,10,10.0,0,0.0,1,6,0
+11853,राजिस्थानी,10,2,10,5.0,5,5,10,5.0,0,0.0,1,4,0
+11854,राजिस्थानवासी,13,1,8,8.0,7,6,10,10.0,0,0.0,1,6,0

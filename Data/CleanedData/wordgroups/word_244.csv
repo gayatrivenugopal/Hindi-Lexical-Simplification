@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+3387,यौन,3,2,6,3.0,2,1,0,0.0,0,0.0,0,1,0
+3388,लैंगिक,6,1,4,4.0,3,3,0,0.0,0,0.0,0,2,0
+3389,लिंगीय,6,1,4,4.0,3,3,0,0.0,0,0.0,0,3,1
+3390,लैंग,4,1,4,4.0,2,2,0,0.0,0,0.0,0,1,0
+3391,योनीय,5,1,2,2.0,3,2,0,0.0,0,0.0,0,3,0

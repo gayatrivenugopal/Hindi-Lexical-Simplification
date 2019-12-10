@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+3010,स्थानापन्न,10,2,6,3.0,6,4,0,0.0,0,0.0,2,4,0
+3011,कार्यकारी,9,2,9,4.5,5,4,18,9.0,0,0.0,1,4,0
+3012,कार्यवाहक,9,1,5,5.0,6,3,0,0.0,0,0.0,1,4,0
+3013,एवजी,4,1,5,5.0,2,2,0,0.0,0,0.0,0,2,0
+3014,एवज़ी,5,1,5,5.0,2,3,0,0.0,0,0.0,0,2,0

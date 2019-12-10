@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+12887,प्रवक्ता,8,3,5,1.6666666666666667,5,3,38,12.666666666666666,4,1.3333333333333333,2,4,1
+12888,उपदेशक,6,1,3,3.0,4,2,15,15.0,4,4.0,0,4,0
+12889,उपदेष्टा,8,1,3,3.0,4,4,15,15.0,4,4.0,1,4,0

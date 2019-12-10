@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+14830,छठ,2,1,5,5.0,2,0,3,3.0,14,14.0,0,1,1
+14831,छठी,3,4,22,5.5,2,1,13,3.25,14,3.5,0,1,0
+14832,षष्ठ,4,1,5,5.0,3,1,3,3.0,14,14.0,1,1,1
+14833,छट,2,1,5,5.0,2,0,3,3.0,14,14.0,0,1,0

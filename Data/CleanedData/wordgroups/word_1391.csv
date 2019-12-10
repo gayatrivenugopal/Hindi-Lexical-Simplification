@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+14190,पारगमन,6,1,4,4.0,5,1,8,8.0,0,0.0,0,4,0
+14191,पारवहन,6,1,4,4.0,5,1,8,8.0,0,0.0,0,4,0
+14192,संक्रमण,7,3,14,4.666666666666667,5,2,10,3.3333333333333335,34,11.333333333333334,1,3,1
+14193,संङ्क्रमण,9,1,4,4.0,6,3,8,8.0,0,0.0,2,3,1

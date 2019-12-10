@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+6377,इकाई,4,4,10,2.5,1,3,38,9.5,14,3.5,0,2,0
+6378,ईकाई,4,3,9,3.0,1,3,23,7.666666666666667,8,2.6666666666666665,0,2,0
+6379,यूनिट,5,1,4,4.0,3,2,5,5.0,1,1.0,0,2,0
+6380,एकक,3,1,4,4.0,2,1,5,5.0,1,1.0,0,2,0

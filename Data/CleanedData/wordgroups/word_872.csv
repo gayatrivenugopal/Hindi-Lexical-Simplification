@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+10117,सुनिश्चित,9,1,4,4.0,5,4,0,0.0,0,0.0,1,3,0
+10118,सुनिर्धारित,11,1,4,4.0,6,5,0,0.0,0,0.0,1,4,0
+10119,सुनियत,6,1,4,4.0,4,2,0,0.0,0,0.0,0,3,0
+10120,अवारण,5,2,16,8.0,3,2,0,0.0,0,0.0,0,3,0

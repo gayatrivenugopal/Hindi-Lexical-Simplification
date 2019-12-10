@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+3131,कोशिका,6,1,4,4.0,3,3,2,2.0,31,31.0,0,3,0
+3132,कोषाणु,6,1,4,4.0,3,3,2,2.0,31,31.0,0,3,0
+3133,सेल,3,8,35,4.375,2,1,73,9.125,162,20.25,0,1,0

@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+3567,समर्थन,6,1,4,4.0,5,1,11,11.0,6,6.0,1,3,0
+3568,हिमायत,6,1,4,4.0,4,2,11,11.0,6,6.0,0,3,0
+3569,अनुमोदन,7,2,7,3.5,4,3,27,13.5,6,3.0,0,4,0
+3570,ताईद,4,2,13,6.5,2,2,12,6.0,8,4.0,0,1,0

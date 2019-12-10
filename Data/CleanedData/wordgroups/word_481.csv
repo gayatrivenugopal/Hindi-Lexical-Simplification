@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+5935,उबाल,4,1,3,3.0,2,2,8,8.0,0,0.0,0,2,0
+5936,उफान,4,1,3,3.0,2,2,8,8.0,0,0.0,0,2,0
+5937,उछाला,5,4,39,9.75,2,3,26,6.5,10,2.5,0,3,0

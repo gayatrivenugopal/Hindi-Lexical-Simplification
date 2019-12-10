@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+10452,चुन,3,1,5,5.0,2,1,26,26.0,18,18.0,0,1,0
+10453,आटा,3,1,5,5.0,1,2,26,26.0,18,18.0,0,2,0
+10454,पिसान,5,1,5,5.0,3,2,26,26.0,18,18.0,0,2,0
+10455,चून,3,1,5,5.0,2,1,26,26.0,18,18.0,0,1,0
+10456,चूल,3,6,28,4.666666666666667,2,1,83,13.833333333333334,107,17.833333333333332,0,1,0

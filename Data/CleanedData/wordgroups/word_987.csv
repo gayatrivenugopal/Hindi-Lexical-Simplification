@@ -1,0 +1,7 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+11040,लैंस,4,2,10,5.0,2,2,11,5.5,0,0.0,0,1,0
+11041,लेंस,4,2,10,5.0,2,2,11,5.5,0,0.0,0,1,0
+11042,लेन्स,5,2,10,5.0,3,2,11,5.5,0,0.0,1,1,0
+11043,वीक्ष,5,1,5,5.0,3,2,9,9.0,0,0.0,1,1,0
+11044,लैन्स,5,2,10,5.0,3,2,11,5.5,0,0.0,1,1,0
+11045,तेजोजल,6,1,5,5.0,4,2,2,2.0,0,0.0,0,3,0

@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+12050,सौ,2,1,5,5.0,1,1,4,4.0,0,0.0,0,1,0
+12051,शत,2,1,5,5.0,2,0,4,4.0,0,0.0,0,1,0
+12052,100,3,1,5,5.0,0,0,4,4.0,0,0.0,0,1,0
+12053,१००,3,1,5,5.0,0,0,4,4.0,0,0.0,0,1,0
+12054,सय,2,1,5,5.0,2,0,4,4.0,0,0.0,0,1,0

@@ -1,0 +1,7 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+6828,सहयात्री,8,1,6,6.0,5,3,27,27.0,0,0.0,1,4,0
+6829,हमसफ़र,6,1,6,6.0,5,1,27,27.0,0,0.0,0,3,0
+6830,हमराह,5,1,6,6.0,4,1,27,27.0,0,0.0,0,3,1
+6831,हमराही,6,1,6,6.0,4,2,27,27.0,0,0.0,0,4,0
+6832,सहगामी,6,1,6,6.0,4,2,27,27.0,0,0.0,0,4,1
+6833,हमसफर,5,1,6,6.0,5,0,27,27.0,0,0.0,0,4,0

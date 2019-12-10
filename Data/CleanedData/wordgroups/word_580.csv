@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+6848,फाँक,4,1,8,8.0,2,2,16,16.0,7,7.0,0,1,1
+6849,कतरा,4,6,26,4.333333333333333,3,1,64,10.666666666666666,29,4.833333333333333,0,2,1
+6850,कतला,4,2,10,5.0,3,1,18,9.0,7,3.5,0,2,1

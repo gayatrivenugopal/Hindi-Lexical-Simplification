@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+10787,कुर्की,6,1,8,8.0,3,3,8,8.0,0,0.0,1,2,0
+10788,क़ुर्क़ी,8,1,8,8.0,3,5,8,8.0,0,0.0,1,1,0
+10789,कुरकी,5,1,8,8.0,3,2,8,8.0,0,0.0,0,2,0
+10790,कुड़की,6,1,8,8.0,3,3,8,8.0,0,0.0,0,2,0
+10791,जब्ती,5,1,8,8.0,3,2,8,8.0,0,0.0,1,2,1

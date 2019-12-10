@@ -1,0 +1,7 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+7369,चौथी,4,1,6,6.0,2,2,1,1.0,0,0.0,0,2,0
+7370,चौथा,4,2,14,7.0,2,2,3,1.5,0,0.0,0,2,0
+7371,४थी,3,1,6,6.0,1,1,1,1.0,0,0.0,0,2,0
+7372,4थी,3,1,6,6.0,1,1,1,1.0,0,0.0,0,2,0
+7373,४था,3,2,14,7.0,1,1,3,1.5,0,0.0,0,2,0
+7374,4था,3,2,14,7.0,1,1,3,1.5,0,0.0,0,2,0

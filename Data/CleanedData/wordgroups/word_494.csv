@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+6009,बैसाख,5,1,4,4.0,3,2,10,10.0,0,0.0,0,2,0
+6010,वैशाख,5,1,4,4.0,3,2,10,10.0,0,0.0,0,2,0
+6011,माधव,4,6,268,44.666666666666664,3,1,203,33.833333333333336,7,1.1666666666666667,0,2,1

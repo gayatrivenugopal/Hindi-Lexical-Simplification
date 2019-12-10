@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+16169,रणथम्भौर,8,1,4,4.0,6,2,8,8.0,0,0.0,1,4,1
+16170,रणथंभौर,7,1,4,4.0,5,2,8,8.0,0,0.0,0,4,1
+16171,रणथंभोर,7,1,4,4.0,5,2,8,8.0,0,0.0,0,4,1
+16172,रणथम्भोर,8,1,4,4.0,6,2,8,8.0,0,0.0,1,4,1

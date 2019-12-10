@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+9174,अभागा,5,1,3,3.0,2,3,15,15.0,0,0.0,0,3,0
+9175,बदनसीब,6,1,3,3.0,5,1,15,15.0,0,0.0,0,4,0
+9176,निगोड़ा,7,1,3,3.0,3,4,15,15.0,0,0.0,0,2,0

@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+13431,भागमभाग,7,1,4,4.0,5,2,8,8.0,0,0.0,0,4,0
+13432,भगदड़,5,1,4,4.0,4,1,8,8.0,0,0.0,0,3,1
+13433,भागाभाग,7,1,4,4.0,4,3,8,8.0,0,0.0,0,3,0
+13434,डमर,3,3,40,13.333333333333334,3,0,68,22.666666666666668,7,2.3333333333333335,0,2,1

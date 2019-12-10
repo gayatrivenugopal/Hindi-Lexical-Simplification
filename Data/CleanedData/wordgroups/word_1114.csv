@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+12131,कर्जदार,7,1,4,4.0,5,2,15,15.0,3,3.0,1,3,0
+12132,क़र्ज़दार,9,1,4,4.0,5,4,15,15.0,3,3.0,1,2,0
+12133,ऋणकर्ता,7,1,4,4.0,4,3,15,15.0,3,3.0,1,4,0
+12134,ऋणी,3,1,4,4.0,1,2,15,15.0,3,3.0,0,2,0

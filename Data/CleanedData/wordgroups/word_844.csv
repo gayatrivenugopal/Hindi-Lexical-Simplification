@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+9758,विद्यालय,8,4,11,2.75,5,3,30,7.5,13,3.25,1,3,0
+9759,पाठशाला,7,1,5,5.0,4,3,4,4.0,13,13.0,0,4,0
+9760,स्कूल,5,4,11,2.75,3,2,30,7.5,13,3.25,1,2,0
+9761,पाठालय,6,1,5,5.0,4,2,4,4.0,13,13.0,0,3,0

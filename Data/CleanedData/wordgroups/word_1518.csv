@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+15074,प्रधानमंत्री,12,2,12,6.0,7,5,18,9.0,49,24.5,2,6,0
+15075,महामंत्री,9,1,7,7.0,5,4,9,9.0,46,46.0,1,4,0
+15076,महामन्त्री,10,1,7,7.0,6,4,9,9.0,46,46.0,2,4,0
+15077,प्रधानमन्त्री,13,2,12,6.0,8,5,18,9.0,49,24.5,3,6,0
+15078,पीएम,4,2,12,6.0,2,2,18,9.0,49,24.5,0,1,0

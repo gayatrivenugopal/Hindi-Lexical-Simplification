@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+10704,वैद्युत,7,1,5,5.0,4,3,0,0.0,0,0.0,1,2,0
+10705,विद्युतीय,9,1,5,5.0,5,4,0,0.0,0,0.0,1,4,0
+10706,वैद्युतिक,9,1,5,5.0,5,4,0,0.0,0,0.0,1,3,0
+10707,इलेक्ट्रिक,10,1,5,5.0,5,5,0,0.0,0,0.0,2,3,0
+10708,इलेक्ट्रिकल,11,1,5,5.0,6,5,0,0.0,0,0.0,2,4,0

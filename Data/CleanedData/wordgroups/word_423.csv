@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+5263,नैराश्य,7,1,5,5.0,4,3,16,16.0,2,2.0,1,3,1
+5264,निराशा,6,1,5,5.0,3,3,16,16.0,2,2.0,0,3,0
+5265,नाउम्मीदी,9,1,5,5.0,4,5,16,16.0,2,2.0,1,3,0
+5266,मायूसी,6,1,5,5.0,3,3,16,16.0,2,2.0,0,3,0
+5267,हताशा,5,1,5,5.0,3,2,16,16.0,2,2.0,0,3,0

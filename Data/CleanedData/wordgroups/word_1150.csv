@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+12500,सैरगाह,6,1,9,9.0,4,2,14,14.0,35,35.0,0,3,0
+12501,रिज़ॉर्ट,8,1,9,9.0,4,4,14,14.0,35,35.0,1,2,0
+12502,रीज़ॉर्ट,8,1,9,9.0,4,4,14,14.0,35,35.0,1,2,0
+12503,रीसॉर्ट,7,1,9,9.0,4,3,14,14.0,35,35.0,1,2,0

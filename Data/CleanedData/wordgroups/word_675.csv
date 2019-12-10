@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+8281,दुरमुस,6,1,4,4.0,4,2,9,9.0,0,0.0,0,3,1
+8282,दुरमुट,6,1,4,4.0,4,2,9,9.0,0,0.0,0,3,1
+8283,दुर्मुस,7,1,4,4.0,4,3,9,9.0,0,0.0,1,2,1
+8284,दुरमिस,6,1,4,4.0,4,2,9,9.0,0,0.0,0,3,1

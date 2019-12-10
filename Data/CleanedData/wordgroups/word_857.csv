@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+9944,चूषण,4,1,4,4.0,3,1,8,8.0,2,2.0,0,2,0
+9945,चूसना,5,1,4,4.0,3,2,8,8.0,2,2.0,0,2,0
+9946,चूसन,4,1,4,4.0,3,1,8,8.0,2,2.0,0,2,0
+9947,चुसाई,5,1,4,4.0,2,3,8,8.0,2,2.0,0,2,0

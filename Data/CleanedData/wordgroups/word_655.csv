@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+8055,सुलेख,5,1,4,4.0,3,2,6,6.0,0,0.0,0,2,0
+8056,सुलेखन,6,2,6,3.0,4,2,11,5.5,0,0.0,0,3,0
+8057,ख़ुशख़त,7,2,7,3.5,4,3,8,4.0,0,0.0,0,2,0
+8058,खुशखत,5,2,7,3.5,4,1,8,4.0,0,0.0,0,3,0

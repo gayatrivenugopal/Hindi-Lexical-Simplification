@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+13266,शिया,4,2,9,4.5,2,2,15,7.5,0,0.0,0,2,0
+13267,शीआ,3,2,9,4.5,1,2,15,7.5,0,0.0,0,1,0
+13268,शीया,4,2,9,4.5,2,2,15,7.5,0,0.0,0,2,0

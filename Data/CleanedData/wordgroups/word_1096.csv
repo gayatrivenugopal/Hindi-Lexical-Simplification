@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+12017,कैल्शियम,8,1,3,3.0,5,3,6,6.0,0,0.0,1,3,0
+12018,कैल्सियम,8,1,3,3.0,5,3,6,6.0,0,0.0,1,3,0
+12019,कैलशियम,7,1,3,3.0,5,2,6,6.0,0,0.0,0,4,0

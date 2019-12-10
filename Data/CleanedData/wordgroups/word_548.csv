@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+6564,मसनद,4,1,5,5.0,4,0,8,8.0,0,0.0,0,3,0
+6565,गावतकिया,8,1,5,5.0,5,3,8,8.0,0,0.0,0,5,0
+6566,पुश्ती,6,1,5,5.0,3,3,8,8.0,0,0.0,1,2,0

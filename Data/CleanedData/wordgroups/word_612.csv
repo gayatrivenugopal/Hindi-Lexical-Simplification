@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+7649,ओके,3,2,9,4.5,1,2,40,20.0,0,0.0,0,2,1
+7650,शाहबलूत,7,2,9,4.5,5,2,40,20.0,0,0.0,0,4,1
+7651,बलूत,4,2,9,4.5,3,1,40,20.0,0,0.0,0,2,0
+7652,ओक,2,2,9,4.5,1,1,40,20.0,0,0.0,0,1,1

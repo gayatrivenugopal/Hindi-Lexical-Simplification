@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+14012,जमानत,5,2,7,3.5,4,1,47,23.5,0,0.0,0,3,0
+14013,ज़मानत,6,2,7,3.5,4,2,47,23.5,0,0.0,0,3,0
+14014,प्रतिभूति,9,1,5,5.0,5,4,25,25.0,0,0.0,1,5,0
+14015,जमनौता,6,1,5,5.0,4,2,25,25.0,0,0.0,0,4,0
+14016,जमनौती,6,1,5,5.0,4,2,25,25.0,0,0.0,0,4,0

@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+14221,छप्पर,5,1,7,7.0,4,1,24,24.0,1,1.0,1,2,0
+14222,छानी,4,1,7,7.0,2,2,24,24.0,1,1.0,0,2,0
+14223,छान,3,2,12,6.0,2,1,41,20.5,1,0.5,0,1,0
+14224,छाजन,4,5,37,7.4,3,1,64,12.8,63,12.6,0,2,0
+14225,टप्पर,5,2,8,4.0,4,1,48,24.0,1,0.5,1,2,0

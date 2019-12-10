@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+13850,बँगला,5,4,12,3.0,3,2,47,11.75,2,0.5,0,2,0
+13851,बंगला,5,4,12,3.0,3,2,47,11.75,2,0.5,0,2,0
+13852,बंगाली,6,3,7,2.3333333333333335,3,3,16,5.333333333333333,0,0.0,0,3,0

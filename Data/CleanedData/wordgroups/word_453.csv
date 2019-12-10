@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+5615,फलीभूत,6,1,5,5.0,4,2,0,0.0,0,0.0,0,3,1
+5616,फलित,4,1,5,5.0,3,1,0,0.0,0,0.0,0,2,0
+5617,सफल,3,3,16,5.333333333333333,3,0,0,0.0,0,0.0,0,2,0
+5618,सुफल,4,1,2,2.0,3,1,20,20.0,2,2.0,0,2,0
+5619,सफ़ल,4,3,16,5.333333333333333,3,1,0,0.0,0,0.0,0,1,0

@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+11318,गोदाम,5,2,10,5.0,3,2,19,9.5,7,3.5,0,2,0
+11319,भंडार,5,13,113,8.692307692307692,3,2,157,12.076923076923077,35,2.6923076923076925,0,2,0
+11320,मालगोदाम,8,1,5,5.0,5,3,5,5.0,0,0.0,0,4,0
+11321,गोडाउन,6,1,5,5.0,3,3,5,5.0,0,0.0,0,2,0

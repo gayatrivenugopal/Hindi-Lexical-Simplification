@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+7880,समाजशास्त्री,12,1,4,4.0,7,5,7,7.0,0,0.0,2,5,0
+7881,समाजशास्त्रज्ञ,14,1,4,4.0,9,5,7,7.0,0,0.0,3,5,0
+7882,समाजविद्,8,1,4,4.0,5,3,7,7.0,0,0.0,1,4,0

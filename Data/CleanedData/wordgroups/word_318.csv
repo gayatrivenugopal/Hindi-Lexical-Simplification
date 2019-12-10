@@ -1,0 +1,3 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+4169,विलोम,5,1,3,3.0,3,2,6,6.0,0,0.0,0,2,0
+4170,विरुद्धार्थी,12,1,3,3.0,6,6,6,6.0,0,0.0,2,4,0

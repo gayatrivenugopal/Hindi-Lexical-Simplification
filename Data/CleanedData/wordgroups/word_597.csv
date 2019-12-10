@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+7388,पाली,4,4,11,2.75,2,2,40,10.0,2,0.5,0,2,0
+7389,शिफ्ट,5,1,4,4.0,3,2,24,24.0,2,2.0,1,1,0
+7390,शिफ़्ट,6,1,4,4.0,3,3,24,24.0,2,2.0,1,0,0

@@ -1,0 +1,7 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+3294,मटका,4,1,6,6.0,3,1,10,10.0,7,7.0,0,2,0
+3295,घड़ा,4,2,9,4.5,2,2,23,11.5,7,3.5,0,2,0
+3296,घैल,3,1,6,6.0,2,1,10,10.0,7,7.0,0,1,0
+3297,घैला,4,2,12,6.0,2,2,20,10.0,31,15.5,0,2,0
+3298,माठ,3,2,7,3.5,2,1,13,6.5,7,3.5,0,1,0
+3299,सबू,3,1,6,6.0,2,1,10,10.0,7,7.0,0,1,0

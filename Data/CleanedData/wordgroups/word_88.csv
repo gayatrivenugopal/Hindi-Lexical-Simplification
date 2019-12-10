@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+1172,मूँगफली,7,3,14,4.666666666666667,4,3,10,3.3333333333333335,0,0.0,0,3,0
+1173,मूंगफली,7,3,14,4.666666666666667,4,3,10,3.3333333333333335,0,0.0,0,3,0
+1174,मूमफली,6,2,8,4.0,4,2,8,4.0,0,0.0,0,3,0

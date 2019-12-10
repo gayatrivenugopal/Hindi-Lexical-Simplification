@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+12385,कलिंग,5,3,7,2.3333333333333335,3,2,106,35.333333333333336,0,0.0,0,2,0
+12386,कुलंग,5,2,32,16.0,3,2,45,22.5,0,0.0,0,2,0
+12387,दीर्घपक्ष,9,1,4,4.0,6,3,43,43.0,0,0.0,2,3,0

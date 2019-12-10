@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+5945,पंजीकृत,7,1,8,8.0,4,3,0,0.0,0,0.0,0,3,0
+5946,पंजीबद्ध,8,1,8,8.0,5,3,0,0.0,0,0.0,1,3,0
+5947,दर्ज़,5,2,10,5.0,3,2,0,0.0,0,0.0,1,1,0
+5948,दर्ज,4,2,10,5.0,3,1,0,0.0,0,0.0,1,1,0

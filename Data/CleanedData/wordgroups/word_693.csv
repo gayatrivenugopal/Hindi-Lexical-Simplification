@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+8478,मिस्र,5,2,11,5.5,3,2,13,6.5,0,0.0,1,2,0
+8479,इजिप्त,6,2,11,5.5,3,3,13,6.5,0,0.0,1,2,0
+8480,इजिप्ट,6,2,11,5.5,3,3,13,6.5,0,0.0,1,2,0
+8481,मिस्त्र,7,2,11,5.5,4,3,13,6.5,0,0.0,2,2,0

@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+9387,घण्टी,5,1,4,4.0,3,2,7,7.0,0,0.0,1,2,0
+9388,घंटा,4,5,18,3.6,2,2,40,8.0,12,2.4,0,2,0
+9389,घंटी,4,7,27,3.857142857142857,2,2,49,7.0,1,0.14285714285714285,0,2,0
+9390,घण्टा,5,5,18,3.6,3,2,40,8.0,12,2.4,1,2,0

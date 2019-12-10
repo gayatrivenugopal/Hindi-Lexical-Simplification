@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+14347,युनिवर्सिटी,11,1,4,4.0,6,5,4,4.0,34,34.0,1,5,0
+14348,विश्वविद्यालय,13,1,4,4.0,8,5,4,4.0,34,34.0,2,5,1
+14349,विद्यापीठ,9,3,12,4.0,5,4,12,4.0,37,12.333333333333334,1,3,0
+14350,यूनिवर्सिटी,11,1,4,4.0,6,5,4,4.0,34,34.0,1,5,0

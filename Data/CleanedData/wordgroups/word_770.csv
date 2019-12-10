@@ -1,0 +1,5 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+9029,जीवनशैली,8,1,8,8.0,5,3,25,25.0,0,0.0,0,5,0
+9030,जीवनचर्या,9,1,8,8.0,6,3,25,25.0,0,0.0,1,5,0
+9031,लाइफ़स्टाइल,11,1,8,8.0,5,6,25,25.0,0,0.0,1,2,0
+9032,लाइफस्टाइल,10,1,8,8.0,5,5,25,25.0,0,0.0,1,3,0

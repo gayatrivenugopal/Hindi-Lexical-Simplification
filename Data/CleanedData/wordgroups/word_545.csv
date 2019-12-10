@@ -1,0 +1,4 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+6553,सरचार्ज,7,1,3,3.0,5,2,10,10.0,0,0.0,1,3,0
+6554,अधिभार,6,1,3,3.0,3,3,10,10.0,0,0.0,0,3,0
+6555,अधिशुल्क,8,1,3,3.0,4,4,10,10.0,0,0.0,1,3,0

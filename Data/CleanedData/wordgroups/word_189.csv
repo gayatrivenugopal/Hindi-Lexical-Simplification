@@ -1,0 +1,6 @@
+id,word,length,n_synsets,n_synonyms,n_avg_synonyms,n_consonants,n_vowels,n_hypernyms,n_avg_hypernyms,n_hyponyms,n_avg_hyponyms,n_consonantconjuncts,n_syllables,label
+2649,छौना,4,1,6,6.0,2,2,1,1.0,42,42.0,0,2,0
+2650,छवना,4,1,6,6.0,3,1,1,1.0,42,42.0,0,2,0
+2651,छाँवड़ा,7,1,6,6.0,3,4,1,1.0,42,42.0,0,2,0
+2652,शावक,4,1,6,6.0,3,1,1,1.0,42,42.0,0,2,0
+2653,छावरा,5,1,6,6.0,3,2,1,1.0,42,42.0,0,2,0
