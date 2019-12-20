@@ -235,8 +235,89 @@ class Data:
                         word_pid[root] = list()
                         word_pid[root].append(complex_df.loc[index]['pid'])
                 #print(complex_df.complex_annotators)
-  
+		
+    def calculate_average_rating(self, filename):
+        """ The average rating of words that have been annotated by atleast 2 annotators is calculated. The other words are ignored. """
+        nlp = stanfordnlp.Pipeline(lang = 'hi')
+        df = pd.read_csv(self.path + filename)
+        words = dict()
+        word_pid = dict()
+        word_gid = dict()
+        word_sentence = dict()
+        word_category = dict()
+        word_rank = dict()
+        final_data = {'word':list(), 'pid': list(), 'gid': list(), 'sentence': list(), 'category': list(), 'rank': list(), 'label_avg_rank': list()}
+        extra_data = {'word':list(), 'pid': list(), 'gid': list(), 'sentence': list(), 'category': list(), 'rank': list(), 'label_avg_rank': list()}
+            
+        for i in range(1, 21): #20 groups
+            group_df = df[df.gid == i].copy()
+            #iterate through each group of annotators
+            for index, row in group_df.iterrows():
+                doc = nlp(group_df.loc[index]['word'])
+                for sent in doc.sentences:
+                    for word in sent.words:
+                        root = word.lemma
+
+                if len(words)>0 and root in words.keys():
+			#if the pid has not already annotated this word
+                        if group_df.loc[index]['pid'] not in word_pid[root]:
+                            print('GID: ', group_df.loc[index]['gid'], ' i: ', i)
+                            words[root] += 1
+                            word_rank[root].append(group_df.loc[index]['rank'])
+                            word_pid[root].append(group_df.loc[index]['pid'])
+                            word_gid[root].append(group_df.loc[index]['gid'])
+                            print(root, word_gid[root])
+                            if group_df.loc[index]['sentence'] not in word_sentence[root]:
+                                word_sentence[root].append(group_df.loc[index]['sentence'])
+                            if group_df.loc[index]['category'] not in word_category[root]:
+                                word_category[root].append(group_df.loc[index]['category'])
+                else:
+                        #words keeps track of the words and the annotator count
+                        words[root] = 1
+                        #word_rank keeps track of the ranks
+                        word_rank[root] = list()
+                        word_rank[root].append(group_df.loc[index]['rank'])
+                        #word_pid keeps track of the annotators
+                        word_pid[root] = list()
+                        word_pid[root].append(group_df.loc[index]['pid'])
+                        #word_gid keeps track of the group ids
+                        word_gid[root] = list()
+                        word_gid[root].append(group_df.loc[index]['gid'])
+                        #word_sentence keeps track of the sentence/s from which the word or its synonym was selected
+                        word_sentence[root] = list()
+                        word_sentence[root].append(group_df.loc[index]['sentence'])
+                        #word_category keeps track of the category from which the sentence was extracted
+                        word_category[root] = list()
+                        word_category[root].append(group_df.loc[index]['category'])
+                        #Not adding this to final_data as our objective is to keep track of words annotated by atleast two annotators
+        #create a dictionary for average rating for words with more than one annotator
+        for root, annotator_count in words.items():
+            if annotator_count > 1:
+                final_data['word'].append(root)
+                final_data['pid'].append(','.join(str(v) for v in word_pid[root]))
+                final_data['gid'].append(','.join(str(v) for v in word_gid[root]))
+                final_data['sentence'].append(','.join(str(v) for v in word_sentence[root]))
+                final_data['category'].append(','.join(str(v) for v in word_category[root]))
+                final_data['rank'].append(','.join(str(v) for v in word_rank[root]))
+                final_data['label_avg_rank'].append(sum(word_rank[root])/len(word_rank[root]))
+            else:
+                extra_data['word'].append(root)
+                extra_data['pid'].append(','.join(str(v) for v in word_pid[root]))
+                extra_data['gid'].append(','.join(str(v) for v in word_gid[root]))
+                extra_data['sentence'].append(','.join(str(v) for v in word_sentence[root]))
+                extra_data['category'].append(','.join(str(v) for v in word_category[root]))
+                extra_data['rank'].append(','.join(str(v) for v in word_rank[root]))
+                extra_data['label_avg_rank'].append(sum(word_rank[root])/len(word_rank[root]))
+        #convert to dataframe and write to csv
+        final_df = pd.DataFrame.from_dict(final_data)
+        extra_df = pd.DataFrame.from_dict(extra_data)
+        print(final_df.head())
+        final_df.to_csv (self.path + 'LabelsAverage/consolidated_labels.csv', index = None, header=True)
+        extra_df.to_csv (self.path + 'LabelsAverage/consolidated_labels_extra.csv', index = None, header=True)
+
+	      
     def get_label(self, word):
+        """Return 1 if any one label is 1. """
         flag = 0
         for file in sorted(os.listdir(self.path + 'Labels/')):
             print(file)
@@ -248,6 +329,20 @@ class Data:
                     print(word, ': ', item)
                     if item == 1:
                         flag = 1
+        print('flag: ', flag)
+        return flag
+
+    def get_label_avg_rank(self, word):
+        """Return -1 if rank is not present. """
+        flag = -1
+        for file in sorted(os.listdir(self.path + 'LabelsAverage/')):
+            #print(file)
+            df = pd.read_csv(self.path + 'LabelsAverage/' + file)
+            print(df.dtypes)
+            if len(df[df['word'] == word.strip()]['label_avg_rank'].values) > 0:
+                for item in df[df['word'] == word.strip()]['label_avg_rank'].values:
+                    #print(word, ': ', item)
+                    flag = item
         print('flag: ', flag)
         return flag
 	        
@@ -346,18 +441,18 @@ class Data:
             properties['n_consonantconjuncts'] = get_number_of_consonant_conjuncts(root)
             properties['n_syllables'] = get_syllable_count(root)
             properties['label'] = self.get_label(root)
+            properties['label_avg_rank'] = self.get_label_avg_rank(root)
             properties['word'] = root
             return properties
 
     def create_word_groups(self, input_file):
-        """ TODO: read the csv line by line, fetch the group id and the word. split the word and store in a list.
+        """ Read the csv line by line, fetch the group id and the word. split the word and store in a list.
 	Loop through the list and fetch the synonyms. For the words in the list, fetch the final label from the label file.
 	Store the group id, pid, word_group_id, word and final label in a new csv file. Also add the properties of the word in the columns.
 	Save and close the file.
 	For all the words belonging to the same word_group_id, normalize the property values and add in new columns.
 	Do this by looping through the word_group_id, fetch each property's value in a dict with property name as the key and
-	their values as a list in the key's value. Then for each property, normalize each value, store it in a file for that word group. 
-	Store these word_group files in a separate directory.
+	their values as a list in the key's value. Store these word_group files in a separate directory.
 	"""
         group_word = pd.read_csv(self.path + input_file)
         invalid_words = []
@@ -372,7 +467,7 @@ class Data:
         word_set = set(word for word in words_file)
         word_group_id = 1
         i = 1
-        csv_columns = ['id','word', 'length','n_synsets', 'n_synonyms', 'n_avg_synonyms', 'n_consonants', 'n_vowels', 'n_hypernyms', 'n_avg_hypernyms', 'n_hyponyms', 'n_avg_hyponyms', 'n_consonantconjuncts', 'n_syllables', 'label']
+        csv_columns = ['id','word', 'length','n_synsets', 'n_synonyms', 'n_avg_synonyms', 'n_consonants', 'n_vowels', 'n_hypernyms', 'n_avg_hypernyms', 'n_hyponyms', 'n_avg_hyponyms', 'n_consonantconjuncts', 'n_syllables', 'label', 'label_avg_rank']
         covered_words = []
         for word in word_set:
             word_file = open('wordgroups/word_' + str(word_group_id) + '.csv', 'w', encoding = 'utf-8')
@@ -435,10 +530,26 @@ class Data:
         for word in invalid_words:
             file.write(word+'\n')
         
-
+    def modify_attribute_in_wordgroup(self, in_dir_path, attr_name):
+        #/opt/PhD/Work/JHWNL_1_2/Data/CleanedData/finalwordgroups/word_1.csv
+        for file_name in sorted(os.listdir(self.path + in_dir_path)):
+            print('file: ', file_name)
+            word_group_df = pd.read_csv(self.path + in_dir_path + file_name)
+            out_df = word_group_df.copy()
+            out_df['label_avg_rank'] = -1
+            for i, row in word_group_df.iterrows():
+                root = row['word']
+                out_df.ix[i, 'label_avg_rank'] = float(self.get_label_avg_rank(root))
+            print("out: ", out_df)
+            out_df.to_csv(self.path + in_dir_path + file_name, index = None, header = True)
+            #TODO: the same for normalized word groups, then dataforregression
+    
 data = Data()
-data.create_word_groups('ComplexWords.csv')
-#data.deem_as_complex('TODOComplex3annotators.csv')
+#data.create_word_groups('ComplexWords.csv')
+#data.deem_as_complex('FinalData.csv')
+
+#data.calculate_average_rating('FinalData.csv')
+data.modify_attribute_in_wordgroup('finalwordgroups/', 'label_avg_rank')
 #for file in sorted(os.listdir('/opt/PhD/Work/JHWNL_1_2/Data/sentences/')):
 #    data.calculate_sentence_length(file)
 #data.combine_data()
