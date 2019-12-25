@@ -1,6 +1,5 @@
 # %%
 import os
-import time
 import json
 import pandas as pd
 from sklearn import svm
@@ -16,9 +15,9 @@ from IPython.display import display
 from models import get_model
 
 #from data_tests import *
-from evaluation import get_accuracy
+from evaluation import get_metrics
 
-def crossvalidate(splits, X, y, baseline = -1, model_num = None, resample = 0, 
+def crossvalidate(directory_name, splits, X, y, baseline = -1, model_num = None, resample = 0, 
 feature_set = None, n_features = 0, feature_importance = 0, average_method='macro', path= None):
     """
     Store the results calculated according to the arguments and store them in a file.
@@ -45,23 +44,41 @@ feature_set = None, n_features = 0, feature_importance = 0, average_method='macr
 
     #prepare the dictionary to be written to the file
     data_dict = dict()
-    dir_name = path + str(time.time())
+    metrics_dict = dict()
+    
+    dir_name = path + directory_name + '/'
     os.mkdir(dir_name)
+    #create a directory for each split
+    for fold in range(1, splits + 1):
+        os.mkdir(dir_name + str(fold))
+        print(dir_name + str(fold))
     #open the config file for writing
-    config_file = open(dir_name + '/config.jso n', 'w')
+    config_file = open(dir_name + 'config.json', 'w')
+    #open the metrics file for writing
+    metrics_file = open(dir_name + 'metrics.json', 'w')
+
     data_dict =  {'model_num':model_num}
     data_dict =  {'baseline':baseline}
     data_dict.update({'resample':resample})
     data_dict.update({'feature_set':feature_set})
     data_dict.update({'n_features':n_features})
-    data_dict.update({'feature_importance':feature_importance})
+    data_dict.update({'feature_importance':feature_importance})    
+    
+    metrics_dict = dict()
+    metrics_dict['f1_macro'] = list()
+    metrics_dict['tpr'] = list() 
+    metrics_dict['tnr'] = list()
+    metrics_dict['fpr'] = list()
+    metrics_dict['precision'] = list()
+    metrics_dict['recall'] = list()
+    metrics_dict['accuracy'] = list()
+    metrics_dict['f1'] = list()
 
     model = get_model(model_num)
-    
+
     kfold = StratifiedKFold(n_splits=splits, shuffle=True, random_state=777)
-    
-    accuracy_values = list()
-    
+
+    i = 0
     for train_index, test_index in kfold.split(X, y):
         #create train-test splits
         X_train, y_train = X.iloc[train_index], y.iloc[train_index]
@@ -92,7 +109,7 @@ feature_set = None, n_features = 0, feature_importance = 0, average_method='macr
             y_train = y_resampled
             print(sorted(Counter(y_resampled).items()))
         #write the training dataset class distribution to the file
-        file = open(dir_name + '/train_val_dist.csv', 'a')
+        file = open(dir_name + str(i+1) +'/train_val_dist.csv', 'a')
         file.write(str(sorted(Counter(y_train).items())))
         file.write('\n')
         file.close()
@@ -100,29 +117,46 @@ feature_set = None, n_features = 0, feature_importance = 0, average_method='macr
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
         
-        accuracy = get_accuracy(y_test, y_pred)
-        accuracy_values.append(accuracy * 100)
+        metrics = get_metrics(y_test, y_pred)
+        for key, value in metrics.items():
+            metrics_dict[key].append(value)
 
         if feature_importance == 1:
             if model_num == 1 or model_num == 3:
                 feat_importances = pd.Series(model.feature_importances_, index=X.columns)
             elif model_num == 2:
                 feat_importances = pd.Series(abs(svm.coef_[0]), index=X.columns)
-            print(feat_importances)
+            print('Feat. Imp.: ', feat_importances)
             feat_importances.nlargest(20).plot(kind='barh')
             #plot_importance(model)
             plt.show()
             
             perm = PermutationImportance(model, random_state=1).fit(X_train, y_train)
+            print('PERM: ', perm.feature_importances_)
             display(eli5.show_weights(perm, feature_names = X_train.columns.tolist()))
 
             #write the feature importance values to the file
-            file = open(dir_name + '/feature_importances.csv', 'a')
-            file.write(str(model.feature_importances_))
+            file = open(dir_name + str(i+1) + '/feature_importances.csv', 'a')
+            for ind in range(0, len(feature_set)):
+                file.write(feature_set[ind] + ',' + str(feat_importances[ind]) + '\n')
+            file.close()
+
+            #write the permutation feature importance decrease in error values to the file
+            file = open(dir_name + str(i+1) + '/permutation_feature_importances.csv', 'a')
+            for ind in range(0, len(feature_set)):
+                file.write(feature_set[ind] + ',' + str(perm.feature_importances_[ind]) + '\n')
             file.write('\n')
             file.close()
-            
-    data_dict['accuracy'] = sum(accuracy_values)/len(accuracy_values)
+        
+        i += 1
+    for key, values in metrics_dict.items():
+        metrics_dict[key] = sum(values)/len(values)
+
+    #write the scores to the file
+    json.dump(metrics_dict, metrics_file)
+    metrics_file.close()
+
+    #write the configuration values to the file
     json.dump(data_dict, config_file)
     config_file.close()
 
@@ -132,7 +166,7 @@ del data['word']
 print(data.columns)
 print(data.groupby('label').mean()) #class means
 #splits is 5 so that the test size is 1/5 = 20%
-crossvalidate(5, data.iloc[:, :-1], data.label, model_num = 1, feature_importance = 1, baseline = -1, resample = -1, path = '/opt/PhD/Work/JHWNL_1_2/Data/Analysis/') 
+crossvalidate('run1', 5, data.iloc[:, :-1], data.label, model_num = 1, feature_set = list((data.iloc[:, :-1]).columns), feature_importance = 1, baseline = -1, resample = -1, path = '/opt/PhD/Work/JHWNL_1_2/Data/Analysis/') 
 #TODO: evaluation and learning curve
 
 # %%

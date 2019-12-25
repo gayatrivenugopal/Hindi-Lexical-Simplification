@@ -1,6 +1,5 @@
 # %%
 import os
-import time
 import json
 import pandas as pd
 import numpy as np
@@ -16,9 +15,9 @@ from IPython.display import display
 
 #from data_tests import *
 from models import get_model
-from evaluation import get_accuracy
+from evaluation import get_metrics
 
-def ensemble_learning(X, y, baseline = -1, model_num = None, resample = 0, feature_set = None, n_features = 0, feature_importance = 0, average_method='macro', path= None):
+def ensemble_learning(directory_name, X, y, baseline = -1, model_num = None, resample = 0, feature_set = None, n_features = 0, feature_importance = 0, average_method='macro', path= None):
     """
     Store the results calculated according to the arguments and store them in a file.
     Arguments:
@@ -43,11 +42,15 @@ def ensemble_learning(X, y, baseline = -1, model_num = None, resample = 0, featu
    
     #prepare the dictionary to be written to the file
     data_dict = dict()
-    dir_name = path + str(time.time())
+    metrics_dict = dict()
+
+    dir_name = path + directory_name + '/'
     os.mkdir(dir_name)
     
     #open the config file for writing
-    config_file = open(dir_name + '/config.json', 'w')
+    config_file = open(dir_name + 'config.json', 'w')
+    #open the metrics file for writing
+    metrics_file = open(dir_name + 'metrics.json', 'w')
 
     data_dict =  {'model_num':model_num}
     data_dict =  {'baseline':baseline}
@@ -81,7 +84,7 @@ def ensemble_learning(X, y, baseline = -1, model_num = None, resample = 0, featu
         y_train = y_resampled
         print(sorted(Counter(y_resampled).items()))
     #write the training dataset class distribution to the file
-    file = open(dir_name + '/train_val_dist.csv', 'a')
+    file = open(dir_name + 'train_val_dist.csv', 'a')
     file.write(str(sorted(Counter(y_train).items())))
     file.write('\n')
     file.close()
@@ -90,30 +93,41 @@ def ensemble_learning(X, y, baseline = -1, model_num = None, resample = 0, featu
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
         
-    #TODO: evaluation
-    accuracy = get_accuracy(y_test, y_pred)
-    data_dict['accuracy'] = accuracy * 100
-    score = model.score(X_test,y_test)
-    data_dict['score'] = score
+    #evaluation
+    metrics = get_metrics(y_test, y_pred)
+    for key, value in metrics.items():
+        metrics_dict[key] = value
 
     if feature_importance == 1:
         feat_importances = pd.Series(model.feature_importances_, index=feature_set)
-        print(feat_importances)
-        feat_importances.nlargest(20).plot(kind='barh')
+        print(feature_set)
+        print('Feat: ', feat_importances)
+        feat_importances.nlargest(20).plot(kind = 'barh')
         #plot_importance(model)
         plt.show()
 
-        perm = PermutationImportance(model, random_state=1).fit(X_train, y_train)
+        perm = PermutationImportance(model, random_state = 1).fit(X_train, y_train)
         display(eli5.show_weights(perm, feature_names = X_train.columns.tolist()))
         
-
         #write the training dataset class distribution to the file
-        file = open(dir_name + '/feature_importances.csv', 'a')
-        file.write(feat_importances.to_string())
-        file.write('\n')
+        file = open(dir_name + 'feature_importances.csv', 'a')
+        for ind in range(0, len(feature_set)):
+            file.write(feature_set[ind] + ',' + str(feat_importances[ind]) + '\n')
+        file.close()
+
+        #write the permutation feature importance decrease in error values to the file
+        file = open(dir_name + 'permutation_feature_importances.csv', 'a')
+        print(perm.feature_importances_)
+        for ind in range(0, len(feature_set)):
+            file.write(feature_set[ind] + ',' + str(perm.feature_importances_[ind]) + '\n')
         file.close()
 
 
+    #write the scores to the file
+    json.dump(metrics_dict, metrics_file)
+    metrics_file.close()
+
+    #write the configuration values to the file
     json.dump(data_dict, config_file)
     config_file.close()
 
@@ -121,7 +135,7 @@ data = pd.read_csv('/opt/PhD/Work/JHWNL_1_2/Data/CleanedData/Basic Binary Classi
 #print(data.iloc[:, 1:-1].head())
 del data['word']
 print(data.columns)
-ensemble_learning(data.iloc[:, :-1], data.label, baseline = -1, model_num = 1, feature_importance=1, resample = -1, path = '/opt/PhD/Work/JHWNL_1_2/Data/Analysis/')
+ensemble_learning('ensemble1', data.iloc[:, :-1], data.label, baseline = -1, model_num = 1, feature_set = list((data.iloc[:, :-1]).columns), feature_importance=1, resample = -1, path = '/opt/PhD/Work/JHWNL_1_2/Data/Analysis/')
 #TODO: evaluation and learning curve
 
 # %%
