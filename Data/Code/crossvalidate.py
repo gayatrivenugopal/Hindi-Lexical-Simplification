@@ -13,16 +13,17 @@ import matplotlib.pyplot as plt
 from IPython.display import display
 
 from models import get_model
-
-#from data_tests import *
+from data_tests import *
 from evaluation import get_metrics
 
-def crossvalidate(directory_name, splits, X, y, baseline = -1, model_num = None, resample = 0, 
+def crossvalidate(directory_name, splits, data, X, y, baseline = -1, model_num = None, resample = 0, 
 feature_set = None, n_features = 0, feature_importance = 0, average_method='macro', path= None):
     """
     Store the results calculated according to the arguments and store them in a file.
     Arguments:
+    directory_name (str): the directory under which the files should be stored
     splits (int): number of folds
+    data (dataframe): the whole dataset
     X (dataframe): examples
     y (dataframe): target/label
     baseline (int): -1 for no baseline, 1 for all predictions as 1, 0 for all predictions as 0
@@ -121,6 +122,15 @@ feature_set = None, n_features = 0, feature_importance = 0, average_method='macr
         for key, value in metrics.items():
             metrics_dict[key].append(value)
 
+        #correlation
+        correlation(data)
+
+        #linearity
+        test_for_linearity(X_train, y_train)
+
+        #homoscedasticity
+        test_for_homoscedasticity(X_train, y_train, X_test, y_test)
+
         if feature_importance == 1:
             if model_num == 1 or model_num == 3:
                 feat_importances = pd.Series(model.feature_importances_, index=X.columns)
@@ -166,7 +176,7 @@ del data['word']
 print(data.columns)
 print(data.groupby('label').mean()) #class means
 #splits is 5 so that the test size is 1/5 = 20%
-crossvalidate('run1', 5, data.iloc[:, :-1], data.label, model_num = 1, feature_set = list((data.iloc[:, :-1]).columns), feature_importance = 1, baseline = -1, resample = -1, path = '/opt/PhD/Work/JHWNL_1_2/Data/Analysis/') 
-#TODO: evaluation and learning curve
+crossvalidate('run1', 5, data, data.iloc[:, :-1], data.label, model_num = 1, feature_set = list((data.iloc[:, :-1]).columns), feature_importance = 1, baseline = -1, resample = -1, path = '/opt/PhD/Work/JHWNL_1_2/Data/Analysis/') 
+#TODO: data tests and learning curve
 
 # %%

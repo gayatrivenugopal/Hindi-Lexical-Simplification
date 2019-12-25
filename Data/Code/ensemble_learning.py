@@ -13,14 +13,16 @@ from collections import Counter
 import matplotlib.pyplot as plt
 from IPython.display import display
 
-#from data_tests import *
+from data_tests import *
 from models import get_model
 from evaluation import get_metrics
 
-def ensemble_learning(directory_name, X, y, baseline = -1, model_num = None, resample = 0, feature_set = None, n_features = 0, feature_importance = 0, average_method='macro', path= None):
+def ensemble_learning(directory_name, data, X, y, baseline = -1, model_num = None, resample = 0, feature_set = None, n_features = 0, feature_importance = 0, average_method='macro', path= None):
     """
     Store the results calculated according to the arguments and store them in a file.
     Arguments:
+    directory_name (str): the directory under which the files should be stored
+    data (dataframe): the whole dataset
     X (dataframe): examples
     y (dataframe): target/label
     baseline (int): -1 for no baseline, 1 for all predictions as 1, 0 for all predictions as 0
@@ -98,6 +100,15 @@ def ensemble_learning(directory_name, X, y, baseline = -1, model_num = None, res
     for key, value in metrics.items():
         metrics_dict[key] = value
 
+    #correlation
+    correlation(data)
+
+    #linearity
+    test_for_linearity(X_train, y_train)
+
+    #homoscedasticity
+    test_for_homoscedasticity(X_train, y_train, X_test, y_test)
+
     if feature_importance == 1:
         feat_importances = pd.Series(model.feature_importances_, index=feature_set)
         print(feature_set)
@@ -135,7 +146,7 @@ data = pd.read_csv('/opt/PhD/Work/JHWNL_1_2/Data/CleanedData/Basic Binary Classi
 #print(data.iloc[:, 1:-1].head())
 del data['word']
 print(data.columns)
-ensemble_learning('ensemble1', data.iloc[:, :-1], data.label, baseline = -1, model_num = 1, feature_set = list((data.iloc[:, :-1]).columns), feature_importance=1, resample = -1, path = '/opt/PhD/Work/JHWNL_1_2/Data/Analysis/')
-#TODO: evaluation and learning curve
+ensemble_learning('ensemble1', data, data.iloc[:, :-1], data.label, baseline = -1, model_num = 1, feature_set = list((data.iloc[:, :-1]).columns), feature_importance=1, resample = -1, path = '/opt/PhD/Work/JHWNL_1_2/Data/Analysis/')
+#TODO: data tests and learning curve
 
 # %%
