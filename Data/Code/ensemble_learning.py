@@ -3,10 +3,13 @@ import os
 import json
 import pandas as pd
 import numpy as np
+import eli5
 from sklearn.model_selection import train_test_split
+from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import ShuffleSplit
+from sklearn.model_selection import learning_curve
 from imblearn.under_sampling import NearMiss
 from imblearn.over_sampling import SMOTE
-import eli5
 from eli5.sklearn import PermutationImportance
 #from xgboost import plot_importance
 from collections import Counter
@@ -109,6 +112,34 @@ def ensemble_learning(directory_name, data, X, y, baseline = -1, model_num = Non
     #homoscedasticity
     test_for_homoscedasticity(X_train, y_train, X_test, y_test)
 
+    #learning curve
+    if model_num == 7:
+        cv = ShuffleSplit(n_splits=5, test_size=0.2, random_state=0)
+    else:
+        cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=777)
+    train_sizes, train_scores, test_scores = learning_curve(estimator = model, X = data[feature_set], y = data['label'], cv = cv, scoring = 'f1_macro', train_sizes=np.linspace(.1, 1.0, 10))
+    # Create means and standard deviations of training set scores
+    train_mean = np.mean(train_scores, axis=1)
+    train_std = np.std(train_scores, axis=1)
+    print(train_mean)
+    # Create means and standard deviations of test set scores
+    test_mean = np.mean(test_scores, axis=1)
+    test_std = np.std(test_scores, axis=1)
+
+    # Draw lines
+    print('Learning Curve')
+    plt.plot(train_sizes, train_mean, '--', color="#111111",  label="Training score")
+    plt.plot(train_sizes, test_mean, color="#111111", label="Cross-validation score")
+    # Draw bands
+    plt.fill_between(train_sizes, train_mean - train_std, train_mean + train_std, color="#DDDDDD")
+    plt.fill_between(train_sizes, test_mean - test_std, test_mean + test_std, color="#DDDDDD")
+
+    # Create plot
+    plt.title("Learning Curve")
+    plt.xlabel("Training Set Size"), plt.ylabel("Macro-F1 Score"), plt.legend(loc="best")
+    plt.tight_layout()
+    plt.show()
+
     if feature_importance == 1:
         feat_importances = pd.Series(model.feature_importances_, index=feature_set)
         print(feature_set)
@@ -146,7 +177,7 @@ data = pd.read_csv('/opt/PhD/Work/JHWNL_1_2/Data/CleanedData/Basic Binary Classi
 #print(data.iloc[:, 1:-1].head())
 del data['word']
 print(data.columns)
-ensemble_learning('ensemble1', data, data.iloc[:, :-1], data.label, baseline = -1, model_num = 1, feature_set = list((data.iloc[:, :-1]).columns), feature_importance=1, resample = -1, path = '/opt/PhD/Work/JHWNL_1_2/Data/Analysis/')
-#TODO: data tests and learning curve
+ensemble_learning('ensemble6', data, data.iloc[:, :-1], data.label, baseline = -1, model_num = 6, feature_set = list((data.iloc[:, :-1]).columns), feature_importance=1, resample = -1, path = '/opt/PhD/Work/JHWNL_1_2/Data/Analysis/')
+
 
 # %%

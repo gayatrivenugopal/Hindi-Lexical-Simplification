@@ -2,11 +2,14 @@
 import os
 import json
 import pandas as pd
+import numpy as np
+import eli5
 from sklearn import svm
 from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import ShuffleSplit
+from sklearn.model_selection import learning_curve
 from imblearn.under_sampling import NearMiss
 from imblearn.over_sampling import SMOTE
-import eli5
 from eli5.sklearn import PermutationImportance
 from collections import Counter
 import matplotlib.pyplot as plt
@@ -78,6 +81,8 @@ feature_set = None, n_features = 0, feature_importance = 0, average_method='macr
     model = get_model(model_num)
 
     kfold = StratifiedKFold(n_splits=splits, shuffle=True, random_state=777)
+    if model_num == 3:
+        kfold = ShuffleSplit(n_splits=splits, test_size=0.2, random_state=0)
 
     i = 0
     for train_index, test_index in kfold.split(X, y):
@@ -122,6 +127,34 @@ feature_set = None, n_features = 0, feature_importance = 0, average_method='macr
         for key, value in metrics.items():
             metrics_dict[key].append(value)
 
+        if i == 0:
+            #learning curve
+            cv = kfold
+            #else:
+            #    cv = 5
+            train_sizes, train_scores, test_scores = learning_curve(estimator = model, X = data[feature_set], y = data['label'], cv = cv, scoring = 'f1_macro', train_sizes=np.linspace(.1, 1.0, 10))
+            # Create means and standard deviations of training set scores
+            train_mean = np.mean(train_scores, axis=1)
+            train_std = np.std(train_scores, axis=1)
+            print(train_mean)
+            # Create means and standard deviations of test set scores
+            test_mean = np.mean(test_scores, axis=1)
+            test_std = np.std(test_scores, axis=1)
+
+            # Draw lines
+            print('Learning Curve')
+            plt.plot(train_sizes, train_mean, '--', color="#111111",  label="Training score")
+            plt.plot(train_sizes, test_mean, color="#111111", label="Cross-validation score")
+            # Draw bands
+            plt.fill_between(train_sizes, train_mean - train_std, train_mean + train_std, color="#DDDDDD")
+            plt.fill_between(train_sizes, test_mean - test_std, test_mean + test_std, color="#DDDDDD")
+
+            # Create plot
+            plt.title("Learning Curve")
+            plt.xlabel("Training Set Size"), plt.ylabel("Macro-F1 Score"), plt.legend(loc="best")
+            plt.tight_layout()
+            plt.show()
+
         #correlation
         correlation(data)
 
@@ -134,7 +167,7 @@ feature_set = None, n_features = 0, feature_importance = 0, average_method='macr
         if feature_importance == 1:
             if model_num == 1 or model_num == 3:
                 feat_importances = pd.Series(model.feature_importances_, index=X.columns)
-            elif model_num == 2:
+            elif model_num == 3:
                 feat_importances = pd.Series(abs(svm.coef_[0]), index=X.columns)
             print('Feat. Imp.: ', feat_importances)
             feat_importances.nlargest(20).plot(kind='barh')
@@ -176,7 +209,6 @@ del data['word']
 print(data.columns)
 print(data.groupby('label').mean()) #class means
 #splits is 5 so that the test size is 1/5 = 20%
-crossvalidate('run1', 5, data, data.iloc[:, :-1], data.label, model_num = 1, feature_set = list((data.iloc[:, :-1]).columns), feature_importance = 1, baseline = -1, resample = -1, path = '/opt/PhD/Work/JHWNL_1_2/Data/Analysis/') 
-#TODO: data tests and learning curve
+crossvalidate('run7', 5, data, data.iloc[:, :-1], data.label, model_num = 3, feature_set = list((data.iloc[:, :-1]).columns), feature_importance = 1, baseline = -1, resample = -1, path = '/opt/PhD/Work/JHWNL_1_2/Data/Analysis/') 
 
 # %%
