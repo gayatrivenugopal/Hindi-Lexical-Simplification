@@ -19,8 +19,9 @@ from IPython.display import display
 from data_tests import *
 from models import get_model
 from evaluation import get_metrics
+from evaluation import plot_lc
 
-def ensemble_learning(directory_name, data, X, y, baseline = -1, model_num = None, resample = 0, feature_set = None, n_features = 0, feature_importance = 0, average_method='macro', path= None):
+def ensemble_learning(directory_name, data, X, y, baseline = -1, model_num = None, resample = 0, feature_set = None, feature_importance = 0, average_method='macro', path= None):
     """
     Store the results calculated according to the arguments and store them in a file.
     Arguments:
@@ -38,7 +39,6 @@ def ensemble_learning(directory_name, data, X, y, baseline = -1, model_num = Non
     6:
     resample (int): -1 for undersampling, 1 for oversampling and 0 for no resampling
     feature_set (list): list of features to be considered
-    n_features (int): the number of features to be considered at a time for classification/importance
     feature_importance (int): 0 for absent, 1 for present
     average_method: macro by default
     path: the path to the directory where the recordings should be stored
@@ -64,12 +64,14 @@ def ensemble_learning(directory_name, data, X, y, baseline = -1, model_num = Non
     data_dict.update({'n_features':n_features})
     data_dict.update({'feature_importance':feature_importance})
     
+    '''
     #create test set labels for the baseline if applicable
     if baseline == 0:
         y_test = y_test.replace(1,0)
     elif baseline == 1:
         y_test = y_test.replace(0,1)
-            
+    '''
+
     #resample the training set (if applicable)
     if resample == -1:
         #undersample
@@ -97,7 +99,14 @@ def ensemble_learning(directory_name, data, X, y, baseline = -1, model_num = Non
     model = get_model(model_num)
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
-        
+
+    if baseline == 0:
+        y_pred = y_pred.replace(1,0)
+    elif baseline == 1:
+        y_pred = y_pred.replace(0,1)
+
+    plot_lc(model = model, cv = StratifiedKFold(n_splits = 5, shuffle=True, random_state=777), X = X, y = y)
+
     #evaluation
     metrics = get_metrics(y_test, y_pred)
     for key, value in metrics.items():
@@ -112,16 +121,17 @@ def ensemble_learning(directory_name, data, X, y, baseline = -1, model_num = Non
     #homoscedasticity
     test_for_homoscedasticity(X_train, y_train, X_test, y_test)
 
+    '''
     #learning curve
-    if model_num == 7:
-        cv = ShuffleSplit(n_splits=5, test_size=0.2, random_state=0)
-    else:
-        cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=777)
+    #if model_num == 7:
+    cv = ShuffleSplit(n_splits=5, test_size=0.2, random_state=0)
+    #else:
+    #cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=777)
     train_sizes, train_scores, test_scores = learning_curve(estimator = model, X = data[feature_set], y = data['label'], cv = cv, scoring = 'f1_macro', train_sizes=np.linspace(.1, 1.0, 10))
     # Create means and standard deviations of training set scores
     train_mean = np.mean(train_scores, axis=1)
     train_std = np.std(train_scores, axis=1)
-    print(train_mean)
+    print('scores: ', train_scores, train_mean)
     # Create means and standard deviations of test set scores
     test_mean = np.mean(test_scores, axis=1)
     test_std = np.std(test_scores, axis=1)
@@ -138,6 +148,9 @@ def ensemble_learning(directory_name, data, X, y, baseline = -1, model_num = Non
     plt.title("Learning Curve")
     plt.xlabel("Training Set Size"), plt.ylabel("Macro-F1 Score"), plt.legend(loc="best")
     plt.tight_layout()
+    plt.show()
+    '''
+    plot_learning_curves(X_train, y_train, X_test, y_test, model, scoring = 'f1_macro')
     plt.show()
 
     if feature_importance == 1:
@@ -177,7 +190,7 @@ data = pd.read_csv('/opt/PhD/Work/JHWNL_1_2/Data/CleanedData/Basic Binary Classi
 #print(data.iloc[:, 1:-1].head())
 del data['word']
 print(data.columns)
-ensemble_learning('ensemble6', data, data.iloc[:, :-1], data.label, baseline = -1, model_num = 6, feature_set = list((data.iloc[:, :-1]).columns), feature_importance=1, resample = -1, path = '/opt/PhD/Work/JHWNL_1_2/Data/Analysis/')
+ensemble_learning('ensemble4', data, data.iloc[:, :-1], data.label, baseline = -1, model_num = 4, feature_set = list((data.iloc[:, :-1]).columns), feature_importance=1, resample = -1, path = '/opt/PhD/Work/JHWNL_1_2/Data/Analysis/')
 
 
 # %%

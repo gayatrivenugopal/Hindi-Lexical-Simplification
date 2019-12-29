@@ -8,7 +8,7 @@ import statistics
 
 from collections import Counter 
 #from pymongo import MongoClient
-
+'''
 import WordProperties
 from WordProperties import get_root
 from WordProperties import get_length
@@ -23,10 +23,12 @@ from WordInformation import get_other_props
 #database = client.Experiment
 
 #TODO: get final complex label
-
+'''
 class Data:
     #path = '/opt/PhD/Work/JHWNL_1_2/Data/sentences/'
     path = '/opt/PhD/Work/JHWNL_1_2/Data/CleanedData/'
+
+    '''
     def calculate_sentence_length(self, filename):
         nlp = stanfordnlp.Pipeline(lang = 'hi')
         file = open(self.path + filename, 'r', encoding = 'utf-8')
@@ -235,7 +237,7 @@ class Data:
                         word_pid[root] = list()
                         word_pid[root].append(complex_df.loc[index]['pid'])
                 #print(complex_df.complex_annotators)
-		
+	
     def calculate_average_rating(self, filename):
         """ The average rating of words that have been annotated by atleast 2 annotators is calculated. The other words are ignored. """
         nlp = stanfordnlp.Pipeline(lang = 'hi')
@@ -315,7 +317,7 @@ class Data:
         final_df.to_csv (self.path + 'LabelsAverage/consolidated_labels.csv', index = None, header=True)
         extra_df.to_csv (self.path + 'LabelsAverage/consolidated_labels_extra.csv', index = None, header=True)
 
-	      
+	'''      
     def get_label(self, word):
         """Return 1 if any one label is 1. """
         flag = 0
@@ -331,7 +333,7 @@ class Data:
                         flag = 1
         print('flag: ', flag)
         return flag
-
+    '''
     def get_label_avg_rank(self, word):
         """Return -1 if rank is not present. """
         flag = -1
@@ -345,8 +347,6 @@ class Data:
                     flag = item
         print('flag: ', flag)
         return flag
-	        
-
   
     def get_synonyms(self, properties):
         synonyms = []
@@ -356,8 +356,8 @@ class Data:
             for synonym in value['synonyms'].split(','):
                 synonyms.append(synonym.strip())
         return synonyms
-		
-    '''def get_synonyms(self, word):
+	'''
+    def get_synonyms(self, word):
         """ Return the synonyms of the word.
             Keyword Argument:
             word (str): the word whose synonyms are to be retrieved
@@ -382,7 +382,8 @@ class Data:
         except Exception as e:
             print(e)
         return None
-	'''    
+	  
+     
     def get_lemma(self, word):
         """ Return the root form of the specified word.
         Required argument:
@@ -529,7 +530,7 @@ class Data:
         file = open('invalid_words.txt', 'w', encoding = 'utf-8')
         for word in invalid_words:
             file.write(word+'\n')
-        
+     
     def modify_attribute_in_wordgroup(self, in_dir_path, attr_name):
         #/opt/PhD/Work/JHWNL_1_2/Data/CleanedData/finalwordgroups/word_1.csv
         for file_name in sorted(os.listdir(self.path + in_dir_path)):
@@ -543,13 +544,40 @@ class Data:
             print("out: ", out_df)
             out_df.to_csv(self.path + in_dir_path + file_name, index = None, header = True)
             #TODO: the same for normalized word groups, then dataforregression
-    
+    '''
+    def get_normalized_frequency_df(self):
+        df_list = []
+        for file in sorted(os.listdir(self.path + 'normalizedwordgroups/')):
+            #print(file)
+            df = pd.read_csv(self.path + 'normalizedwordgroups/' + file)
+            df_list.append(df)
+        pd.concat(df_list, ignore_index=True).to_csv(self.path + 'normalized_frequencies.csv', index = None, header = True)
+        return pd.concat(df_list, ignore_index=True)
+    '''    
+
+    def modify_freq_in_csv(self, file_name):
+        df = pd.read_csv(self.path + file_name)
+        #freq_df = pd.read_csv(self.path + 'frequencies.csv')
+        out_df = df.copy()
+        normalized_freq_df = pd.read_csv(self.path + 'normalized_frequencies.csv')
+        print(normalized_freq_df['frequency'])
+        out_df['frequency'] = 0
+        for i, row in df.iterrows():
+            word = row['word']
+            #freq = freq_df.loc[freq_df['word'] == word, 'frequency']
+            freq = normalized_freq_df.loc[normalized_freq_df['word'] == word, 'frequency']
+            print(freq.values)
+            #out_df.loc[out_df['word'] == word, 'frequency'] = freq
+            out_df.ix[i, 'frequency'] = freq.values[0]
+        out_df.to_csv(self.path + file_name, index = None, header = True)
+
 data = Data()
 #data.create_word_groups('ComplexWords.csv')
 #data.deem_as_complex('FinalData.csv')
 
 #data.calculate_average_rating('FinalData.csv')
-data.modify_attribute_in_wordgroup('finalwordgroups/', 'label_avg_rank')
+#data.modify_attribute_in_wordgroup('finalwordgroups/', 'label_avg_rank')
+data.modify_freq_in_csv('DataForClassification.csv')
 #for file in sorted(os.listdir('/opt/PhD/Work/JHWNL_1_2/Data/sentences/')):
 #    data.calculate_sentence_length(file)
 #data.combine_data()

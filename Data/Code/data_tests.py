@@ -5,6 +5,8 @@ import statsmodels.api as sm
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+from data_tests import *
+
 #correlation and collinearity
 def correlation(data):
     """
@@ -42,9 +44,9 @@ def test_for_normality(X):
     stats.probplot(X[:,0], dist="norm", plot=plt)
     plt.show()
 
-#homoscedasticity: the error term is the same across all values of the independent variables
+#homoscedasticity: the error term is the same across all values of the independent variables - for linear regression models
 def test_for_homoscedasticity(X_train, y_train, X_test, y_test):
-    """ Plot the data and check for normality.
+    """ Plot the data and check for homoscedasticity.
     Arguments:
     X_train (dataframe): examples in the training set
     X_test (dataframe): examples in the test set
