@@ -162,7 +162,7 @@ data = pd.read_csv('/opt/PhD/Work/JHWNL_1_2/Data/CleanedData/Basic Binary Classi
 #print(data.iloc[:, 1:-1].head())
 del data['word']
 #a. Baseline 1 and 0 for each model with all 9 features together undersample and oversample
-crossvalidate('b1under', 5, data, data.iloc[:, :-1], data.label, model_num = 1, feature_set = list((data.iloc[:, :-1]).columns), feature_importance = 1, baseline = 1, resample = -1, path = '/opt/PhD/Work/JHWNL_1_2/Data/Analysis/') 
+crossvalidate('b1under', 5, data, data.iloc[:, :-1], data.label, model_num = 1, feature_set = list((data.iloc[:, :-1]).columns), feature_importance = 1, baseline = 1, resample = -1, path = '/opt/PhD/Work/JHWNL_1_2/Data/Analysis/')
 #crossvalidate('b1over', 5, data, data.iloc[:, :-1], data.label, model_num = 1, feature_set = list((data.iloc[:, :-1]).columns), feature_importance = 1, baseline = 1, resample = 1, path = '/opt/PhD/Work/JHWNL_1_2/Data/Analysis/') 
 #ensemble_learning('b1under', 5, data, data.iloc[:, :-1], data.label, model_num = 4, feature_set = list((data.iloc[:, :-1]).columns), feature_importance = 1, baseline = 1, resample = -1, path = '/opt/PhD/Work/JHWNL_1_2/Data/Analysis/') 
 #ensemble_learning('b1m4over', 5, data, data.iloc[:, :-1], data.label, model_num = 4, feature_set = list((data.iloc[:, :-1]).columns), feature_importance = 1, baseline = 1, resample = 1, path = '/opt/PhD/Work/JHWNL_1_2/Data/Analysis/') 
